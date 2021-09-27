@@ -1,6 +1,8 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
+//const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+    mode: 'jit',
+
     purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
@@ -11,11 +13,28 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                poppins: ['Poppins', 'sans-serif'],
             },
             screens: {
                 light: { raw: "(prefers-color-scheme: light)" },
                 dark: { raw: "(prefers-color-scheme: dark)" }
+            },
+            colors: {
+                main: {
+                    light: "#1974D2",
+                    DEFAULT: '#094074',
+                },
+                green: {
+                    DEFAULT: '#008F93',
+                    light: '#30BFBF',
+                },
+                'light-blue': '#caf0f8',
+                'jet': '#343434',
+            },
+            backgroundImage: {
+                'main-swimmer': "url('/images/main-swimmer.png')",
+                'wave-1': "url('/images/waves11.svg')",
+                'wave-2': "url('/images/waves22.svg')",
             }
         },
     },

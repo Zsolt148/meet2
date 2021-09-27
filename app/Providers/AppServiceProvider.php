@@ -18,12 +18,23 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Jetstream::ignoreRoutes();
-        Inertia::share('flash', function () {
-            return [
-                'error'   => Session::get('error'),
-                'success' => Session::get('success'),
-            ];
-        });
+
+        Inertia::share([
+            'locale' => function () {
+                return app()->getLocale();
+            },
+            'language' => function () {
+                return translations(
+                    resource_path('lang/hu.json')
+                );
+            },
+            'flash' => function () {
+                return [
+                    'error'   => Session::get('error'),
+                    'success' => Session::get('success'),
+                ];
+            },
+        ]);
     }
 
     /**
