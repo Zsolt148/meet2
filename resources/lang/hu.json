@@ -5,10 +5,29 @@
   "Welcome": "Bemutatkozás",
   "History": "Történet",
   "Organizational operation": "Szervezeti működés",
+  "Portal": "Portál",
+
+  "news": "hírek",
+  "results": "eredmények",
+  "entries": "nevezés",
+
   "Login": "Bejelentkezés",
   "Register": "Regisztráció",
+  "Forgot your password?": "Elfejtett jelszó ?",
   "Delete": "Törlés",
   "Search": "Keresés",
   "": "",
+  "": "",
+
+  "Name": "Név",
+  "Password": "Jelszó",
+  "Confirm Password": "Jelszó megerősítése",
+  "I agree to the": "Elfogadom a",
+  "Terms of Service": "Szolgáltatási feltételeket",
+  "and": "és",
+  "Privacy Policy": "Adatvédelmi irányelveket",
+  "Remember me": "Emlékezz rám",
+  "Whoops! Something went wrong.": "Hoppá, valami hiba történt",
   "": ""
+
 }

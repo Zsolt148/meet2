@@ -18,6 +18,9 @@ module.exports = {
             // Key is the english
             return key;
         },
+        isUrl(...urls) {
+            return urls.filter(url => this.$page.url.match(url)).length
+        },
         route
     }
 }

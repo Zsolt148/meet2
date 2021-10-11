@@ -35,7 +35,7 @@ class UsersController extends Controller
             $query->latest();
         }
 
-        return Inertia::render('Admin/Users/Index', [
+        return Inertia::render('Admin/Users/UsersIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'users' => $query->paginate()->withQueryString()
         ]);
@@ -49,7 +49,7 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('Admin/Users/Edit', [
+        return Inertia::render('Admin/Users/UsersEdit', [
             'editUser' => $user,
             'roles' => User::ROLES,
         ]);
@@ -66,7 +66,7 @@ class UsersController extends Controller
     {
         $user->update($request->all());
 
-        return redirect()->back()->with('success', 'Felhasználó sikeresen frissítve');
+        return redirect()->route('admin:users.index')->with('success', 'Felhasználó sikeresen frissítve');
     }
 
     /**

@@ -1,5 +1,5 @@
 <template>
-    <admin-layout>
+    <portal-layout>
         <template #header>
             Profil beállítások
         </template>
@@ -31,7 +31,7 @@
                 <delete-user-form class="mt-10 sm:mt-0" />
             </template>
         </div>
-    </admin-layout>
+    </portal-layout>
 </template>
 
 <script>
@@ -41,13 +41,13 @@
     import TwoFactorAuthenticationForm from './TwoFactorAuthenticationForm'
     import UpdatePasswordForm from './UpdatePasswordForm'
     import UpdateProfileInformationForm from './UpdateProfileInformationForm'
-    import AdminLayout from "@/Layouts/AdminLayout";
+    import PortalLayout from "@/Layouts/PortalLayout";
 
     export default {
         props: ['sessions'],
 
         components: {
-            AdminLayout,
+            PortalLayout,
             DeleteUserForm,
             JetSectionBorder,
             LogoutOtherBrowserSessionsForm,

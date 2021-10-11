@@ -29,7 +29,8 @@ module.exports = {
                     light: '#30BFBF',
                 },
                 'light-blue': '#caf0f8',
-                'jet': '#343434',
+                //'jet': '#343434',
+                'jet': '#222222',
             },
             backgroundImage: {
                 'main-swimmer': "url('/images/main-swimmer.png')",

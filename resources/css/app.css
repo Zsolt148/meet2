@@ -22,17 +22,26 @@
     }
     [type='checkbox'],
     [type='radio'] {
-        @apply rounded border-gray-300 text-main shadow-sm focus:border-light-blue focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+        @apply rounded border-gray-300 dark:border-gray-500 text-green dark:text-green-light shadow-sm focus:border-green focus:ring focus:ring-green focus:ring-opacity-50;
     }
 }
 
 @layer components {
     .dashboard-link {
-        @apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 hover:text-blue-500;
+        @apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 hover:text-green dark:hover:text-green-light;
     }
 
     .dashboard-link-active {
-        @apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 hover:text-blue-500 bg-gradient-to-r from-white to-blue-100 dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-900 border-r-4 border-blue-500 text-blue-500 dark:text-blue-500;
+        /*@apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-white to-green-light border-r-4 border-green dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-900 text-green dark:text-blue-500;*/
+        @apply flex items-center px-6 py-2 text-gray-700 bg-green-light bg-opacity-30 rounded-xl shadow text-green dark:text-green-light;
+    }
+
+    .responsive-nav-link-active {
+        @apply block pl-3 pr-4 py-2 border-l-4 border-green-light font-bold text-white bg-gray-300 bg-opacity-50 dark:bg-gray-600 focus:outline-none
+    }
+
+    .responsive-nav-link {
+        @apply block pl-3 pr-4 py-2 border-l-4 border-transparent font-bold text-white dark:text-white hover:bg-gray-600 dark:hover:bg-gray-700 hover:border-gray-400
     }
 
     .spacer {

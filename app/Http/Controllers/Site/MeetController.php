@@ -35,7 +35,7 @@ class MeetController extends Controller
             $query->latest();
         }
 
-        return Inertia::render('Site/Meets/Index', [
+        return Inertia::render('Site/Meets/MeetsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'meets' => $query->paginate()->withQueryString()
         ]);
@@ -49,43 +49,9 @@ class MeetController extends Controller
      */
     public function show(Meet $meet)
     {
-        return Inertia::render('Site/Meets/Show', [
+        return Inertia::render('Site/Meets/MeetsShow', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'meet' => $meet
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Meet  $meet
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Meet $meet)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Meet  $meet
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Meet $meet)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Meet  $meet
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Meet $meet)
-    {
-        //
     }
 }

@@ -21,7 +21,10 @@
                                 <jet-nav-link :href="route('meets.index')" :active="route().current('meets*')">
                                     {{ __('Meets') }}
                                 </jet-nav-link>
-                                <jet-nav-link :href="route('login')" :active="route().current('login')">
+                                <jet-nav-link :href="route('portal:dashboard')" v-if="$page.props.user">
+                                    {{ __('Portal') }}
+                                </jet-nav-link>
+                                <jet-nav-link :href="route('login')" :active="route().current('login')" v-else>
                                     {{ __('Login') }}
                                 </jet-nav-link>
                             </div>

@@ -1,5 +1,5 @@
 <template>
-    <admin-layout>
+    <portal-layout>
         <template #header>
             Kezdőlap
         </template>
@@ -69,11 +69,10 @@
             </Listbox>
             </div>
         </div>
-    </admin-layout>
+    </portal-layout>
 </template>
 
 <script>
-import AdminLayout from '@/Layouts/AdminLayout'
 import { ref, watch } from 'vue'
 import {
     Listbox,
@@ -84,10 +83,11 @@ import {
     Switch, SwitchGroup, SwitchLabel
 } from '@headlessui/vue'
 import {CheckIcon, SelectorIcon} from '@heroicons/vue/solid'
+import PortalLayout from "@/Layouts/PortalLayout";
 
 export default {
     components: {
-        AdminLayout, Listbox, ListboxButton, ListboxOptions, ListboxOption, ListboxLabel, Switch, SwitchGroup, SwitchLabel, CheckIcon, SelectorIcon,
+        PortalLayout, Listbox, ListboxButton, ListboxOptions, ListboxOption, ListboxLabel, Switch, SwitchGroup, SwitchLabel, CheckIcon, SelectorIcon,
     },
     setup() {
         const people = [

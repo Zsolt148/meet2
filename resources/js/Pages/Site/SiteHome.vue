@@ -5,9 +5,9 @@
                 <h2 class="mb-8 text-xs font-semibold tracking-widest text-black dark:text-white uppercase title-font">Üdvözöljük az új oldalon!</h2>
                 <h1 class="mb-8 text-5xl font-black tracking-tighter text-green dark:text-green-light title-font">meet.kvsc.info</h1>
                 <p class="mb-8 text-base leading-relaxed text-left text-black dark:text-white">
-                    Online hírek <br>
-                    Online eredmények <br>
-                    Online nevezés
+                    Online {{ __('news') }} <br>
+                    Online {{ __('results') }} <br>
+                    Online {{ __('entries') }}
                 </p>
                 <div class="flex flex-row justify-center">
                     <inertia-link :href="route('meets.index')">
@@ -15,7 +15,7 @@
                             {{ __('Meets') }}
                         </jet-button>
                     </inertia-link>
-                    <inertia-link :href="route('admin:dashboard')" class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
+                    <inertia-link :href="route('home')" class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
                         Hírek
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
 
@@ -45,12 +45,12 @@
                     <!-- RIGHT PART -->
                     <div class="pt-8 md:pt-0 justify-center lg:ml-auto z-10">
                         <!-- Contribuer -->
-                        <a href="#" target="_blank" class="flex items-center px-8 py-4 text-center font-bold text-black uppercase bg-white font-display rounded-full transition duration-200 hover:bg-main hover:text-white">
+                        <inertia-link :href="route('meets.index')" target="_blank" class="flex items-center px-8 py-4 text-center font-bold text-black uppercase bg-white font-display rounded-full transition duration-200 hover:bg-main hover:text-white">
                             <span class="pt-1.5 pr-2 animate-pulse">
                                 {{ __('Meets') }}
                             </span>
                             <icon class="w-5 h-5 animate-pulse" name="arrow-right" />
-                        </a>
+                        </inertia-link>
                     </div>
 
                     <div class="absolute bg-light-blue opacity-60 w-96 h-96 -top-10 -right-16 md:w-[800px] md:h-[800px] md:left-[45%] md:top-[-150%] rounded-full z-0"></div>

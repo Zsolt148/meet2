@@ -1,14 +1,10 @@
 <template>
-    <admin-layout>
+    <portal-layout>
         <template #header>
             Felhasználó szerkesztése
         </template>
         <div>
-            <h1 class="mb-8 font-bold text-3xl">
-                <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('admin:users.index')">Felhasználók</inertia-link>
-                <span class="text-indigo-400 font-medium">/</span>
-                {{ form.name }}
-            </h1>
+            <bread-crumb :back-route="route('admin:users.index')" back-name="Felhasználók" :current="form.name" />
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
                 <form @submit.prevent="update">
                     <div class="p-8">
@@ -64,14 +60,14 @@
                 </jet-danger-button>
             </template>
         </jet-confirmation-modal>
-    </admin-layout>
+    </portal-layout>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from "@inertiajs/inertia";
-import AdminLayout from "@/Layouts/AdminLayout";
+import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
 import JetDangerButton from '@/Jetstream/DangerButton'
 import JetInput from "@/Jetstream/Input";
@@ -79,10 +75,11 @@ import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import JetSecondaryButton from "@/Jetstream/SecondaryButton";
+import BreadCrumb from "@/Shared/BreadCrumb";
 
 export default {
     components: {
-        AdminLayout,
+        PortalLayout,
         JetButton,
         JetInput,
         JetInputError,
@@ -90,6 +87,7 @@ export default {
         JetDangerButton,
         JetConfirmationModal,
         JetSecondaryButton,
+        BreadCrumb
     },
     props: {
         editUser: Object,

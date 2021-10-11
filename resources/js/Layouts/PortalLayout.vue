@@ -3,9 +3,9 @@
         <div class="md:flex md:flex-col">
             <div class="md:h-screen md:flex md:flex-col">
                 <div class="md:flex md:flex-shrink-0">
-                    <div class="md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center bg-white dark:bg-gray-700 border-r">
-                        <inertia-link class="text-xl text-blue-500 font-bold" :href="route('admin:dashboard')">
-                            Admin panel
+                    <div class="md:flex-shrink-0 md:w-56 px-6 py-4 flex items-center justify-between md:justify-center bg-white dark:bg-gray-700 border-r dark:border-gray-600">
+                        <inertia-link class="text-xl text-green dark:text-green-light font-bold" :href="route('home')">
+                            meet
                         </inertia-link>
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
@@ -19,7 +19,7 @@
                     <!-- Responsive Navigation Menu -->
                     <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                         <div class="pt-2 pb-3 space-y-1 bg-white dark:bg-gray-700">
-                            <jet-responsive-nav-link :href="route('admin:dashboard')" :active="isUrl('admin$')">
+                            <jet-responsive-nav-link :href="route('portal:dashboard')" :active="isUrl('portal$')">
                                 Kezdőlap
                             </jet-responsive-nav-link>
                             <jet-responsive-nav-link :href="route('admin:users.index')" :active="isUrl('admin/users*')">
@@ -28,15 +28,15 @@
                         </div>
                     </div>
                     <div class="bg-white dark:bg-gray-700 border-b border-gray-200 dark:border-gray-500 w-full p-4 md:py-0 md:px-12 md:text-md flex justify-between items-center">
-                        <header class="" v-if="$slots.header">
-                            <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
+                        <header v-if="$slots.header">
+                            <h2 class="text-xl text-gray-800 dark:text-white leading-tight">
                                 <slot name="header"></slot>
                             </h2>
                         </header>
                         <jet-dropdown width="48" align="right">
                             <template #trigger>
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md bg-white dark:bg-gray-700 dark:text-white hover:text-blue-600 dark:text-black focus:outline-none transition">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md bg-white dark:bg-gray-700 dark:text-white hover:text-green-light focus:outline-none transition">
                                         {{ $page.props.user.name }}
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="md:flex md:flex-grow md:overflow-hidden">
-                    <admin-menu class="hidden bg-white dark:bg-gray-700 md:block flex-shrink-0 w-56 overflow-y-auto border-r dark:border-gray-700" />
+                    <portal-menu class="hidden bg-white dark:bg-gray-700 md:block flex-shrink-0 w-56 overflow-y-auto border-r dark:border-gray-600" />
                     <div class="md:flex-1 sm:px-4 py-8 p-1 sm:p-2 md:p-4 md:overflow-y-auto bg-gray-100 dark:bg-gray-800" scroll-region><!-- Page Heading -->
                         <div class="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
                             <flash-messages />
@@ -84,18 +84,18 @@
 
 <script>
 import Icon from '@/Shared/Icon'
-import AdminMenu from '@/Pages/Admin/AdminMenu'
 import JetDropdown from "@/Jetstream/Dropdown";
 import JetDropdownLink from "@/Jetstream/DropdownLink";
 import FlashMessages from "@/Shared/FlashMessages";
 import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink";
+import PortalMenu from "@/Pages/Portal/PortalMenu";
 
 export default {
     components: {
         JetDropdown,
         JetDropdownLink,
         Icon,
-        AdminMenu,
+        PortalMenu,
         FlashMessages,
         JetResponsiveNavLink
     },
@@ -107,9 +107,6 @@ export default {
     methods: {
         logout() {
             this.$inertia.post(route('logout'));
-        },
-        isUrl(...urls) {
-            return urls.filter(url => this.$page.url.match(url)).length
         },
     }
 }
