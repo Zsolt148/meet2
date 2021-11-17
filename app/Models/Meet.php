@@ -12,6 +12,7 @@ class Meet extends Model
 
     protected $fillable = [
         'name',
+        'folder',
         'slug',
         'host',
         'type',

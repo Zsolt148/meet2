@@ -12,13 +12,13 @@
             <div v-for="data in meets.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white dark:bg-gray-600 shadow hover:shadow-md transition-shadow duration-300 ease-in-out rounded-lg w-full border-r-8" :class="data.type == 'important' ? 'border-red-500' : data.type == 'highlighted' ? 'border-blue-500' : ''">
                 <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
-                        <inertia-link class="text-2xl text-black dark:text-white hover:underline" :href="route('meets.show', data.id)">
+                        <inertia-link class="text-2xl text-black dark:text-white hover:underline" :href="route('meets.show', data.slug)">
                             {{ data.name }}
                         </inertia-link>
                     </div>
                     <div class="flex items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
                         <icon name="calendar" class="w-4 h-4 mt-1 mr-2" />
-                        <span>{{ data.created_at }}</span>
+                        <span>{{ data.date }}</span>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row md:space-x-6 text-gray-600 dark:text-gray-200 w-full mb-5">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div>
-                    <inertia-link class="inline-flex items-center text-green dark:text-green-light hover:text-green-light" :href="route('meets.show', data.id)">
+                    <inertia-link class="inline-flex items-center text-green dark:text-green-light hover:text-green-light" :href="route('meets.show', data.slug)">
                         Tovább
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
                     </inertia-link>

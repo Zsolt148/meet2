@@ -4,12 +4,10 @@
 
             <inertia-link :class="getDashboardClass('portal$')" :href="route('portal:dashboard')">
                 <icon name="dashboard" class="w-4 h-4 mr-4 group" />
-                <div :class="isUrl('portal$') ? '' : 'group-hover:text-blue-900'">Kezdőlap</div>
+                <div>Kezdőlap</div>
             </inertia-link>
 
             <admin-menu v-if="$page.props.user.role === 'admin'" />
-
-            <!-- <hr class="my-6" />-->
         </div>
     </div>
 </template>

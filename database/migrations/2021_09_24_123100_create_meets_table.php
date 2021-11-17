@@ -17,6 +17,7 @@ class CreateMeetsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->nullable();
+            $table->string('folder')->nullable();
             $table->string('host');
             $table->string('type');
             $table->integer('phases');

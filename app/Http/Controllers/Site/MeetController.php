@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meet;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MeetController extends Controller

@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         if (App::environment('local')) {
-            // The environment is local
             User::factory(10)->create();
         }
 
         $this->call(UserSeeder::class);
+        $this->call(ContactSeeder::class);
+        $this->call(LocationSeeder::class);
+        $this->call(MeetSeeder::class);
     }
 }

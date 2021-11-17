@@ -3,7 +3,7 @@
 
     <inertia-link :class="getDashboardClass('admin/users*')" :href="route('admin:users.index')">
         <icon name="users" class="w-4 h-4 mr-4 group" />
-        <div :class="isUrl('admin/users*') ? '' : 'group-hover:text-blue-900'">Felhasználók</div>
+        <div>Felhasználók</div>
     </inertia-link>
 </template>
 

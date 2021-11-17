@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MeetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-    return 'test from api';
-});
+Route::get('/meet/contents/{meetId}/{method?}/{param?}', MeetController::class)->name('meet.contents');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+})->name('user');

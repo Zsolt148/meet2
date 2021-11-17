@@ -8,8 +8,8 @@ Route::get('/', function () {
     return Inertia::render('Site/SiteHome');
 })->name('home');
 
-Route::resource('meets', MeetController::class)->only('index', 'show');
-
+Route::get('/meets/{meet:slug}', [MeetController::class, 'show'])->name('meets.show');
+Route::get('/meets', [MeetController::class, 'index'])->name('meets.index');
 
 Route::get('language/{language}', function ($language) {
     Session()->put('locale', $language);
