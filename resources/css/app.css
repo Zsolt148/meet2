@@ -1,6 +1,12 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'tailwindcss/utilities';
+
+.dark .ps__rail-y,
+.dark .ps__rail-x {
+    background-color: transparent !important;
+}
 
 @layer base {
     [type='text'],
@@ -18,11 +24,14 @@
     [multiple],
     textarea,
     select {
-        @apply mt-1 block w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-500 focus:border-green focus:ring focus:ring-green focus:ring-opacity-50 rounded-md shadow-sm;
+        @apply mt-1 block w-full text-black dark:text-white bg-white dark:bg-dark-eval-3 border-gray-300 dark:border-gray-500 focus:border-green focus:ring focus:ring-green focus:ring-opacity-50 rounded-md shadow-sm;
     }
     [type='checkbox'],
     [type='radio'] {
         @apply rounded border-gray-300 dark:border-gray-500 text-green dark:text-green-light shadow-sm focus:border-green focus:ring focus:ring-green focus:ring-opacity-50;
+    }
+    article {
+        @apply text-black dark:text-white;
     }
 }
 
@@ -33,7 +42,7 @@
 
     .dashboard-link-active {
         /*@apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-white to-green-light border-r-4 border-green dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-900 text-green dark:text-blue-500;*/
-        @apply flex items-center px-6 py-2 text-gray-700 bg-green-light bg-opacity-30 rounded-xl shadow text-green dark:text-green-light;
+        @apply flex items-center px-6 py-2 text-gray-700 bg-green-light dark:bg-green bg-opacity-30 dark:bg-opacity-30 rounded-xl shadow dark:shadow-none text-green dark:text-green-light;
     }
 
     .responsive-nav-link-active {

@@ -30,13 +30,13 @@
                     </span>
                 </div>
 
-                <jet-secondary-button class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
+                <jet-button variant="secondary" class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
                     Select A New Photo
-                </jet-secondary-button>
+                </jet-button>
 
-                <jet-secondary-button type="button" class="mt-2" @click.prevent="deletePhoto" v-if="user.profile_photo_path">
+                <jet-button variant="secondary" type="button" class="mt-2" @click.prevent="deletePhoto" v-if="user.profile_photo_path">
                     Remove Photo
-                </jet-secondary-button>
+                </jet-button>
 
                 <jet-input-error :message="form.errors.photo" class="mt-2" />
             </div>
@@ -75,7 +75,6 @@
     import JetInputError from '@/Jetstream/InputError'
     import JetLabel from '@/Jetstream/Label'
     import JetActionMessage from '@/Jetstream/ActionMessage'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 
     export default {
         components: {
@@ -85,7 +84,6 @@
             JetInput,
             JetInputError,
             JetLabel,
-            JetSecondaryButton,
         },
 
         props: ['user'],

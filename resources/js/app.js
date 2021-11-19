@@ -2,27 +2,26 @@ require('./bootstrap');
 
 // Import modules...
 import { createApp, h } from 'vue';
-import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
+import {createInertiaApp, Link, Head } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 
-const el = document.getElementById('app');
+createInertiaApp({
+    title: (title) => `${title} - meet.kvsc.info`,
+    resolve: (name) => require(`./Pages/${name}.vue`),
 
-createApp({
-    render: () =>
-        h(InertiaApp, {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: (name) => require(`./Pages/${name}`).default,
-        }),
-})
-    .mixin(require('./Use/base'))
-    .use(InertiaPlugin)
-    .mount(el);
+    setup({ el, app, props, plugin }) {
+        return createApp({ render: () => h(app, props) })
+            .use(plugin)
+            .component('Link', Link)
+            .component('Head', Head)
+            .mixin(require('./Use/baseMixin'))
+            .mount(el);
+    },
+});
 
-InertiaProgress.init({delay: 200, color: '#4B5563' });
+InertiaProgress.init({delay: 100, color: '#008F93' });
 
 //Images
 require('../images/main-swimmer.png')
-require('../images/waves1.svg')
 require('../images/waves11.svg')
-require('../images/waves2.svg')
 require('../images/waves22.svg')

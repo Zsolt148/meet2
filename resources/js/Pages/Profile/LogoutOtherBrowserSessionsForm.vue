@@ -73,9 +73,9 @@
                 </template>
 
                 <template #footer>
-                    <jet-secondary-button @click="closeModal">
+                    <jet-button variant="secondary" type="button" @click="closeModal">
                         Cancel
-                    </jet-secondary-button>
+                    </jet-button>
 
                     <jet-button class="ml-2" @click="logoutOtherBrowserSessions" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Log Out Other Browser Sessions
@@ -93,7 +93,6 @@
     import JetDialogModal from '@/Jetstream/DialogModal'
     import JetInput from '@/Jetstream/Input'
     import JetInputError from '@/Jetstream/InputError'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 
     export default {
         props: ['sessions'],
@@ -105,7 +104,6 @@
             JetDialogModal,
             JetInput,
             JetInputError,
-            JetSecondaryButton,
         },
 
         data() {

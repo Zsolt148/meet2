@@ -1,21 +1,32 @@
 <template>
     <div>
-        <button type="submit" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-100 transition" v-if="as == 'button'">
+        <button type="submit" class="w-full" :class="style" v-if="as == 'button'">
             <slot></slot>
         </button>
 
-        <a :href="href" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-100 transition" v-else-if="as =='a'">
+        <a :href="href" :class="style" v-else-if="as =='a'">
             <slot></slot>
         </a>
 
-        <inertia-link :href="href" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-500 focus:outline-none focus:bg-gray-100 transition" v-else>
+        <Link :href="href" :class="style" :method="method ? method : 'get'" v-else>
             <slot></slot>
-        </inertia-link>
+        </Link>
     </div>
 </template>
 
 <script>
-    export default {
-        props: ['href', 'as']
+import { Link } from '@inertiajs/inertia-vue3'
+
+export default {
+    props: ['href', 'as', 'method'],
+    components: {
+        Link
+    },
+
+    data() {
+        return {
+            style: 'block px-4 py-2 text-sm leading-5 text-black hover:bg-green hover:bg-opacity-30 dark:text-white focus:outline-none transition'
+        }
     }
+}
 </script>

@@ -2,7 +2,7 @@
     <app-layout>
         <jet-authentication-card>
             <template #logo>
-                <jet-authentication-card-logo />
+                {{ __('Register') }}
             </template>
 
             <jet-validation-errors class="mb-4" />
@@ -41,9 +41,9 @@
                 </div>
 
                 <div class="flex items-center justify-between mt-4">
-                    <inertia-link :href="route('login')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                    <Link :href="route('login')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                         {{ __('Login') }}
-                    </inertia-link>
+                    </Link>
 
                     <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         {{ __('Register') }}

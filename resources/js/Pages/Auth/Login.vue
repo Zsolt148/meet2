@@ -1,5 +1,6 @@
 <template>
     <app-layout>
+        <Head :title="__('Login')"/>
         <jet-authentication-card>
             <template #logo>
                 {{ __('Login') }}
@@ -52,12 +53,12 @@
 
                 <div class="flex items-center justify-between mt-4">
                     <div class="flex flex-col">
-                        <inertia-link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                        <Link v-if="canResetPassword" :href="route('register')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                             {{ __('Register') }}
-                        </inertia-link>
-                        <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                        </Link>
+                        <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
                             {{ __('Forgot your password?') }}
-                        </inertia-link>
+                        </Link>
                     </div>
 
                     <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

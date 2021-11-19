@@ -1,4 +1,6 @@
 <template>
+    <Head title="meet.kvsc.info" />
+
     <app-layout>
         <div class="max-w-7xl flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28">
             <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-12 md:pr-16 md:mb-0">
@@ -10,16 +12,15 @@
                     Online {{ __('entries') }}
                 </p>
                 <div class="flex flex-row justify-center">
-                    <inertia-link :href="route('meets.index')">
+                    <Link :href="route('meets.index')">
                         <jet-button>
                             {{ __('Meets') }}
                         </jet-button>
-                    </inertia-link>
-                    <inertia-link :href="route('home')" class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
+                    </Link>
+                    <Link :href="route('home')" class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
                         Hírek
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
-
-                    </inertia-link>
+                    </Link>
                 </div>
             </div>
             <div class="w-full md:w-1/2 sm:pt-8 lg:w-4/6">
@@ -45,12 +46,12 @@
                     <!-- RIGHT PART -->
                     <div class="pt-8 md:pt-0 justify-center lg:ml-auto z-10">
                         <!-- Contribuer -->
-                        <inertia-link :href="route('meets.index')" target="_blank" class="flex items-center px-8 py-4 text-center font-bold text-black uppercase bg-white font-display rounded-full transition duration-200 hover:bg-main hover:text-white">
+                        <Link :href="route('meets.index')" class="flex items-center px-8 py-4 text-center font-bold text-black uppercase bg-white font-display rounded-full transition duration-200 hover:bg-main hover:text-white">
                             <span class="pt-1.5 pr-2 animate-pulse">
                                 {{ __('Meets') }}
                             </span>
                             <icon class="w-5 h-5 animate-pulse" name="arrow-right" />
-                        </inertia-link>
+                        </Link>
                     </div>
 
                     <div class="absolute bg-light-blue opacity-60 w-96 h-96 -top-10 -right-16 md:w-[800px] md:h-[800px] md:left-[45%] md:top-[-150%] rounded-full z-0"></div>

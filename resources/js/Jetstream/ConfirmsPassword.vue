@@ -23,9 +23,9 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click="closeModal">
+                <jet-button variant="secondary" type="button" @click="closeModal">
                     Cancel
-                </jet-secondary-button>
+                </jet-button>
 
                 <jet-button class="ml-2" @click="confirmPassword" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     {{ button }}
@@ -40,7 +40,6 @@
     import JetDialogModal from './DialogModal'
     import JetInput from './Input'
     import JetInputError from './InputError'
-    import JetSecondaryButton from './SecondaryButton'
 
     export default {
         emits: ['confirmed'],
@@ -62,7 +61,6 @@
             JetDialogModal,
             JetInput,
             JetInputError,
-            JetSecondaryButton,
         },
 
         data() {

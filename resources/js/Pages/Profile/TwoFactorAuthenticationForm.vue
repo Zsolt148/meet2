@@ -61,24 +61,24 @@
 
                 <div v-else>
                     <jet-confirms-password @confirmed="regenerateRecoveryCodes">
-                        <jet-secondary-button class="mr-3"
+                        <jet-button variant="secondary" type="button" class="mr-3"
                                         v-if="recoveryCodes.length > 0">
                             Regenerate Recovery Codes
-                        </jet-secondary-button>
+                        </jet-button>
                     </jet-confirms-password>
 
                     <jet-confirms-password @confirmed="showRecoveryCodes">
-                        <jet-secondary-button class="mr-3" v-if="recoveryCodes.length === 0">
+                        <jet-button variant="secondary" type="button" class="mr-3" v-if="recoveryCodes.length === 0">
                             Show Recovery Codes
-                        </jet-secondary-button>
+                        </jet-button>
                     </jet-confirms-password>
 
                     <jet-confirms-password @confirmed="disableTwoFactorAuthentication">
-                        <jet-danger-button
+                        <jet-button     variant="danger" type="button"
                                         :class="{ 'opacity-25': disabling }"
                                         :disabled="disabling">
                             Disable
-                        </jet-danger-button>
+                        </jet-button>
                     </jet-confirms-password>
                 </div>
             </div>
@@ -90,16 +90,12 @@
     import JetActionSection from '@/Jetstream/ActionSection'
     import JetButton from '@/Jetstream/Button'
     import JetConfirmsPassword from '@/Jetstream/ConfirmsPassword'
-    import JetDangerButton from '@/Jetstream/DangerButton'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton'
 
     export default {
         components: {
             JetActionSection,
             JetButton,
             JetConfirmsPassword,
-            JetDangerButton,
-            JetSecondaryButton,
         },
 
         data() {

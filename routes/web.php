@@ -17,7 +17,8 @@ Route::get('language/{language}', function ($language) {
 })->name('language');
 
 // Jetstream and Fortify routes
-Route::middleware(['web'])->group(base_path('routes/jetstream.php'));
+Route::middleware(['web'])
+    ->group(base_path('routes/jetstream.php'));
 
 // Portal
 Route::middleware(['auth:sanctum', 'verified', 'web'])

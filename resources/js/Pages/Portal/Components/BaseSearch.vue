@@ -1,23 +1,23 @@
 <template>
     <div class="mb-6 flex w-full justify-between items-center">
-        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-600 mr-2 placeholder-gray-400 dark:placeholder-gray-200 focus:placeholder-green-light"
+        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2 placeholder-gray-400 dark:placeholder-gray-200 focus:placeholder-green-light"
                autocomplete="off" type="text" name="search" :placeholder="__('Search')"
                @input="search"
                v-model="searchTerm"
                />
-        <jet-secondary-button @click="reset" class="mt-1">
+        <jet-button variant="secondary" type="button" size="sm" @click="reset" class="mt-1">
             {{ __('Delete') }}
-        </jet-secondary-button>
+        </jet-button>
     </div>
 </template>
 
 <script>
-import JetSecondaryButton from '@/Jetstream/SecondaryButton';
+import JetButton from '@/Jetstream/Button';
 import { ref } from 'vue';
 
 export default {
     components: {
-        JetSecondaryButton,
+        JetButton,
     },
     props: ['searchTerm'],
     emits: ['search'],

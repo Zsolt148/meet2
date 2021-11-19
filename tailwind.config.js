@@ -2,22 +2,19 @@
 
 module.exports = {
     mode: 'jit',
-
+    darkMode: 'class',
     purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
+        "./resources/js/**/*.js",
     ],
 
     theme: {
         extend: {
             fontFamily: {
                 poppins: ['Poppins', 'sans-serif'],
-            },
-            screens: {
-                light: { raw: "(prefers-color-scheme: light)" },
-                dark: { raw: "(prefers-color-scheme: dark)" }
             },
             colors: {
                 main: {
@@ -27,6 +24,12 @@ module.exports = {
                 green: {
                     DEFAULT: '#008F93',
                     light: '#30BFBF',
+                },
+                dark: {
+                    bg: "#151823",
+                    "eval-1": "#222738",
+                    "eval-2": "#2A2F42",
+                    "eval-3": "#2C3142",
                 },
                 'light-blue': '#caf0f8',
                 //'jet': '#343434',
@@ -38,34 +41,6 @@ module.exports = {
                 'wave-2': "url('/images/waves22.svg')",
             }
         },
-        typography: (theme) => ({
-            default: {
-                css: {
-                    color: theme('colors.gray.900'),
-
-                    a: {
-                        color: theme('colors.blue.500'),
-                        '&:hover': {
-                            color: theme('colors.blue.700'),
-                        },
-                    },
-                },
-            },
-
-            dark: {
-                css: {
-                    color: theme('colors.gray.100'),
-
-                    a: {
-                        color: theme('colors.blue.100'),
-                        '&:hover': {
-                            color: theme('colors.blue.100'),
-                        },
-                    },
-                },
-            },
-        }),
-
     },
 
     variants: {
@@ -77,19 +52,5 @@ module.exports = {
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
-        function({ addBase, config }) {
-            addBase({
-                body: {
-                    color: config("theme.colors.black"),
-                    backgroundColor: config("theme.colors.white")
-                },
-                "@screen dark": {
-                    body: {
-                        color: config("theme.colors.white"),
-                        backgroundColor: config("theme.colors.black")
-                    }
-                }
-            });
-        }
     ],
 };

@@ -106,9 +106,9 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click="displayingToken = false">
+                <jet-button @click="displayingToken = false">
                     Close
-                </jet-secondary-button>
+                </jet-button>
             </template>
         </jet-dialog-modal>
 
@@ -130,9 +130,9 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click="managingPermissionsFor = null">
+                <jet-button @click="managingPermissionsFor = null">
                     Cancel
-                </jet-secondary-button>
+                </jet-button>
 
                 <jet-button class="ml-2" @click="updateApiToken" :class="{ 'opacity-25': updateApiTokenForm.processing }" :disabled="updateApiTokenForm.processing">
                     Save
@@ -151,13 +151,13 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click="apiTokenBeingDeleted = null">
+                <jet-button @click="apiTokenBeingDeleted = null">
                     Cancel
-                </jet-secondary-button>
+                </jet-button>
 
-                <jet-danger-button class="ml-2" @click="deleteApiToken" :class="{ 'opacity-25': deleteApiTokenForm.processing }" :disabled="deleteApiTokenForm.processing">
+                <jet-button variant="danger" type="button" class="ml-2" @click="deleteApiToken" :class="{ 'opacity-25': deleteApiTokenForm.processing }" :disabled="deleteApiTokenForm.processing">
                     Delete
-                </jet-danger-button>
+                </jet-button>
             </template>
         </jet-confirmation-modal>
     </div>
@@ -168,14 +168,12 @@
     import JetActionSection from '@/Jetstream/ActionSection'
     import JetButton from '@/Jetstream/Button'
     import JetConfirmationModal from '@/Jetstream/ConfirmationModal'
-    import JetDangerButton from '@/Jetstream/DangerButton'
     import JetDialogModal from '@/Jetstream/DialogModal'
     import JetFormSection from '@/Jetstream/FormSection'
     import JetInput from '@/Jetstream/Input'
     import JetCheckbox from '@/Jetstream/Checkbox'
     import JetInputError from '@/Jetstream/InputError'
     import JetLabel from '@/Jetstream/Label'
-    import JetSecondaryButton from '@/Jetstream/SecondaryButton'
     import JetSectionBorder from '@/Jetstream/SectionBorder'
 
     export default {
@@ -184,14 +182,12 @@
             JetActionSection,
             JetButton,
             JetConfirmationModal,
-            JetDangerButton,
             JetDialogModal,
             JetFormSection,
             JetInput,
             JetCheckbox,
             JetInputError,
             JetLabel,
-            JetSecondaryButton,
             JetSectionBorder,
         },
 

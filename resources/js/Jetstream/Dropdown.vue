@@ -16,11 +16,11 @@
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95">
             <div v-show="open"
-                    class="absolute z-50 mt-2 rounded-md shadow-lg"
-                    :class="[widthClass, alignmentClasses]"
-                    style="display: none;"
-                    @click="open = false">
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
+                 class="absolute z-50 mt-2 rounded-md shadow-lg"
+                 :class="[widthClass, alignmentClasses]"
+                 style="display: none;"
+                 @click="open = false">
+                <div class="rounded-md border border-gray-200 dark:border-none border-opacity-30 ring-1 ring-black ring-opacity-5" :class="contentClasses">
                     <slot name="content"></slot>
                 </div>
             </div>
@@ -40,7 +40,7 @@ export default {
             default: '48'
         },
         contentClasses: {
-            default: () => ['py-1', 'bg-white dark:bg-gray-700']
+            default: () => ['py-1', 'bg-white dark:bg-dark-eval-3']
         }
     },
 

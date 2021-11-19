@@ -1,12 +1,18 @@
 <template>
     <app-layout>
+        <Head>
+            <title>{{ meet.name }}</title>
+            <meta head-key="description" name="description" content="Meets" />
+        </Head>
+
         <template #header>
             <div class="pb-8">
-                <inertia-link class="text-green-light" :href="route('meets.index')">{{__('Meets')}}</inertia-link>
+                <Link class="text-green-light" :href="route('meets.index')">{{__('Meets')}}</Link>
                 /
                 {{ meet.name }}
             </div>
         </template>
+
         <div class="max-w-7xl mx-auto py-8 px-0 xl:px-2">
             <div class="bg-white dark:bg-gray-600 -mt-16 shadow p-5 rounded-md">
                 <div class="flex flex-col sm:flex-row justify-between">

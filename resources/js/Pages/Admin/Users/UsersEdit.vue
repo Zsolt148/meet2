@@ -1,8 +1,5 @@
 <template>
     <portal-layout>
-        <template #header>
-            Felhasználó szerkesztése
-        </template>
         <div>
             <bread-crumb :back-route="route('admin:users.index')" back-name="Felhasználók" :current="form.name" />
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
@@ -30,13 +27,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="px-8 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
+                    <div class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
                         <jet-button>
                             Mentés
                         </jet-button>
-                        <jet-danger-button @click="confirmModalShow = true">
+                        <jet-button variant="danger" type="button" @click="confirmModalShow = true">
                             Törlés
-                        </jet-danger-button>
+                        </jet-button>
                     </div>
                 </form>
             </div>
@@ -51,13 +48,13 @@
             </template>
 
             <template #footer>
-                <jet-secondary-button @click.native="confirmModalShow = false">
+                <jet-button variant="secondary" type="button" class="mr-2" @click.native="confirmModalShow = false">
                     Mégse
-                </jet-secondary-button>
+                </jet-button>
 
-                <jet-danger-button class="ml-2" @click.native="deleteUser">
+                <jet-button variant="danger" type="button" @click.native="deleteUser">
                     Törlés
-                </jet-danger-button>
+                </jet-button>
             </template>
         </jet-confirmation-modal>
     </portal-layout>
@@ -69,12 +66,10 @@ import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from "@inertiajs/inertia";
 import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
-import JetDangerButton from '@/Jetstream/DangerButton'
 import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
-import JetSecondaryButton from "@/Jetstream/SecondaryButton";
 import BreadCrumb from "@/Shared/BreadCrumb";
 
 export default {
@@ -84,9 +79,7 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
-        JetDangerButton,
         JetConfirmationModal,
-        JetSecondaryButton,
         BreadCrumb
     },
     props: {

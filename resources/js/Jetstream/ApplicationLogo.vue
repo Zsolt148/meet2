@@ -1,7 +1,7 @@
 <template>
-    <inertia-link :href="route('home')">
+    <Link :href="route('home')">
         <span class="font-extrabold tracking-widest text-2xl" :class="classes">meet.kvsc.info</span>
-    </inertia-link>
+    </Link>
 </template>
 
 <script>
