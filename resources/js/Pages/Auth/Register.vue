@@ -10,22 +10,22 @@
             <form @submit.prevent="submit">
                 <div>
                     <jet-label for="name" :value="__('Name')" />
-                    <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
+                    <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" :error="form.errors.email" required autofocus autocomplete="name" />
                 </div>
 
                 <div class="mt-4">
                     <jet-label for="email" value="Email" />
-                    <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required />
+                    <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" :error="form.errors.email" required />
                 </div>
 
                 <div class="mt-4">
                     <jet-label for="password" :value="__('Password')" />
-                    <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
+                    <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" :error="form.errors.password" required autocomplete="new-password" />
                 </div>
 
                 <div class="mt-4">
                     <jet-label for="password_confirmation" :value="__('Confirm Password')" />
-                    <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
+                    <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" :error="form.errors.password" required autocomplete="new-password" />
                 </div>
 
                 <div class="mt-4" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
@@ -34,7 +34,14 @@
                             <jet-checkbox name="terms" id="terms" v-model:checked="form.terms" />
 
                             <div class="ml-2">
-                                {{ __('I agree to the') }} <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900">{{ __('Terms of Service') }}</a> {{ __('and') }} <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900">{{ __('Privacy Policy') }}</a>
+                                {{ __('I agree to the') }}
+                                <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                                    {{ __('Terms of Service') }}
+                                </a>
+                                {{ __('and') }}
+                                <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white">
+                                    {{ __('Privacy Policy') }}
+                                </a>
                             </div>
                         </div>
                     </jet-label>
@@ -45,7 +52,7 @@
                         {{ __('Login') }}
                     </Link>
 
-                    <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    <jet-button :loading="form.processing">
                         {{ __('Register') }}
                     </jet-button>
                 </div>

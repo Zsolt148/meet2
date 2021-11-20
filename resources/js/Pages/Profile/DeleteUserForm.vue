@@ -43,7 +43,7 @@
                         Cancel
                     </jet-button>
 
-                    <jet-button variant="danger" type="button" class="ml-2" @click="deleteUser" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    <jet-button variant="danger" type="button" class="ml-2" @click="deleteUser" :loading="form.processing">
                         Delete Account
                     </jet-button>
                 </template>

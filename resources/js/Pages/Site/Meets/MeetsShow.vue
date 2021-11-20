@@ -2,7 +2,7 @@
     <app-layout>
         <Head>
             <title>{{ meet.name }}</title>
-            <meta head-key="description" name="description" content="Meets" />
+            <meta head-key="description" name="description" :content="meet.name" />
         </Head>
 
         <template #header>

@@ -1,10 +1,10 @@
 <template>
-    <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
+    <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input" :class="error ? 'input-error' : ''">
 </template>
 
 <script>
     export default {
-        props: ['modelValue'],
+        props: ['modelValue', 'error'],
 
         emits: ['update:modelValue'],
 

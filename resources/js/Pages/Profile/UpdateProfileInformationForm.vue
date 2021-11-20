@@ -30,11 +30,11 @@
                     </span>
                 </div>
 
-                <jet-button variant="secondary" class="mt-2 mr-2" type="button" @click.prevent="selectNewPhoto">
+                <jet-button variant="secondary" class="mt-2 mr-2" type="button" @click="selectNewPhoto">
                     Select A New Photo
                 </jet-button>
 
-                <jet-button variant="secondary" type="button" class="mt-2" @click.prevent="deletePhoto" v-if="user.profile_photo_path">
+                <jet-button variant="secondary" type="button" class="mt-2" @click="deletePhoto" v-if="user.profile_photo_path">
                     Remove Photo
                 </jet-button>
 
@@ -51,7 +51,7 @@
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" />
+                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" disabled="disabled" />
                 <jet-input-error :message="form.errors.email" class="mt-2" />
             </div>
         </template>
@@ -61,7 +61,7 @@
                 Saved.
             </jet-action-message>
 
-            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <jet-button :loading="form.processing">
                 Save
             </jet-button>
         </template>

@@ -7,26 +7,23 @@
             'dark:last:before:bg-dark-eval-1 dark:before:border-t-gray-600',
         ]"
     >
-        <component
-            :is="Tag"
+        <Link
             :href="href"
             v-bind="$attrs"
             :class="[
-                'transition-colors hover:text-gray-900 dark:hover:text-gray-100',
+                'transition-colors hover:text-black dark:hover:text-white',
                 {
-                    'text-gray-900 dark:text-gray-200': active,
-                    'text-gray-500 dark:text-gray-400': !active,
+                    'text-green dark:text-green-light': active,
+                    'text-gray-700 dark:text-gray-200': !active,
                 },
             ]"
         >
             {{ title }}
-        </component>
+        </Link>
     </li>
 </template>
 
 <script>
-import {Link} from "@inertiajs/inertia-vue3";
-
 export default {
     props: {
         href: String,
@@ -35,18 +32,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        external: {
-            type: Boolean,
-            default: false,
-        },
-    },
-    setup(props) {
-        const { external } = props
-
-        const Tag = external ? 'a' : Link
-        return {
-            Tag,
-        }
     },
 }
 </script>

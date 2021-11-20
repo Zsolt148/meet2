@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UsersRequest;
-use Illuminate\Support\Facades\Request;
 use App\Models\User;
 use Inertia\Inertia;
 

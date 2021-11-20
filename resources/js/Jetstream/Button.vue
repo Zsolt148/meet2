@@ -3,8 +3,9 @@
         <span v-if="srText" class="sr-only">{{ srText }}</span>
         <slot :iconSizeClasses="iconSizeClasses" />
     </component>
-    <button v-else :type="type" :class="classes" @click="handleClick" :disabled="disabled">
-        <span v-if="srText" class="sr-only">{{ srText }}</span>
+    <button v-else :type="type" :class="classes" @click="handleClick" :disabled="disabled || loading">
+        <div v-if="loading" class="btn-spinner mr-2" />
+        <span class="sr-only">{{ srText }}</span>
         <slot :iconSizeClasses="iconSizeClasses" />
     </button>
 </template>
@@ -60,6 +61,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        loading: {
+            type: Boolean || undefined,
+            default: false,
+        },
     },
 
     emits: ['click'],
@@ -70,7 +75,9 @@ export default {
         const { disabled } = toRefs(props)
 
         const baseClasses = [
-            'inline-flex items-center font-medium select-none tracking-widest disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-offset-1 focus:ring-opacity-50 focus:ring-offset-white dark:focus:ring-offset-dark-eval-2 shadow-sm transition',
+            'inline-flex items-center font-medium select-none tracking-widest shadow-sm transition' +
+            ' disabled:opacity-50 disabled:cursor-not-allowed ' +
+            'focus:outline-none focus:ring focus:ring-offset-1 focus:ring-opacity-50 focus:ring-offset-white dark:focus:ring-offset-dark-eval-2',
         ]
 
         const variantClasses = (variant) => ({

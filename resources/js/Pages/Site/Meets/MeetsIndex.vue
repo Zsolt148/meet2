@@ -3,7 +3,7 @@
     <app-layout>
         <Head>
             <title>{{ __('Meets')}}</title>
-            <meta head-key="description" name="description" content="Meets" />
+            <meta head-key="description" name="description" :content="__('Meets')" />
         </Head>
 
         <template #header>
