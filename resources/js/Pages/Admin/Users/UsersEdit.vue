@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
-                        <jet-button>
+                        <jet-button :loading="form.processing">
                             Mentés
                         </jet-button>
                         <jet-button variant="danger" type="button" @click="confirmModalShow = true">
@@ -52,7 +52,7 @@
                     Mégse
                 </jet-button>
 
-                <jet-button variant="danger" type="button" @click.native="deleteUser">
+                <jet-button variant="danger" type="button" @click.native="deleteModel">
                     Törlés
                 </jet-button>
             </template>
@@ -100,7 +100,7 @@ export default {
             form.put(route('admin:users.update', props.editUser.id))
         }
 
-        function deleteUser() {
+        function deleteModel() {
             Inertia.delete(route('admin:users.destroy', props.editUser.id))
         }
 
@@ -108,7 +108,7 @@ export default {
             confirmModalShow,
             form,
             update,
-            deleteUser,
+            deleteModel,
         }
     },
 }

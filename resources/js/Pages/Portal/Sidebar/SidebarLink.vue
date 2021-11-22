@@ -4,7 +4,7 @@
         v-if="href"
         :href="href"
         :class="[
-            'p-2 flex items-center gap-2 rounded-md transition-colors',
+            'p-2 flex items-center gap-2 rounded-md transition-colors focus:outline-none',
             {
                 'dashboard-link':
                     !active,
@@ -28,7 +28,7 @@
         v-else
         type="button"
         :class="[
-            'p-2 flex items-center gap-2 rounded-md transition-colors',
+            'p-2 flex items-center gap-2 rounded-md transition-colors focus:outline-none',
             {
                 'dashboard-link':
                     !active,

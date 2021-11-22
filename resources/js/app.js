@@ -21,7 +21,7 @@ createInertiaApp({
 
 InertiaProgress.init({delay: 0, color: '#008F93' });
 
-//Images
+// Images
 require('../images/main-swimmer.png')
-require('../images/waves11.svg')
-require('../images/waves22.svg')
+require('../images/waves1.svg')
+require('../images/waves2.svg')

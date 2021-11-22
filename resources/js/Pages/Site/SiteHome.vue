@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="spacer bg-wave-2 -mb-16"></div>
+        <div class="spacer bg-wave-2"></div>
         <div class="max-w-7xl mx-auto mb-16">
             <div class="bg-white p-2 sm:p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none">
                 <div class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 animate-pulse" ></div>

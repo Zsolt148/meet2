@@ -1258,15 +1258,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/vue@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@headlessui/vue@npm:1.4.2"
-  peerDependencies:
-    vue: ^3.0.0
-  checksum: 803fb7f5612984ce7a1ced5e8ff1cf4e45a8882602c1cd4d14bca17bcd944f21992ed66671d298d880f2ec89985ecacc7086d89fe099bfb4ebcc01f76f5ffba2
-  languageName: node
-  linkType: hard
-
 "@heroicons/vue@npm:^1.0.5":
   version: 1.0.5
   resolution: "@heroicons/vue@npm:1.0.5"
@@ -7214,7 +7205,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@headlessui/vue": ^1.4.2
     "@heroicons/vue": ^1.0.5
     "@inertiajs/inertia": ^0.10.1
     "@inertiajs/inertia-vue3": ^0.5.2

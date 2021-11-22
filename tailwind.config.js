@@ -37,8 +37,8 @@ module.exports = {
             },
             backgroundImage: {
                 'main-swimmer': "url('/images/main-swimmer.png')",
-                'wave-1': "url('/images/waves11.svg')",
-                'wave-2': "url('/images/waves22.svg')",
+                'wave-1': "url('/images/waves1.svg')",
+                'wave-2': "url('/images/waves2.svg')",
             }
         },
     },

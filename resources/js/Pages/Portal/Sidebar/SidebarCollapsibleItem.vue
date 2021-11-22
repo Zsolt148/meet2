@@ -11,7 +11,7 @@
             :href="href"
             v-bind="$attrs"
             :class="[
-                'transition-colors hover:text-black dark:hover:text-white',
+                'transition-colors hover:text-green dark:hover:text-green-light',
                 {
                     'text-green dark:text-green-light': active,
                     'text-gray-700 dark:text-gray-200': !active,

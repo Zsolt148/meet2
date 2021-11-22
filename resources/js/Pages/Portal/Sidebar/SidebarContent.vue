@@ -47,6 +47,22 @@
             <SidebarCollapsibleItem :href="route('admin:locations.index')" title="Összes" :active="route().current('admin:locations.index') || route().current('admin:locations.edit')" />
         </SidebarCollapsible>
 
+        <SidebarCollapsible
+            title="Kapcsolattartók"
+            :active="isUrl('admin/contacts*')"
+            v-show="isAdmin"
+        >
+            <template #icon>
+                <LocationMarkerIcon
+                    class="flex-shrink-0 w-6 h-6"
+                    aria-hidden="true"
+                />
+            </template>
+
+            <SidebarCollapsibleItem :href="route('admin:contacts.create')" title="Új kapcsolat" :active="route().current('admin:contacts.create')" />
+            <SidebarCollapsibleItem :href="route('admin:contacts.index')" title="Összes" :active="route().current('admin:contacts.index') || route().current('admin:contacts.edit')" />
+        </SidebarCollapsible>
+
 <!--        <SidebarCollapsible title="Dropdown">-->
 <!--            <SidebarCollapsibleItem href="#" title="Link 1" :active="false" />-->
 <!--            <SidebarCollapsibleItem href="#" title="Link 2" :active="true" />-->

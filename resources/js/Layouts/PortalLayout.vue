@@ -20,13 +20,13 @@
 
             <!-- Page Heading -->
             <header v-if="$slots.header">
-                <div class="p-4 sm:p-6">
+                <div class="mx-2 sm:mx-4 mt-4 text-2xl font-semibold">
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 px-4 sm:px-6 py-4">
+            <main class="flex-1 mx-2 sm:mx-4 my-4">
                 <flash-messages />
                 <slot />
             </main>

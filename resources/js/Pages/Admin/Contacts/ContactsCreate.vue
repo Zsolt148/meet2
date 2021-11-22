@@ -1,33 +1,27 @@
 <template>
     <portal-layout>
         <div>
-            <bread-crumb :back-route="route('admin:locations.index')" back-name="Helyszínek" current="Új helyszín" />
+            <bread-crumb :back-route="route('admin:contacts.index')" back-name="Kapcsolattartók" current="Új kapcsolattartó" />
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
                 <form @submit.prevent="create">
                     <div class="p-4 md:p-8">
                         <div class="space-x-0 space-y-4 md:space-x-4 md:space-y-0 flex flex-col md:flex-row">
                             <div class="w-full md:w-1/2">
-                                <jet-label for="city" value="Város" />
-                                <jet-input id="city" type="text" v-model="form.city" autocomplete="off" :error="form.errors.city" />
-                                <jet-input-error :message="form.errors.city" class="mt-2" />
+                                <jet-label for="name" value="Város" />
+                                <jet-input id="name" type="text" v-model="form.name" autocomplete="off" :error="form.errors.name" />
+                                <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div class="w-full md:w-1/2">
-                                <jet-label for="address" value="Cím" />
-                                <jet-input id="address" type="text" v-model="form.address" autocomplete="off" :error="form.errors.address" />
-                                <jet-input-error :message="form.errors.address" class="mt-2" />
+                                <jet-label for="phone" value="Cím" />
+                                <jet-input id="phone" type="text" v-model="form.phone" autocomplete="off" :error="form.errors.phone" />
+                                <jet-input-error :message="form.errors.phone" class="mt-2" />
                             </div>
 
                             <div class="w-full md:w-1/2">
-                                <jet-label for="pool" value="Medence" />
-                                <jet-input id="pool" type="number" v-model="form.pool" autocomplete="off" :error="form.errors.pool" />
-                                <jet-input-error :message="form.errors.pool" class="mt-2" />
-                            </div>
-
-                            <div class="w-full md:w-1/2">
-                                <jet-label for="timing" value="Időmérés" />
-                                <jet-input id="timing" type="text" v-model="form.timing" autocomplete="off" :error="form.errors.timing" />
-                                <jet-input-error :message="form.errors.timing" class="mt-2" />
+                                <jet-label for="email" value="Medence" />
+                                <jet-input id="email" type="number" v-model="form.email" autocomplete="off" :error="form.errors.email" />
+                                <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
                         </div>
@@ -70,14 +64,13 @@ export default {
     setup() {
         const form = useForm({
             _method: 'POST',
-            city: null,
-            address: null,
-            pool: null,
-            timing: null,
+            name: null,
+            phone: null,
+            email: null,
         })
 
         function create() {
-            form.post(route('admin:locations.store'))
+            form.post(route('admin:contacts.store'))
         }
 
         return {

@@ -4,6 +4,7 @@
 /* components */
 @import 'tailwindcss/components';
 @import 'spinner-button.css';
+@import 'table.css';
 @import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 /* utilities */

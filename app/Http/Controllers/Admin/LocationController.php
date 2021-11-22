@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\LocationRequest;
 use App\Models\Location;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LocationController extends Controller
@@ -18,7 +18,7 @@ class LocationController extends Controller
     {
         request()->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,email,role,created_at'],
+            'field' => ['in:city,address,pool,timing,created_at'],
         ]);
 
         $query = Location::query();
@@ -56,9 +56,11 @@ class LocationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
+        Location::create($request->all());
 
+        return redirect()->route('admin:locations.index')->with('success', 'Helyszín sikeresen létrehozva');
     }
 
     /**
@@ -81,7 +83,7 @@ class LocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location)
+    public function update(LocationRequest $request, Location $location)
     {
         $location->update($request->all());
 
@@ -96,6 +98,8 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+
+        return redirect()->route('admin:locations.index')->with('success', 'Helyszín sikeresen törölve');
     }
 }
