@@ -12,11 +12,9 @@
                     Online {{ __('entries') }}
                 </p>
                 <div class="flex flex-row justify-center">
-                    <Link :href="route('meets.index')">
-                        <jet-button>
-                            {{ __('Meets') }}
-                        </jet-button>
-                    </Link>
+                    <jet-button :href="route('meets.index')">
+                        {{ __('Meets') }}
+                    </jet-button>
                     <Link :href="route('home')" class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
                         Hírek
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
@@ -27,7 +25,9 @@
                 <img src="/images/main-swimmer.png" alt="Swimmer">
             </div>
         </div>
-        <div class="spacer bg-wave-1 -mt-16"></div>
+        <div>
+            <img class="spacer" src="/images/waves1.svg" alt="Wave">
+        </div>
         <div class="bg-main">
             <div class="container mx-auto">
                 <div class="rounded-lg bg-green text-black p-8 flex flex-col md:flex-row space-between items-center justify-between relative overflow-hidden">
@@ -45,35 +45,33 @@
                     </div>
                     <!-- RIGHT PART -->
                     <div class="pt-8 md:pt-0 justify-center lg:ml-auto z-10">
-                        <!-- Contribuer -->
-                        <Link :href="route('meets.index')" class="flex items-center px-8 py-4 text-center font-bold text-black uppercase bg-white font-display rounded-full transition duration-200 hover:bg-main hover:text-white">
-                            <span class="pt-1.5 pr-2 animate-pulse">
-                                {{ __('Meets') }}
-                            </span>
-                            <icon class="w-5 h-5 animate-pulse" name="arrow-right" />
-                        </Link>
+                        <jet-button :href="route('meets.index')" variant="secondary" size="lg">
+                            {{ __('Meets') }} <icon class="w-5 h-5" name="arrow-right" />
+                        </jet-button>
                     </div>
 
                     <div class="absolute bg-light-blue opacity-60 w-96 h-96 -top-10 -right-16 md:w-[800px] md:h-[800px] md:left-[45%] md:top-[-150%] rounded-full z-0"></div>
                 </div>
             </div>
         </div>
-        <div class="spacer bg-wave-2"></div>
+        <div>
+            <img class="spacer" src="/images/waves2.svg" alt="Wave">
+        </div>
         <div class="max-w-7xl mx-auto mb-16">
             <div class="bg-white p-2 sm:p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none">
                 <div class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 animate-pulse" ></div>
                 <div class="flex flex-col flex-1 gap-5 sm:p-2">
                     <div class="flex flex-1 flex-col gap-3">
-                        <div class="bg-gray-200 w-full animate-pulse h-14 rounded-2xl" ></div>
-                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
-                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
-                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
-                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+                        <div class="bg-gray-200 w-full animate-pulse h-14 rounded-2xl"></div>
+                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+                        <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
                     </div>
                     <div class="mt-auto flex gap-3">
-                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full" ></div>
-                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full" ></div>
-                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto" ></div>
+                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+                        <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto"></div>
                     </div>
                 </div>
             </div>

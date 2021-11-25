@@ -35,11 +35,82 @@ module.exports = {
                 //'jet': '#343434',
                 'jet': '#222222',
             },
-            backgroundImage: {
-                'main-swimmer': "url('/images/main-swimmer.png')",
-                'wave-1': "url('/images/waves1.svg')",
-                'wave-2': "url('/images/waves2.svg')",
-            }
+
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        backgroundColor: theme('colors.white'),
+                        color: theme('colors.gray.900'),
+                        a: {
+                            color: theme('colors.green.DEFAULT'),
+                            '&:hover': {
+                                color: theme('colors.green.light'),
+                            },
+                        },
+                        pre: {
+                            color: theme('colors.gray.900'),
+                            backgroundColor: theme('colors.white'),
+                        }
+                    },
+                },
+                dark: {
+                    css: {
+                        color: theme('colors.gray.100'),
+                        backgroundColor: theme('colors.gray.600'),
+                        '[class~="lead"]': {
+                            color: theme('colors.gray.100'),
+                        },
+                        a: {
+                            color: theme('colors.green.light'),
+                            '&:hover': {
+                                color: theme('colors.green.DEFAULT'),
+                            },
+                        },
+                        strong: {
+                            color: theme('colors.white'),
+                        },
+                        'ol > li::before': {
+                            color: theme('colors.gray.200'),
+                        },
+                        'ul > li::before': {
+                            backgroundColor: theme('colors.gray.600'),
+                        },
+                        hr: {
+                            borderColor: theme('colors.gray.200'),
+                        },
+                        blockquote: {
+                            color: theme('colors.gray.200'),
+                            borderLeftColor: theme('colors.gray.600'),
+                        },
+                        h1: {
+                            color: theme('colors.white'),
+                        },
+                        h2: {
+                            color: theme('colors.white'),
+                        },
+                        h3: {
+                            color: theme('colors.white'),
+                        },
+                        h4: {
+                            color: theme('colors.white'),
+                        },
+                        'figure figcaption': {
+                            color: theme('colors.gray.200'),
+                        },
+                        pre: {
+                            color: theme('colors.gray.100'),
+                            backgroundColor: theme('colors.gray.600'),
+                        },
+                        thead: {
+                            color: theme('colors.white'),
+                            borderBottomColor: theme('colors.gray.200'),
+                        },
+                        'tbody tr': {
+                            borderBottomColor: theme('colors.gray.600'),
+                        },
+                    },
+                },
+            }),
         },
     },
 

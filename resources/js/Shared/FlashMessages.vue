@@ -16,7 +16,7 @@
             <div v-if="$page.props.flash.error">{{ $page.props.flash.error }}</div>
             <div v-else class="font-medium">
                 <span v-if="Object.keys($page.props.errors).length === 1">Hibás mező található</span>
-                <span v-else>{{ Object.keys($page.props.errors).length }} hibás mező van</span>
+                <span v-else>{{ Object.keys($page.props.errors).length }} hibás mező található</span>
             </div>
             <button class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none" @click="show = false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4 text-red-700" viewBox="0 0 1792 1792">

@@ -24,10 +24,10 @@ Route::middleware(['web'])
 Route::middleware(['auth:sanctum', 'verified', 'web'])
     ->prefix('portal')
     ->name('portal:')
-    ->group(base_path('routes/portal.php'));
+    ->group(base_path('routes/portal/web.php'));
 
 // Admin auth
 Route::prefix('admin')
     ->name('admin:')
     ->middleware(['auth:sanctum', 'verified', 'web', 'role:admin'])
-    ->group(base_path('routes/admin.php'));
+    ->group(base_path('routes/admin/web.php'));

@@ -27,6 +27,8 @@ export function getWatch(params, routeName) {
                 search: params.search.value,
                 direction: params.direction.value,
                 field: params.field.value,
+                //todo optional
+                year: params.year ? params.year.value : null,
             };
             let query = _.pickBy(search);
             Inertia.get(route(routeName), query,{ replace: true, preserveState: true, preserveScroll: true });

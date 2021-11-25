@@ -39,9 +39,6 @@
     [type='radio'] {
         @apply rounded border-gray-300 dark:border-gray-500 text-green dark:text-green-light shadow-sm focus:border-green focus:ring focus:ring-green focus:ring-opacity-50;
     }
-    article {
-        @apply text-black dark:text-white;
-    }
 }
 
 @layer components {

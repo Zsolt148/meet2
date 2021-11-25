@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UsersRequest;
 use App\Models\User;
 use Inertia\Inertia;
 
-class UsersController extends Controller
+class UsersController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
@@ -16,23 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        request()->validate([
-            'direction' => ['in:asc,desc'],
-            'field' => ['in:name,email,role,created_at'],
-        ]);
-
-        $query = User::query();
-
-        if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%')
-                ->orWhere('email', 'LIKE', '%'.$search.'%');
-        }
-
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }else {
-            $query->latest();
-        }
+        $query = $this->getQuery(User::class, request(), ['name', 'email', 'role']);
 
         return Inertia::render('Admin/Users/UsersIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),

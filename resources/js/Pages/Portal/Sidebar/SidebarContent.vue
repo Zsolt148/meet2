@@ -17,6 +17,14 @@
             </template>
         </SidebarLink>
 
+        <div class="mt-4 flex items-center justify-between" v-show="isAdmin">
+            <span class="border-b border-gray-300 dark:border-gray-500 w-2/6"></span>
+
+            <span class="text-xs text-center text-gray-500 dark:text-gray-200 uppercase">admin</span>
+
+            <span class="border-b border-gray-300 dark:border-gray-500 w-2/6"></span>
+        </div>
+
         <SidebarLink
             title="Felhasználók"
             :href="route('admin:users.index')"
@@ -30,6 +38,22 @@
                 />
             </template>
         </SidebarLink>
+
+        <SidebarCollapsible
+            title="Versenyek"
+            :active="isUrl('admin/meets*')"
+            v-show="isAdmin"
+        >
+            <template #icon>
+                <CalendarIcon
+                    class="flex-shrink-0 w-6 h-6"
+                    aria-hidden="true"
+                />
+            </template>
+
+            <SidebarCollapsibleItem :href="route('admin:meets.create')" title="Új verseny" :active="route().current('admin:meets.create')" />
+            <SidebarCollapsibleItem :href="route('admin:meets.index')" title="Összes" :active="route().current('admin:meets.index') || route().current('admin:meets.edit')" />
+        </SidebarCollapsible>
 
         <SidebarCollapsible
             title="Helyszínek"
@@ -53,7 +77,7 @@
             v-show="isAdmin"
         >
             <template #icon>
-                <LocationMarkerIcon
+                <AtSymbolIcon
                     class="flex-shrink-0 w-6 h-6"
                     aria-hidden="true"
                 />
@@ -93,7 +117,7 @@
 import PerfrectScrollbar from '@/Shared/PerfectScrollbar'
 import SidebarLink from '@/Pages/Portal/Sidebar/SidebarLink.vue'
 import { DashboardIcon } from '@/Icons/outline.jsx'
-import { UserGroupIcon, LocationMarkerIcon } from '@heroicons/vue/outline'
+import { UserGroupIcon, LocationMarkerIcon, AtSymbolIcon, CalendarIcon } from '@heroicons/vue/outline'
 import SidebarCollapsible from '@/Pages/Portal/Sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/Pages/Portal/Sidebar/SidebarCollapsibleItem.vue'
 
@@ -106,12 +130,14 @@ export default {
         //Icons
         DashboardIcon,
         UserGroupIcon,
-        LocationMarkerIcon
+        LocationMarkerIcon,
+        AtSymbolIcon,
+        CalendarIcon
     },
 
     methods: {
         isAdmin() {
-            return this.$page.props.user.role === 'admin';
+            return this.$page.props.user.role === 'admin'; //TODO nicer
         }
     }
 }

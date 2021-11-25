@@ -4,7 +4,7 @@
     <portal-layout>
         <div class="mx-auto my-5">
             <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-                {{ $page.props.user.name }}
+                Welcome, {{ $page.props.user.name }}!
             </div>
         </div>
     </portal-layout>

@@ -38,14 +38,15 @@
                     </div>
                 </div>
 
-                <article class="my-5 prose max-w-none">
+                <article class="my-5 prose dark:prose-dark max-w-none">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget euismod arcu. Maecenas non
                     semper dolor, quis placerat neque. In urna dui, fermentum non viverra ac, cursus eu erat. Quisque
                     elementum enim ut dolor placerat commodo. Curabitur est justo, porttitor sit amet enim at, rhoncus
                     hendrerit tellus. Suspendisse potenti. Donec auctor eu dolor eu placerat. Curabitur hendrerit massa
                     et blandit faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae risus
                     augue. Nunc eleifend augue non urna porttitor, aliquet dignissim justo porta. Nam molestie ipsum non
-                    eros tempus tincidunt.
+                    eros tempus tincidunt. <br>
+                    <a href="http://meet2.test/meets/20211002-iv-oszi-kupa-uszoverseny" target="_blank">http://meet2.test/meets/20211002-iv-oszi-kupa-uszoverseny</a>
                 </article>
 
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
@@ -85,8 +86,11 @@
                 </div>
 
                 <div class="w-full my-8 flex justify-center">
-                    <article class="prose max-w-none overflow-x-auto text-center" v-html="fileContent.data" v-if="!fileContent.loading" />
-                    <div v-else-if="fileContent.loading" class="select-none max-w-2xl w-full">
+                    <article class="prose dark:prose-dark max-w-none overflow-x-auto text-center" v-if="!fileContent.loading" v-html="fileContent.data" />
+                    <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-5">
+                        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
+                    </div>
+                    <div v-else-if="fileContent.loading && false" class="select-none max-w-2xl w-full pt-2">
                         <div class="bg-gray-200 dark:bg-gray-700 animate-pulse h-8 rounded-2xl"></div>
                         <div class="flex flex-1 flex-col gap-8 pt-8 sm:pt-10">
                             <div class="flex gap-6" v-for="index in 10" :key="index">

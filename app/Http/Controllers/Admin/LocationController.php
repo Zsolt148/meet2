@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LocationRequest;
 use App\Models\Location;
 use Inertia\Inertia;
 
-class LocationController extends Controller
+class LocationController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
@@ -16,23 +15,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        request()->validate([
-            'direction' => ['in:asc,desc'],
-            'field' => ['in:city,address,pool,timing,created_at'],
-        ]);
-
-        $query = Location::query();
-
-        if($search = request('search')) {
-            $query->where('city', 'LIKE', '%'.$search.'%')
-                ->orWhere('address', 'LIKE', '%'.$search.'%');
-        }
-
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }else {
-            $query->latest();
-        }
+        $query = $this->getQuery(Location::class, request(), ['city', 'address', 'pool', 'timing']);
 
         return Inertia::render('Admin/Locations/LocationsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),

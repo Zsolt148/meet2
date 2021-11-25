@@ -8,7 +8,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ContactController extends Controller
+class ContactController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
@@ -17,23 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        request()->validate([
-            'direction' => ['in:asc,desc'],
-            'field' => ['in:name,email,phone,created_at'],
-        ]);
-
-        $query = Contact::query();
-
-        if($search = request('search')) {
-            $query->where('name', 'LIKE', '%'.$search.'%')
-                ->orWhere('email', 'LIKE', '%'.$search.'%');
-        }
-
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }else {
-            $query->latest();
-        }
+        $query = $this->getQuery(Contact::class, request(), ['name', 'email']);
 
         return Inertia::render('Admin/Contacts/ContactsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
