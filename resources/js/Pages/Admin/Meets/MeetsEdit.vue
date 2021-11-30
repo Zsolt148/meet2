@@ -1,38 +1,132 @@
 <template>
+    <Head title="Verseny szerkesztése" />
     <portal-layout>
         <div>
-            <bread-crumb :back-route="route('admin:locations.index')" back-name="Helyszínek" :current="form.city + ' ' + form.address" />
+            <bread-crumb :back-route="route('admin:meets.index')" back-name="Versenyek" :current="form.name" />
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
+
                 <form @submit.prevent="update">
-                    <div class="p-4 md:p-8">
-                        <div class="space-x-0 space-y-4 md:space-x-4 md:space-y-0 flex flex-col md:flex-row">
-                            <div class="w-full md:w-1/2">
-                                <jet-label for="city" value="Város" />
-                                <jet-input id="city" type="text" v-model="form.city" autocomplete="off" :error="form.errors.city" />
-                                <jet-input-error :message="form.errors.city" class="mt-2" />
+                    <div class="p-8 flex flex-col">
+                        <div class="mb-5">
+                            <jet-label for="is_visible">
+                                <div class="flex items-center text-xl">
+                                    <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+
+                                    <div class="ml-2">
+                                        Látható
+                                    </div>
+                                </div>
+                            </jet-label>
+                        </div>
+
+                        <div class="w-full flex flex-row space-x-4">
+                            <div class="w-1/2">
+                                <jet-label for="name" value="Név" />
+                                <jet-input id="name" type="text" v-model="form.name" autocomplete="off" />
+                                <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
-                            <div class="w-full md:w-1/2">
-                                <jet-label for="address" value="Cím" />
-                                <jet-input id="address" type="text" v-model="form.address" autocomplete="off" :error="form.errors.address" />
-                                <jet-input-error :message="form.errors.address" class="mt-2" />
+                            <div class="w-1/2">
+                                <jet-label for="slug" value="URL" />
+                                <jet-input id="slug" type="text" class="mt-1 block w-full bg-gray-200" v-model="form.slug" autocomplete="off" aria-readonly="true" disabled="disabled" />
+                                <jet-input-error :message="form.errors.slug" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="host" value="Rendező" />
+                                <jet-input id="host" type="text" v-model="form.host" autocomplete="off" />
+                                <jet-input-error :message="form.errors.host" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="type" value="Típus" />
+                                <jet-input id="type" type="text" v-model="form.type" autocomplete="off" />
+                                <jet-input-error :message="form.errors.type" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="date" value="Dátum" />
+                                <jet-input id="date" type="text" v-model="form.date" autocomplete="off" />
+                                <jet-input-error :message="form.errors.date" class="mt-2" />
                             </div>
 
-                            <div class="w-full md:w-1/2">
-                                <jet-label for="pool" value="Medence" />
-                                <jet-input id="pool" type="number" v-model="form.pool" autocomplete="off" :error="form.errors.pool" />
-                                <jet-input-error :message="form.errors.pool" class="mt-2" />
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="deadline" value="Határidő" />
+                                <jet-input id="deadline" type="text" v-model="form.deadline" autocomplete="off"/>
+                                <jet-input-error :message="form.errors.deadline" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="location_id" value="Helyszín"/>
+                                <select name="location_id" id="location_id" v-model="form.location_id">
+                                    <option v-for="location in locations" :key="location.id" :value="location.id">{{location.city}} - {{location.address}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.location_id" class="mt-2" />
                             </div>
 
-                            <div class="w-full md:w-1/2">
-                                <jet-label for="timing" value="Időmérés" />
-                                <jet-input id="timing" type="text" v-model="form.timing" autocomplete="off" :error="form.errors.timing" />
-                                <jet-input-error :message="form.errors.timing" class="mt-2" />
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="contact_id" value="Kapcsolattartó"/>
+                                <select name="contact_id" id="contact_id" v-model="form.contact_id">
+                                    <option v-for="contact in contacts" :key="contact.id" :value="contact.id">{{contact.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.location_id" class="mt-2" />
                             </div>
+                        </div>
 
+                        <div class="w-full mt-5">
+                            <jet-label for="files" value="Fájlok"/>
+                            <file-pond
+                                name="files"
+                                ref="pond"
+                                :required="false"
+                                v-bind:allow-multiple="true"
+                                accepted-file-types="application/*, image/*, .xls, .xlsx, .doc, .docx"
+                                max-files="5"
+                                v-bind:server="filesServer"
+                                label-idle='<p>Húzd ide a fájlokat vagy <span class="filepond--label-action" tabindex="0">Böngéssz</span></p>'
+                            />
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div v-for="(file, name) in files" :key="name">
+                                <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + file">{{name}}</a>
+                                <jet-button variant="danger" type="button" @click="deleteFile('files', file, name)">
+                                    Törlés
+                                </jet-button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <jet-label for="body" value="Leírás" />
+                            <editor
+                                v-model="form.body"
+                                id="body"
+                                name="body"
+                                api-key="skchna384fb9c6sj8ez6wr06oe6eqtedt3m8qburl2n2agbq"
+                                output-format="html"
+                                :init="{
+                                 height: 600,
+                                 language: 'hu_HU',
+                                 plugins: [
+                                   'link table lists print preview'
+                                 ],
+                                 toolbar:
+                                 'undo redo | styleselect fontsizeselect | bold italic underline| alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | forecolor backcolor | table link | print preview'
+                               }"
+                            />
+                            <jet-input-error :message="form.errors.body" class="mt-2" />
+                        </div>
+                        <div v-if="form.body" class="my-8">
+                            <div class="mb-3 text-2xl">Előnézet:</div>
+                            <article class="my-5 mx-auto prose max-w-none" v-html="form.body"/>
                         </div>
                     </div>
-                    <div class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
+                    <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
                         <jet-button :loading="form.processing">
                             Mentés
                         </jet-button>
@@ -45,11 +139,11 @@
         </div>
         <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
             <template #title>
-                Felhasználó törlése
+                Verseny törlése
             </template>
 
             <template #content>
-                Biztosan törölni szeretnéd a felhasználót ?
+                Biztosan törölni szeretnéd a versenyt ?
             </template>
 
             <template #footer>
@@ -66,7 +160,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from "@inertiajs/inertia";
 import PortalLayout from "@/Layouts/PortalLayout";
@@ -76,6 +170,15 @@ import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import BreadCrumb from "@/Shared/BreadCrumb";
+import JetCheckbox from "@/Jetstream/Checkbox";
+import Editor from '@tinymce/tinymce-vue';
+
+// Filepond
+import vueFilePond, { setOptions } from 'vue-filepond';
+import "filepond/dist/filepond.min.css";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType);
 
 export default {
     components: {
@@ -85,30 +188,70 @@ export default {
         JetInputError,
         JetLabel,
         JetConfirmationModal,
-        BreadCrumb
+        BreadCrumb,
+        JetCheckbox,
+        Editor,
+        FilePond
     },
     props: {
-        location: Object,
+        meet: Object,
+        locations: Object,
+        contacts: Object,
     },
-    setup(props) {
-        const { location } = props;
-        const confirmModalShow = ref(false);
 
+    setup(props) {
+        const { meet } = props;
+        const confirmModalShow = ref(false);
+        const files = reactive({});
+
+        const filesServer = {
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                process: {
+                    url: '/fileupload/store/files',
+                    onload: (resp) => {
+                    files.push(JSON.parse(resp));
+                },
+            },
+        }
 
         const form = useForm({
             _method: 'PUT',
-            city: location.city,
-            address: location.address,
-            pool: location.pool,
-            timing: location.timing,
+            name: meet.name,
+            slug: meet.slug,
+            folder: meet.folder,
+            host: meet.host,
+            type: meet.type,
+            phases: meet.phases,
+            date: meet.date,
+            deadline: meet.deadline,
+            location_id: meet.location_id,
+            contact_id: meet.contact_id,
         })
 
+        function slug(string) {
+            if(string == null) return '';
+            return string.toString().toLowerCase()
+                .replaceAll('.', '-')
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/&/g, `-and-`)         // & to and
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/-+$/, '');
+        }
+
+        watch([() => form.date, () => form.name], (values, prevValues) => {
+            form.slug = slug(values[0].split(' ')[0]) + '-' + slug(values[1])
+        });
+
         function update() {
-            form.put(route('admin:locations.update', location.id))
+            form.newFiles = files;
+            form.put(route('admin:meets.update', meet.id))
         }
 
         function deleteModel() {
-            form.delete(route('admin:locations.destroy', location.id))
+            form.delete(route('admin:meets.destroy', meet.id))
         }
 
         return {
@@ -116,6 +259,8 @@ export default {
             form,
             update,
             deleteModel,
+            filesServer,
+            files,
         }
     },
 }

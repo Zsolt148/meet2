@@ -16,6 +16,9 @@ Route::get('language/{language}', function ($language) {
     return redirect()->back();
 })->name('language');
 
+//todo
+Route::post('fileupload/store/{name}', [\App\Http\Controllers\FileUploadController::class, 'store']);
+
 // Jetstream and Fortify routes
 Route::middleware(['web'])
     ->group(base_path('routes/jetstream.php'));

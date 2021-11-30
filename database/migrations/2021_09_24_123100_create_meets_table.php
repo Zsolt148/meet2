@@ -25,6 +25,7 @@ class CreateMeetsTable extends Migration
             $table->dateTime('deadline');
             $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('contact_id')->nullable()->constrained()->nullOnDelete();
+            $table->boolean('is_visible')->default(0);
             $table->timestamps();
         });
     }

@@ -930,7 +930,7 @@ class MeetSeeder extends Seeder
                         'phases' => $meet['phases'],
                         'date' => $meet['date'],
                         'deadline' => (str_contains($meet['deadline'], ':')) ? Carbon::createFromFormat('Y.m.d H:i A', $meet['deadline']) : Carbon::createFromFormat('Y.m.d', $meet['deadline'])->format('Y-m-d') . ' 00:00:00',
-                        'slug' => $meet['slug'],
+                        'slug' => Str::slug(explode(' ', str_replace('.', '-', $meet['date']))[0] . ' ' . $meet['name']),
                         'location_id' => $meet['locations_id'],
                         'contact_id' => $meet['contacts_id'],
                         'created_at' => $meet['created_at'],

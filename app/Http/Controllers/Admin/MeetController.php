@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Contact;
+use App\Models\Location;
 use App\Models\Meet;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -78,6 +79,8 @@ class MeetController extends BaseAdminController
     {
         return Inertia::render('Admin/Meets/MeetsEdit', [
             'meet' => $meet,
+            'locations' => Location::all(),
+            'contacts' => Contact::all(),
         ]);
     }
 

@@ -21,11 +21,13 @@ class Meet extends Model
         'deadline',
         'location_id',
         'contact_id',
+        'is_visible',
     ];
 
     protected $casts = [
         'deadline' => 'datetime',
-        'phases' => 'integer'
+        'phases' => 'integer',
+        'is_visible' => 'boolean',
     ];
 
     public function location()
