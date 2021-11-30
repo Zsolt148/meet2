@@ -13,8 +13,8 @@
         <pagination class="my-5" :links="meets.links" />
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
-            <table class="w-full whitespace-nowrap">
-                <tr class="text-left font-bold">
+            <base-table>
+                <template #head>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('name')">
                             Név
@@ -45,43 +45,45 @@
                             <table-chevron :params="params" value="created_at" />
                         </span>
                     </th>
-                </tr>
-                <tr v-for="meet in meets.data" :key="meet.id" class="tr-class">
-                    <td class="td-class">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)">
-                            {{ meet.name }}
-                        </Link>
-                    </td>
-                    <td class="td-class">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                            {{ meet.host }}
-                        </Link>
-                    </td>
-                    <td class="td-class">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                            {{ meet.type }}
-                        </Link>
-                    </td>
-                    <td class="td-class">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                            {{ meet.date }}
-                        </Link>
-                    </td>
-                    <td class="td-class">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                            {{ meet.created_at }}
-                        </Link>
-                    </td>
-                    <td class="td-class w-px">
-                        <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                            <ChevronRightIcon class="w-5 h-5" />
-                        </Link>
-                    </td>
-                </tr>
-                <tr v-if="meets.data.length.value === 0">
-                    <td class="border-t px-6 py-2" colspan="4">Nem található verseny</td>
-                </tr>
-            </table>
+                </template>
+                <template #body>
+                    <tr v-for="meet in meets.data" :key="meet.id" class="tr-class">
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)">
+                                {{ meet.name }}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                                {{ meet.host }}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                                {{ meet.type }}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                                {{ meet.date }}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                                {{ meet.created_at }}
+                            </Link>
+                        </td>
+                        <td class="td-class w-px">
+                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                                <ChevronRightIcon class="w-5 h-5" />
+                            </Link>
+                        </td>
+                    </tr>
+                    <tr v-if="meets.data.length.value === 0">
+                        <td class="border-t px-6 py-2" colspan="4">Nem található verseny</td>
+                    </tr>
+                </template>
+            </base-table>
         </div>
         <pagination class="my-5" :links="meets.links" />
     </portal-layout>
@@ -96,6 +98,7 @@ import Pagination from '@/Shared/Pagination'
 import { getParams, getWatch } from '@/Use/useQuery';
 import TableChevron from '@/Shared/TableChevron'
 import { ref } from 'vue';
+import BaseTable from "@/Shared/BaseTable";
 
 export default {
     components: {
@@ -105,6 +108,7 @@ export default {
         Pagination,
         BaseSearch,
         TableChevron,
+        BaseTable,
     },
     props: {
         filters: Object,
@@ -120,7 +124,7 @@ export default {
         }
 
         function updateYear(value) {
-            params.search.year = value;
+            params.year.value = value;
         }
 
         function updateSort(field) {

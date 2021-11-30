@@ -20,7 +20,7 @@ class MeetController extends BaseAdminController
         $query = $this->getQuery(Meet::class, request(), ['name', 'host', 'type', 'date']);
 
         if($year = request('year')) {
-            $query->orWhere('date', 'LIKE', '%'.$year.'%');
+            $query->where('date', 'LIKE', '%'.$year.'%');
         }
 
         for($i = 0; $i < 8; $i++) {
@@ -28,7 +28,7 @@ class MeetController extends BaseAdminController
         }
 
         return Inertia::render('Admin/Meets/MeetsIndex', [
-            'filters' => request()->all(['search', 'field', 'direction']),
+            'filters' => request()->all(['search', 'field', 'direction', 'year']),
             'meets' => $query->paginate()->withQueryString(),
             'years' => $years,
         ]);

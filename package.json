@@ -31,6 +31,10 @@
     "dependencies": {
         "@heroicons/vue": "^1.0.5",
         "@popperjs/core": "^2.10.2",
+        "@tinymce/tinymce-vue": "^4.0.2",
+        "filepond": "^4.30.3",
+        "filepond-plugin-file-validate-type": "^1.2.6",
+        "vue-filepond": "^7.0.2",
         "yarn": "^1.22.17"
     },
     "packageManager": "yarn@3.1.0"

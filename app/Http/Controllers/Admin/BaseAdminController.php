@@ -46,9 +46,11 @@ abstract class BaseAdminController extends Controller
     protected function search($search, $query, array $fields)
     {
         if($search) {
-            foreach($fields as $field) {
-                $query->orWhere($field, 'LIKE', '%'.$search.'%');
-            }
+            $query->where(function($query) use (&$fields, &$search) {
+                foreach($fields as $field) {
+                    $query->orWhere($field, 'LIKE', '%'.$search.'%');
+                }
+            });
         }
 
         return $query;

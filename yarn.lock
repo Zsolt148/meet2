@@ -1374,6 +1374,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tinymce/tinymce-vue@npm:^4.0.2":
+  version: 4.0.5
+  resolution: "@tinymce/tinymce-vue@npm:4.0.5"
+  dependencies:
+    tinymce: ^5.5.0
+  peerDependencies:
+    vue: ^3.0.0
+  checksum: 72db78e3b6dc7c6a4d7a217f27f6e48dd9f21e07eaed1e20d45d9a85c3ca6bb8cbaa3127623b72c9525a294f98c02260ee70abcec942b28879b20c335af32c3c
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -3975,6 +3986,22 @@ __metadata:
   version: 12.4.2
   resolution: "file-type@npm:12.4.2"
   checksum: 67c8d7f8f032fd8cf4d14016d96567d20eeb7bf3524915f2c5d79337ca4e5338032d373a5fe827610eaf4ab7eb80629ff868331a66f63d1f9e9cc4c433e3f047
+  languageName: node
+  linkType: hard
+
+"filepond-plugin-file-validate-type@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "filepond-plugin-file-validate-type@npm:1.2.6"
+  peerDependencies:
+    filepond: ">=1.x <5.x"
+  checksum: 64fe521637f12ff6d6d0201f3c0d2b1c6c8d6e26e83c1e4da602763428624da18f2a7c68cdf517dd3155868c6ebac8015128bea5e2c7f92e008dfa27f08b1f40
+  languageName: node
+  linkType: hard
+
+"filepond@npm:^4.30.3":
+  version: 4.30.3
+  resolution: "filepond@npm:4.30.3"
+  checksum: f351835beb6b496c9bc733e6fadd15546e2455cb673c8b94ecc4900ba2411edd000e3f2b4d7e8a62fd7cc24f7e7ca8b7e18e0b87c41067c39ba111bc733b0ef7
   languageName: node
   linkType: hard
 
@@ -7212,10 +7239,13 @@ __metadata:
     "@popperjs/core": ^2.10.2
     "@tailwindcss/forms": ^0.2.1
     "@tailwindcss/typography": ^0.3.0
+    "@tinymce/tinymce-vue": ^4.0.2
     "@vue/babel-plugin-jsx": ^1.1.0
     "@vue/compiler-sfc": 3.0.10
     "@vueuse/core": ^6.5.3
     axios: ^0.21.4
+    filepond: ^4.30.3
+    filepond-plugin-file-validate-type: ^1.2.6
     laravel-mix: ^6.0.39
     lodash: ^4.17.19
     perfect-scrollbar: ^1.5.2
@@ -7223,6 +7253,7 @@ __metadata:
     postcss-import: ^14.0.1
     tailwindcss: ^2.2.16
     vue: ^3.2.22
+    vue-filepond: ^7.0.2
     vue-loader: ^16.8.3
     yarn: ^1.22.17
   languageName: unknown
@@ -7958,6 +7989,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tinymce@npm:^5.5.0":
+  version: 5.10.2
+  resolution: "tinymce@npm:5.10.2"
+  checksum: 6f80abd64f51f558a6135e48fb5061a5fed2badfc742c1560dfc1b56be2f9a30cfe48e48f8aaa14537dc9526ee70ece5408272245109114cdf894e07492497ff
+  languageName: node
+  linkType: hard
+
 "tmp@npm:^0.2.1":
   version: 0.2.1
   resolution: "tmp@npm:0.2.1"
@@ -8180,6 +8218,16 @@ __metadata:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
   checksum: d39a43e765e5bc34cf5b378ccff53a521e824f8c55aae6a9163c294364e8af593c5331b3b3b1b679b28096a3142abed5aed07e2dfb581c96f2eba88a176666f2
+  languageName: node
+  linkType: hard
+
+"vue-filepond@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "vue-filepond@npm:7.0.2"
+  peerDependencies:
+    filepond: ">=4.7.4 < 5.x"
+    vue: ">=3 < 4"
+  checksum: 54785eda44260f6d3ab830cee2625a68a98192f5160bad7d5d4e9d844bff732a42450afd06159d440db438c487abbb9e6f1bbce16dd5ecb252a95efc9b111e9b
   languageName: node
   linkType: hard
 
