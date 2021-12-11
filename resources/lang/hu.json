@@ -28,6 +28,27 @@
   "Privacy Policy": "Adatvédelmi irányelveket",
   "Remember me": "Emlékezz rám",
   "Whoops! Something went wrong.": "Hoppá, valami hiba történt",
-  "": ""
+  "": "",
+
+  "All": "Összes",
+  "Choose": "Válassz",
+  "Raceinfo": "Versenykiírás",
+  "Pre startlist": "Előzetes rajtlista",
+  "Race record": "Jegyzőkönyv",
+  "Time schedule": "Időterv",
+  "Startlist": "Rajtlista",
+  "Entries/Results": "Nevezés/Eredmények",
+  "Time schedule": "Időterv",
+  "Summary": "Összesítés",
+  "Type": "Típus",
+  "Event": "Versenyszám",
+  "Section": "Szakasz",
+  "Section": "Szakasz",
+  "Please, choose from the dropdown, there is no available data": "Kérjük válasszon a legördülő listából, még nincs elérhető információ",
+
+  "Team points race" : "Csapat pontverseny",
+  "Man" : "Férfi egyéni pontverseny",
+  "Woman" : "Női egyéni pontverseny",
+  "" : ""
 
 }

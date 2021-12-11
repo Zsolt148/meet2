@@ -67,4 +67,18 @@
         aspect-ratio: 960/300;
         @apply w-full bg-center bg-cover bg-no-repeat
     }
+
+    .link {
+        @apply hover:underline text-green hover:text-green-light dark:text-green-light dark:hover:text-green
+    }
+
+    .toggle-checkbox:checked {
+        @apply: right-0 border-green-400;
+        right: 0;
+        border-color: #68D391;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+        @apply: bg-green-400;
+        background-color: #68D391;
+    }
 }

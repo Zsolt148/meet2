@@ -7,7 +7,7 @@
 
                 <form @submit.prevent="update">
                     <div class="p-8 flex flex-col">
-                        <div class="mb-5">
+                        <div class="flex justify-between mb-5">
                             <jet-label for="is_visible">
                                 <div class="flex items-center text-xl">
                                     <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
@@ -17,6 +17,16 @@
                                     </div>
                                 </div>
                             </jet-label>
+<!--                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">-->
+<!--                                    <input type="checkbox" name="is_visible" id="is_visible" class="toggle-checkbox absolute block w-6 h-6 rounded-full border-2 bg-white appearance-none cursor-pointer" v-model:checked="form.is_visible"/>-->
+<!--                                    <label for="is_visible" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>-->
+<!--                                </div>-->
+<!--                                <label for="is_visible" class="text-xs text-gray-700">Látható</label>-->
+
+                            <jet-button size="sm" :href="route('meets.show', meet)">
+                                <EyeIcon class="w-5 h-5 mr-2" />
+                                Megtekintés
+                            </jet-button>
                         </div>
 
                         <div class="w-full flex flex-row space-x-4">
@@ -35,33 +45,51 @@
 
                         <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/2">
-                                <jet-label for="host" value="Rendező" />
-                                <jet-input id="host" type="text" v-model="form.host" autocomplete="off" />
-                                <jet-input-error :message="form.errors.host" class="mt-2" />
-                            </div>
-                            <div class="w-full sm:w-1/2">
-                                <jet-label for="type" value="Típus" />
-                                <jet-input id="type" type="text" v-model="form.type" autocomplete="off" />
-                                <jet-input-error :message="form.errors.type" class="mt-2" />
-                            </div>
-                        </div>
-
-                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
-                            <div class="w-full sm:w-1/2">
                                 <jet-label for="date" value="Dátum" />
-                                <jet-input id="date" type="text" v-model="form.date" autocomplete="off" />
+                                <Datepicker class="mt-1" :dark="isDark"
+                                            locale="hu" format="yyyy.MM.dd"
+                                            selectText="Mentés" cancelText="Mégse"
+                                            id="date" name="date"
+                                            v-model="form.date"
+                                            :enableTimePicker="false"
+                                            :timePicker="false"
+                                            range
+                                />
                                 <jet-input-error :message="form.errors.date" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/3">
-                                <jet-label for="deadline" value="Határidő" />
-                                <jet-input id="deadline" type="text" v-model="form.deadline" autocomplete="off"/>
+                            <div class="w-full sm:w-1/2">
+                                <jet-label for="deadline" value="Nevezési határidő" />
+                                <Datepicker class="mt-1" :dark="isDark"
+                                            locale="hu" format="yyyy.MM.dd HH:mm"
+                                            selectText="Mentés" cancelText="Mégse"
+                                            id="deadline" name="deadline"
+                                            v-model="form.deadline"
+                                />
                                 <jet-input-error :message="form.errors.deadline" class="mt-2" />
                             </div>
                         </div>
 
                         <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
                             <div class="w-full sm:w-1/3">
+                                <jet-label for="host" value="Rendező" />
+                                <jet-input id="host" type="text" v-model="form.host" autocomplete="off" />
+                                <jet-input-error :message="form.errors.host" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="type" value="Típus" />
+                                <jet-input id="type" type="text" v-model="form.type" autocomplete="off" />
+                                <jet-input-error :message="form.errors.type" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/3">
+                                <jet-label for="phases" value="Szakaszok száma" />
+                                <jet-input id="phases" type="number" v-model="form.phases" autocomplete="off" />
+                                <jet-input-error :message="form.errors.phases" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="location_id" value="Helyszín"/>
                                 <select name="location_id" id="location_id" v-model="form.location_id">
                                     <option v-for="location in locations" :key="location.id" :value="location.id">{{location.city}} - {{location.address}}</option>
@@ -69,7 +97,7 @@
                                 <jet-input-error :message="form.errors.location_id" class="mt-2" />
                             </div>
 
-                            <div class="w-full sm:w-1/3">
+                            <div class="w-full sm:w-1/2">
                                 <jet-label for="contact_id" value="Kapcsolattartó"/>
                                 <select name="contact_id" id="contact_id" v-model="form.contact_id">
                                     <option v-for="contact in contacts" :key="contact.id" :value="contact.id">{{contact.name}}</option>
@@ -92,12 +120,47 @@
                             />
                         </div>
 
-                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
-                            <div v-for="(file, name) in files" :key="name">
-                                <a class="text-blue-600 underline mr-3" target="_blank" :href="route('home') + '/events/' + form.slug + '/' + file">{{name}}</a>
-                                <jet-button variant="danger" type="button" @click="deleteFile('files', file, name)">
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4" v-show="meet.mediaFiles">
+                            <div v-for="(file, id) in meet.mediaFiles" :key="id">
+                                <a class="text-blue-600 dark:text-blue-400 underline mr-3" target="_blank" :href="file.url">{{ file.name.substring(0, 20) }}</a>
+                                <jet-button variant="secondary" size="sm" type="button" @click="deleteMedia(file.uuid)">
                                     Törlés
                                 </jet-button>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4 mt-5">
+                            <div class="w-full sm:w-1/4">
+                                <jet-label for="race_info_id" value="Versenykiírás"/>
+                                <select name="race_info_id" id="race_info_id" v-model="form.race_info_id">
+                                    <option value="">Üres</option>
+                                    <option v-for="file in meet.mediaFiles" :key="file.id" :value="file.uuid">{{file.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.race_info_id" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/4">
+                                <jet-label for="pre_startlist_id" value="Előzetes rajtlista"/>
+                                <select name="pre_startlist_id" id="pre_startlist_id" v-model="form.pre_startlist_id">
+                                    <option value="">Üres</option>
+                                    <option v-for="file in meet.mediaFiles" :key="file.id" :value="file.uuid">{{file.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.pre_startlist_id" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/4">
+                                <jet-label for="race_record_id" value="Jegyzőkönyv"/>
+                                <select name="race_record_id" id="race_record_id" v-model="form.race_record_id">
+                                    <option value="">Üres</option>
+                                    <option v-for="file in meet.mediaFiles" :key="file.id" :value="file.uuid">{{file.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.race_record_id" class="mt-2" />
+                            </div>
+                            <div class="w-full sm:w-1/4">
+                                <jet-label for="time_schedule_id" value="Időterv"/>
+                                <select name="time_schedule_id" id="time_schedule_id" v-model="form.time_schedule_id">
+                                    <option value="">Üres</option>
+                                    <option v-for="file in meet.mediaFiles" :key="file.id" :value="file.uuid">{{file.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.time_schedule_id" class="mt-2" />
                             </div>
                         </div>
 
@@ -112,6 +175,8 @@
                                 :init="{
                                  height: 600,
                                  language: 'hu_HU',
+                                 // skin: 'oxide-dark',
+                                 // content_css: 'dark',
                                  plugins: [
                                    'link table lists print preview'
                                  ],
@@ -121,12 +186,12 @@
                             />
                             <jet-input-error :message="form.errors.body" class="mt-2" />
                         </div>
-                        <div v-if="form.body" class="my-8">
-                            <div class="mb-3 text-2xl">Előnézet:</div>
-                            <article class="my-5 mx-auto prose max-w-none" v-html="form.body"/>
-                        </div>
+<!--                        <div v-if="form.body" class="my-8">-->
+<!--                            <div class="mb-3 text-2xl">Előnézet:</div>-->
+<!--                            <article class="my-5 mx-auto prose dark:prose-dark max-w-none" v-html="form.body"/>-->
+<!--                        </div>-->
                     </div>
-                    <div class="px-8 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                    <div class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
                         <jet-button :loading="form.processing">
                             Mentés
                         </jet-button>
@@ -135,6 +200,20 @@
                         </jet-button>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="mt-10" v-if="meet.news && meet.news[0]">
+            <div class="mb-5 font-bold text-2xl">
+                Leírás előzmények
+            </div>
+
+            <div v-for="news in meet.news" :key="news.id" class="bg-white dark:bg-gray-600 rounded-md shadow overflow-hidden mb-5">
+                <div class="p-5 flex flex-col">
+                    <div class="items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
+                        {{ news.created_at }}
+                    </div>
+                    <article class="my-5 prose dark:prose-dark max-w-none" v-html="news.body" />
+                </div>
             </div>
         </div>
         <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
@@ -160,7 +239,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive, watch, onMounted } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from "@inertiajs/inertia";
 import PortalLayout from "@/Layouts/PortalLayout";
@@ -172,6 +251,10 @@ import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import BreadCrumb from "@/Shared/BreadCrumb";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import Editor from '@tinymce/tinymce-vue';
+import Datepicker from 'vue3-date-time-picker';
+import 'vue3-date-time-picker/dist/main.css';
+import { isDark } from '@/Composables'
+import { EyeIcon } from '@heroicons/vue/outline'
 
 // Filepond
 import vueFilePond, { setOptions } from 'vue-filepond';
@@ -191,7 +274,10 @@ export default {
         BreadCrumb,
         JetCheckbox,
         Editor,
-        FilePond
+        FilePond,
+        Datepicker,
+        isDark,
+        EyeIcon
     },
     props: {
         meet: Object,
@@ -200,34 +286,39 @@ export default {
     },
 
     setup(props) {
-        const { meet } = props;
-        const confirmModalShow = ref(false);
-        const files = reactive({});
+        const { meet } = props
+        const confirmModalShow = ref(false)
+        const files = reactive([]);
 
         const filesServer = {
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                },
-                process: {
-                    url: '/fileupload/store/files',
-                    onload: (resp) => {
-                    files.push(JSON.parse(resp));
+            process: {
+                url: '/fileupload/store/files',
+                onload: (resp) => {
+                    files.push(JSON.parse(resp))
+                    console.log(files)
                 },
             },
         }
 
         const form = useForm({
             _method: 'PUT',
+            is_visible: meet.is_visible,
             name: meet.name,
             slug: meet.slug,
-            folder: meet.folder,
             host: meet.host,
             type: meet.type,
             phases: meet.phases,
-            date: meet.date,
+            date: [new Date(meet.date.split('-')[0]), new Date(meet.date.split('-')[1])],
             deadline: meet.deadline,
             location_id: meet.location_id,
             contact_id: meet.contact_id,
+            body: meet.latestNews ? meet.latestNews.body : null,
+            //files
+            files: [],
+            race_info_id: meet.race_info_id,
+            pre_startlist_id: meet.pre_startlist_id,
+            race_record_id: meet.race_record_id,
+            time_schedule_id: meet.time_schedule_id,
         })
 
         function slug(string) {
@@ -242,11 +333,15 @@ export default {
         }
 
         watch([() => form.date, () => form.name], (values, prevValues) => {
-            form.slug = slug(values[0].split(' ')[0]) + '-' + slug(values[1])
+            if (values[0] && values[0][0]) {
+                form.slug = slug(new Date(values[0][0]).toLocaleDateString() + '-' + values[1]);
+            }else {
+                form.slug = slug(values[1]);
+            }
         });
 
         function update() {
-            form.newFiles = files;
+            form.files = files
             form.put(route('admin:meets.update', meet.id))
         }
 
@@ -254,13 +349,19 @@ export default {
             form.delete(route('admin:meets.destroy', meet.id))
         }
 
+        function deleteMedia(mediaId) {
+            Inertia.delete(route('admin:meets.delete.media', mediaId));
+        }
+
         return {
             confirmModalShow,
             form,
             update,
             deleteModel,
+            deleteMedia,
             filesServer,
             files,
+            isDark,
         }
     },
 }

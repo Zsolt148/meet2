@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="ml-3">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">
+                        <div class="text-sm text-gray-700 dark:text-gray-300">
                             {{ session.agent.platform }} - {{ session.agent.browser }}
                         </div>
 

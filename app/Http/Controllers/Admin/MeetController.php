@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\MeetRequest;
+use App\Http\Resources\MediaResource;
+use App\Http\Resources\MediaResourceCollection;
 use App\Models\Contact;
 use App\Models\Location;
 use App\Models\Meet;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use App\Models\Media;
 
 class MeetController extends BaseAdminController
 {
@@ -42,7 +46,10 @@ class MeetController extends BaseAdminController
      */
     public function create()
     {
-        return Inertia::render('Admin/Meets/MeetsCreate');
+        return Inertia::render('Admin/Meets/MeetsCreate', [
+            'locations' => Location::all(),
+            'contacts' => Contact::all(),
+        ]);
     }
 
     /**
@@ -51,11 +58,39 @@ class MeetController extends BaseAdminController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MeetRequest $request)
     {
-        dd($request->all());
+        $meet = new Meet();
 
-        return redirect()->route('admin:meets.index')->with('success', 'Verseny sikeresen létrehozva');
+        $meet->is_visible = $request->is_visible;
+        $meet->name = $request->name;
+        $meet->slug = $request->slug;
+        $meet->date = meetDate($request->date);
+        $meet->deadline = $request->deadline;
+        $meet->host = $request->host;
+        $meet->type = $request->type;
+        $meet->phases = $request->phases;
+        $meet->location_id = $request->location_id;
+        $meet->contact_id = $request->contact_id;
+
+        $meet->save();
+
+        if($body = $request->body) {
+            $meet->news()->create([
+                'body' => $body,
+            ]);
+        }
+
+        $meet->update(['folder' => meetFolderName($meet)]);
+
+        foreach($request->post('files') as $file) {
+            $meet
+                ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
+                ->usingName($file['name'])
+                ->toMediaCollection('files');
+        }
+
+        return redirect()->route('admin:meets.edit', $meet)->with('success', 'Verseny sikeresen létrehozva');
     }
 
     /**
@@ -77,6 +112,16 @@ class MeetController extends BaseAdminController
      */
     public function edit(Meet $meet)
     {
+        $meet->load('news');
+        $meet->latestNews = $meet->latestNews();
+        $meet->mediaFiles = $meet->getMedia('files')
+            ->collect()
+            ->mapWithKeys(function ($media) {
+                return [
+                    $media->id => new MediaResource($media)
+                ];
+            });
+
         return Inertia::render('Admin/Meets/MeetsEdit', [
             'meet' => $meet,
             'locations' => Location::all(),
@@ -91,11 +136,72 @@ class MeetController extends BaseAdminController
      * @param  \App\Models\Meet  $meet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Meet $meet)
+    public function update(MeetRequest $request, Meet $meet)
     {
-        $meet->update($request->all());
+        $meet->fill($request->only(
+            'is_visible',
+            'name',
+            'slug',
+            'deadline',
+            'host',
+            'type',
+            'phases',
+            'location_id',
+            'contact_id',
+            'race_info_id',
+            'pre_startlist_id',
+            'race_record_id',
+            'time_schedule_id'
+        ));
+
+        $meet->date = meetDate($request->date);
+
+        $meet->save();
+
+        if($meet->latestNews()->body != $request->body) {
+            $meet->news()->create([
+                'body' => $request->body
+            ]);
+        }
+
+        foreach($request->post('files') as $file) {
+            if(Storage::disk('tmp')->exists($file['path'])) {
+                $meet
+                    ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
+                    ->usingName($file['name'])
+                    ->toMediaCollection('files');
+            }
+        }
 
         return redirect()->back()->with('success', 'Verseny sikeresen frissítve');
+    }
+
+    public function destroyMedia($mediaId)
+    {
+        $media = Media::findByUuid($mediaId);
+
+        $meet = $media->model;
+
+        if($media->raceInfo) {
+            $meet->race_info_id = null;
+        }
+
+        if($media->preStartlist) {
+            $meet->pre_startlist_id = null;
+        }
+
+        if($media->raceRecord) {
+            $meet->race_record_id = null;
+        }
+
+        if($media->timeSchedule) {
+            $meet->time_schedule_id = null;
+        }
+
+        $meet->save();
+        $media->delete();
+
+        return redirect()->back()->with('success', 'Fájl sikeresen törölve');
     }
 
     /**

@@ -12,4 +12,5 @@ Route::resource('locations', LocationController::class)->only('index', 'create',
 
 Route::resource('contacts', ContactController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
+Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
 Route::resource('meets', MeetController::class);

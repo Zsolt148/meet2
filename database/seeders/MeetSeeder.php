@@ -924,12 +924,13 @@ class MeetSeeder extends Seeder
                     [
                         'id' => $meet['id'],
                     ], [
+                        'is_visible' => true,
                         'name' => $meet['name'],
                         'host' => $meet['host'],
                         'type' => $meet['type'],
                         'phases' => $meet['phases'],
-                        'date' => $meet['date'],
-                        'deadline' => (str_contains($meet['deadline'], ':')) ? Carbon::createFromFormat('Y.m.d H:i A', $meet['deadline']) : Carbon::createFromFormat('Y.m.d', $meet['deadline'])->format('Y-m-d') . ' 00:00:00',
+                        'date' => $this->getDate($meet['date']),
+                        'deadline' => $this->getDeadline($meet['deadline']),
                         'slug' => Str::slug(explode(' ', str_replace('.', '-', $meet['date']))[0] . ' ' . $meet['name']),
                         'location_id' => $meet['locations_id'],
                         'contact_id' => $meet['contacts_id'],
@@ -940,5 +941,34 @@ class MeetSeeder extends Seeder
 
             $meet->update(['folder' => meetFolderName($meet)]);
         }
+    }
+
+    private function getDate($date)
+    {
+        if(str_contains($date, 'AM')) {
+            $pos = strpos($date, 'AM');
+            $string = substr($date, $pos - 6, 9);
+            $date = str_replace($string, '', $date);
+        }
+
+        if(str_contains($date, 'PM')) {
+            $pos = strpos($date, 'PM');
+            $string = substr($date, $pos - 6, 9);
+            $date = str_replace($string, '', $date);
+        }
+
+        // run it again if its still has
+        if(str_contains($date, 'AM') || str_contains($date, 'PM')) {
+            return $this->getDate($date);
+        }
+
+        return $date;
+    }
+
+    private function getDeadline($deadline)
+    {
+        return (str_contains($deadline, ':'))
+            ? Carbon::createFromFormat('Y.m.d H:i A', $deadline)
+            : Carbon::createFromFormat('Y.m.d', $deadline)->format('Y-m-d') . ' 00:00:00';
     }
 }

@@ -3,8 +3,8 @@
 
     <portal-layout>
         <div class="mx-auto my-5">
-            <div class="p-6 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1">
-                Welcome, {{ $page.props.user.name }}!
+            <div class="p-5 overflow-hidden bg-white rounded-md shadow-md dark:bg-dark-eval-1 text-xl">
+                Üdv, {{ $page.props.user.name }}!
             </div>
         </div>
     </portal-layout>

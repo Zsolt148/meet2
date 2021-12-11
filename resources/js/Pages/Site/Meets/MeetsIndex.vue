@@ -12,14 +12,16 @@
 
         <div class="max-w-7xl mx-auto py-8 px-0 xl:px-2">
 
-            <base-search @search="updateSearch" :search-term="params.search"></base-search>
+            <base-search @search="updateSearch" :search-term="params.search"
+                         @select="updateYear" :select-value="params.year" :select-values="years"
+            ></base-search>
 
             <pagination class="my-5" :links="meets.links" />
 
             <div v-for="data in meets.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white dark:bg-gray-600 shadow hover:shadow-md transition-shadow duration-300 ease-in-out rounded-lg w-full'">
                 <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
-                        <Link class="text-2xl text-black dark:text-white hover:underline" :href="route('meets.show', data.slug)">
+                        <Link class="text-2xl link" :href="route('meets.show', data.slug)">
                             {{ data.name }}
                         </Link>
                     </div>
@@ -50,9 +52,11 @@
                 </div>
             </div>
 
-            <div v-if="meets.data.length === 0" class="">
+            <div v-if="meets.data.length === 0" class="text-black dark:text-white">
                 Nincs a keresésnek '{{params.search}}' megfelelő találat
             </div>
+
+            <pagination class="my-5" :links="meets.links" />
 
         </div>
     </app-layout>
@@ -64,6 +68,7 @@ import {getParams, getWatch} from "@/Use/useQuery";
 import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import Pagination from '@/Shared/Pagination'
 import Icon from "@/Shared/Icon";
+import {ref} from "vue";
 
 export default {
     components: {
@@ -75,12 +80,18 @@ export default {
     props: {
         filters: Object,
         meets: Object,
+        years: Array,
     },
     setup(props) {
         const params = getParams(props);
+        params.year = ref(props.filters.year);
 
         function updateSearch(value) {
             params.search.value = value;
+        }
+
+        function updateYear(value) {
+            params.year.value = value;
         }
 
         function updateSort(field) {
@@ -93,6 +104,7 @@ export default {
         return {
             params,
             updateSearch,
+            updateYear,
             updateSort,
         }
     },
