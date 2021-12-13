@@ -6,11 +6,18 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
 use App\Http\Controllers\Admin\UsersController;
 
-Route::resource('users', UsersController::class)->only('index', 'edit', 'update', 'destroy');
+Route::prefix('admin')
+    ->name('admin:')
+    ->middleware(['auth:sanctum', 'verified', 'web', 'role:admin'])
+    ->group(function () {
 
-Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+        Route::resource('users', UsersController::class)->only('index', 'edit', 'update', 'destroy');
 
-Route::resource('contacts', ContactController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+        Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
-Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
-Route::resource('meets', MeetController::class);
+        Route::resource('contacts', ContactController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+
+        Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
+        Route::resource('meets', MeetController::class);
+
+    });

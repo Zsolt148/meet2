@@ -87,7 +87,7 @@ export default {
             'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500': variant == 'success',
             'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500': variant == 'danger',
             'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500': variant == 'warning',
-            'bg-cyan-500 text-white hover:bg-cyan-600 focus:ring-cyan-500': variant == 'info',
+            'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500': variant == 'info',
             'bg-black text-gray-300 hover:text-white hover:bg-gray-800 focus:ring-black dark:hover:bg-dark-eval-3':
                 variant == 'black',
         })

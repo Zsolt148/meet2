@@ -120,15 +120,15 @@
             },
         ]"
     >
-        <Button
-            iconOnly
-            variant="secondary"
-            type="button"
-            v-slot="{ iconSizeClasses }"
-            srText="Search"
-        >
-            <SearchIcon aria-hidden="true" :class="iconSizeClasses" />
-        </Button>
+<!--        <Button-->
+<!--            iconOnly-->
+<!--            variant="secondary"-->
+<!--            type="button"-->
+<!--            v-slot="{ iconSizeClasses }"-->
+<!--            srText="Search"-->
+<!--        >-->
+<!--            <SearchIcon aria-hidden="true" :class="iconSizeClasses" />-->
+<!--        </Button>-->
 
         <Link :href="route('portal:dashboard')">
             <ApplicationLogo class="w-10 h-10" />

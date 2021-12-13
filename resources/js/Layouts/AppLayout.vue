@@ -111,6 +111,12 @@
                     <jet-responsive-nav-link :href="route('meets.index')" :active="route().current('meets*')">
                         {{ __('Meets') }}
                     </jet-responsive-nav-link>
+                    <jet-responsive-nav-link :href="route('portal:dashboard')" v-if="$page.props.user">
+                        {{ __('Portal') }}
+                    </jet-responsive-nav-link>
+                    <jet-responsive-nav-link :href="route('login')" :active="route().current('login')" v-else>
+                        {{ __('Login') }}
+                    </jet-responsive-nav-link>
                 </div>
             </div>
         </nav>
@@ -127,7 +133,7 @@
         </main>
 
         <!--     FOOTER      -->
-        <section :class="route().current('home') ? 'bg-white' : 'bg-gray-100'" class="border-t border-gray-200 dark:border-gray-500 dark:bg-jet">
+        <section :class="route().current('home') ? 'bg-white' : 'bg-gray-100'" class="border-t border-gray-200 dark:border-gray-500 dark:bg-dark-eval-1">
             <div class="max-w-screen-xl px-4 py-12 mx-auto space-y-8 overflow-hidden sm:px-6 lg:px-8">
                 <nav class="flex flex-wrap justify-center -mx-5 -my-2">
                     <div class="px-5 py-2">

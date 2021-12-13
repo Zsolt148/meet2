@@ -123,7 +123,7 @@
                         <div class="w-full flex flex-wrap sm:flex-nowrap sm:flex-row sm:space-x-4" v-show="meet.mediaFiles">
                             <div v-for="(file, id) in meet.mediaFiles" :key="id">
                                 <a class="text-blue-600 dark:text-blue-400 underline mr-3" target="_blank" :href="file.url">{{ file.name.substring(0, 20) }}</a>
-                                <jet-button variant="secondary" size="sm" type="button" @click="deleteMedia(file.uuid)">
+                                <jet-button variant="secondary" size="sm" type="button" @click="confirmDeleteMedia(file.uuid)">
                                     Törlés
                                 </jet-button>
                             </div>
@@ -216,6 +216,25 @@
                 </div>
             </div>
         </div>
+        <jet-confirmation-modal :show="fileConfirmModalShow" @close="fileConfirmModalShow = false">
+            <template #title>
+                Fájl törlése
+            </template>
+
+            <template #content>
+                Biztosan törölni szeretnéd a fájlt ?
+            </template>
+
+            <template #footer>
+                <jet-button variant="secondary" type="button" class="mr-2" @click.native="fileConfirmModalShow = false">
+                    Mégse
+                </jet-button>
+
+                <jet-button variant="danger" type="button" @click.native="deleteMedia(fileToDeleteId)" :loading="form.processing">
+                    Törlés
+                </jet-button>
+            </template>
+        </jet-confirmation-modal>
         <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
             <template #title>
                 Verseny törlése
@@ -285,9 +304,10 @@ export default {
         contacts: Object,
     },
 
-    setup(props) {
-        const { meet } = props
+    setup({ meet }) {
         const confirmModalShow = ref(false)
+        const fileConfirmModalShow = ref(false)
+        const fileToDeleteId = ref(null)
         const files = reactive([]);
 
         const filesServer = {
@@ -349,16 +369,25 @@ export default {
             form.delete(route('admin:meets.destroy', meet.id))
         }
 
+        function confirmDeleteMedia(mediaId) {
+            fileToDeleteId.value = mediaId
+            fileConfirmModalShow.value = true
+        }
+
         function deleteMedia(mediaId) {
+            fileConfirmModalShow.value = false
             Inertia.delete(route('admin:meets.delete.media', mediaId));
         }
 
         return {
             confirmModalShow,
+            fileConfirmModalShow,
             form,
             update,
             deleteModel,
             deleteMedia,
+            confirmDeleteMedia,
+            fileToDeleteId,
             filesServer,
             files,
             isDark,

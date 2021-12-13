@@ -6,10 +6,18 @@
         </Head>
 
         <template #header>
-            <div class="pb-8">
-                <Link class="text-green-light" :href="route('meets.index')">{{__('Meets')}}</Link>
-                /
-                {{ meet.name }}
+            <div class="pb-8 flex justify-between">
+                <div>
+                    <Link class="text-green-light" :href="route('meets.index')">{{__('Meets')}}</Link>
+                    /
+                    {{ meet.name }}
+                </div>
+                <div>
+                    <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="$page.props.user && $page.props.user.role === 'admin'">
+                        <CogIcon class="w-5 h-5 mr-2" />
+                        Szerkesztés
+                    </jet-button>
+                </div>
             </div>
         </template>
 
@@ -18,10 +26,6 @@
                 <div class="flex flex-col sm:flex-row justify-between">
                     <h1 class="text-green dark:text-green-light text-3xl">
                         {{ meet.name }}
-                        <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="$page.props.user && $page.props.user.role === 'admin'">
-                            <CogIcon class="w-5 h-5 mr-2" />
-                            Szerkesztés
-                        </jet-button>
                     </h1>
                     <div class="flex items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
                         <icon name="calendar" class="w-4 h-4 mr-2" />
@@ -108,19 +112,23 @@
                 </div>
 
                 <div class="w-full my-10 flex justify-center">
-                    <article class="prose dark:prose-dark max-w-none overflow-x-auto text-center"
-                             v-if="!fileContent.loading && fileContent.data != 'empty'"
-                             v-html="fileContent.data"
-                             id="data"
-                    />
-                    <div v-else-if="!fileContent.loading && fileContent.data == 'empty'" class="flex justify-center items-center mt-5">
-                        <div class="text-gray-900 dark:text-gray-100 text-lg">
-                            {{ __('Please, choose from the dropdown, there is no available data') }}
+                    <transition-group>
+                        <div class="transition">
+                            <article class="prose dark:prose-dark max-w-none overflow-x-auto text-center"
+                                     v-if="!fileContent.loading && fileContent.data != 'empty'"
+                                     v-html="fileContent.data"
+                                     id="data"
+                            />
+                            <div v-else-if="!fileContent.loading && fileContent.data == 'empty'" class="flex justify-center items-center mt-5">
+                                <div class="text-gray-900 dark:text-gray-100 text-lg">
+                                    {{ __('Please, choose from the dropdown, there is no available data') }}
+                                </div>
+                            </div>
+                            <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-16 mb-48">
+                                <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
+                            </div>
                         </div>
-                    </div>
-                    <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-5">
-                        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
-                    </div>
+                    </transition-group>
                 </div>
             </div>
         </div>
@@ -174,11 +182,11 @@ export default {
 
         function toggleHide(bool) {
             if (bool) {
-                sections.hidden = true;
-                events.hidden = true;
+                sections.hidden = true
+                events.hidden = true
             }else {
-                sections.hidden = false;
-                events.hidden = false;
+                sections.hidden = false
+                events.hidden = false
             }
         }
 
@@ -193,8 +201,10 @@ export default {
         watch(
             () => type.selected,
             async (value) => {
+
                 sections.loading = true;
                 events.loading = true;
+
                 await axios
                     .get(route('api:meet.contents', {
                             meetId: props.meet.id,
@@ -252,6 +262,8 @@ export default {
             () => sections.selected,
             async (value) => {
 
+                events.loading = true;
+
                 if (value == null || value == 'null') {
                     events.selected = null
                     fileContent.data = 'empty'
@@ -263,7 +275,7 @@ export default {
                 // first select
                 switch(type.selected) {
                     case 'getStartlistSections':
-                        method = value == 'getStartlists' ? 'getStartlists' : 'getStartlistByParam'
+                        method = Number.isInteger(value) ? 'getStartlistByParam' : 'getStartlists'
                         break
                     case 'getResultSections':
                         method = Number.isInteger(value) ? 'getEventsByParam' : value
@@ -277,8 +289,6 @@ export default {
 
                 console.log('secondselect method: ' + method)
                 console.log('secondselect value: ' + value)
-
-                events.loading = true;
 
                 await axios
                     .get(route('api:meet.contents', {
@@ -316,6 +326,8 @@ export default {
             () => events.selected,
             async (value) => {
 
+                fileContent.loading = true
+
                 if (value == null || value == 'null') {
                     events.selected = null
                     fileContent.data = 'empty'
@@ -323,7 +335,6 @@ export default {
                 }
 
                 console.log('thirdselectvalue: ' + value)
-                fileContent.loading = true
                 await axios
                     .get(route('api:meet.contents', {
                             meetId: props.meet.id,
@@ -368,10 +379,12 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+.data-enter-active,
+.data-leave-active {
+    @apply ease-out opacity-100 duration-300;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+
+.data-enter, .data-leave-to {
+    @apply ease-in opacity-0 duration-200;
 }
 </style>
