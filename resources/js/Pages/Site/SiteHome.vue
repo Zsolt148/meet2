@@ -17,11 +17,11 @@
                     <jet-button :href="route('meets.index')">
                         {{__('Meets')}}
                     </jet-button>
-                    <Link :href="route('home')"
-                          class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">
-                        Hírek
-                        <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
-                    </Link>
+<!--                    <Link :href="route('home')"-->
+<!--                          class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">-->
+<!--                        Hírek-->
+<!--                        <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>-->
+<!--                    </Link>-->
                 </div>
             </div>
             <div class="w-full md:w-1/2 sm:pt-8 lg:w-4/6">

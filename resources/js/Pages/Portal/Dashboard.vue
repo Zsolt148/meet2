@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard" />
+    <Head :title="__('Dashboard')" />
 
     <portal-layout>
         <div class="mx-auto my-5">
