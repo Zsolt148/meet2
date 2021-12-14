@@ -4,7 +4,7 @@
         <meta head-key="description" name="description" content="meet.kvsc.info" />
     </Head>
 
-    <div class="flex flex-col min-h-screen dark:bg-dark-eval-1" :class="route().current('home') ? 'bg-white' : 'bg-gray-100'">
+    <div class="flex flex-col min-h-screen dark:bg-dark-eval-1 overflow-hidden" :class="route().current('home') ? 'bg-white' : 'bg-gray-100'">
 
         <!-- Primary Navigation Menu -->
         <nav class="bg-main">
@@ -129,6 +129,7 @@
                     <slot name="header"></slot>
                 </div>
             </header>
+            <!-- Main -->
             <slot></slot>
         </main>
 

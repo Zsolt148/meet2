@@ -116,23 +116,19 @@
                 </div>
 
                 <div class="w-full my-10 flex justify-center">
-                    <transition-group>
-                        <div class="transition">
-                            <article class="prose dark:prose-dark text-center overflow-x-scroll max-w-md sm:max-w-none"
-                                     v-if="!fileContent.loading && fileContent.data != 'empty'"
-                                     v-html="fileContent.data"
-                                     id="data"
-                            />
-                            <div v-else-if="!fileContent.loading && fileContent.data == 'empty'" class="flex justify-center items-center mt-5">
-                                <div class="text-gray-900 dark:text-gray-100 text-lg">
-                                    {{ __('Please, choose from the dropdown, there is no available data') }}
-                                </div>
-                            </div>
-                            <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-16 mb-60">
-                                <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
-                            </div>
+                    <article class="prose dark:prose-dark text-center overflow-x-scroll max-w-md sm:max-w-none"
+                             v-if="!fileContent.loading && fileContent.data != 'empty'"
+                             v-html="fileContent.data"
+                             id="data"
+                    />
+                    <div v-else-if="!fileContent.loading && fileContent.data == 'empty'" class="flex justify-center items-center mt-5">
+                        <div class="text-gray-900 dark:text-gray-100 text-lg">
+                            {{ __('Please, choose from the dropdown, there is no available data') }}
                         </div>
-                    </transition-group>
+                    </div>
+                    <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-16 mb-60">
+                        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
+                    </div>
                 </div>
             </div>
         </div>
