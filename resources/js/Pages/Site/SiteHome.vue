@@ -36,12 +36,12 @@
                 <div
                     class="rounded-lg bg-green text-black p-8 flex flex-col md:flex-row space-between items-center justify-between relative overflow-hidden">
                     <!-- LEFT PART -->
-                    <div class="flex flex-col lg:ml-14 xl:ml-28 max-w-sm lg:max-w-xl z-10">
-                        <h4 class="text-4xl text-center md:text-left font-bold text-white md:pb-2">
-                            You need more informations?
+                    <div class="flex flex-col lg:ml-14 xl:ml-28 max-w-sm lg:max-w-3xl z-10">
+                        <h4 class="text-2xl text-center md:text-left font-bold text-white md:pb-2">
+                            {{ __('Official results of swimming competitions - ') }} nevezes@kvsc.info
                         </h4>
                         <p class="text-center md:text-left text-gray-100 md:pb-6">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            {{ __('Follow the results online, even on mobiles too.') }}
                         </p>
                         <p class="text-xs text-gray-200 hidden md:block">
                             MME Team
