@@ -21,6 +21,11 @@ class UserSeeder extends Seeder
                 'email' => 'b.zsolt148@gmail.com',
                 'role' => 'admin',
                 'password' => '$2y$10$RTKomZaszHHGhelMjszMIeyn01vqv4dMe0GKKVizXtuDwZ0DN8NCC',
+            ],[
+                'name' => 'Kolonics Krisztián',
+                'email' => 'kolonics@kvsc.info',
+                'role' => 'admin',
+                'password' => '$2y$10$StbLrYkjt9cK1G1dWtuGCe743bAKp/GJA5qTU//XQhm0Xt/NNHg5i',
             ],
         ];
 

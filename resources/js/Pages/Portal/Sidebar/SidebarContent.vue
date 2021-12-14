@@ -5,7 +5,7 @@
         class="relative flex flex-col flex-1 max-h-full gap-4 px-3"
     >
         <SidebarLink
-            title="Kezdőlap"
+            :title="__('Dashboard')"
             :href="route('portal:dashboard')"
             :active="route().current('portal:dashboard')"
         >
@@ -17,7 +17,7 @@
             </template>
         </SidebarLink>
 
-        <div class="mt-4 flex items-center justify-between" v-show="isAdmin">
+        <div class="mt-4 flex items-center justify-between" v-show="isAdmin()">
             <span class="border-b border-gray-300 dark:border-gray-500 w-2/6"></span>
 
             <span class="text-xs text-center text-gray-500 dark:text-gray-200 uppercase">admin</span>
@@ -29,7 +29,7 @@
             title="Felhasználók"
             :href="route('admin:users.index')"
             :active="isUrl('admin/users*')"
-            v-show="isAdmin"
+            v-show="isAdmin()"
         >
             <template #icon>
                 <UserGroupIcon
@@ -42,7 +42,7 @@
         <SidebarCollapsible
             title="Versenyek"
             :active="isUrl('admin/meets*')"
-            v-show="isAdmin"
+            v-show="isAdmin()"
         >
             <template #icon>
                 <CalendarIcon
@@ -58,7 +58,7 @@
         <SidebarCollapsible
             title="Helyszínek"
             :active="isUrl('admin/locations*')"
-            v-show="isAdmin"
+            v-show="isAdmin()"
         >
             <template #icon>
                 <LocationMarkerIcon
@@ -74,7 +74,7 @@
         <SidebarCollapsible
             title="Kapcsolattartók"
             :active="isUrl('admin/contacts*')"
-            v-show="isAdmin"
+            v-show="isAdmin()"
         >
             <template #icon>
                 <AtSymbolIcon
@@ -137,7 +137,7 @@ export default {
 
     methods: {
         isAdmin() {
-            return this.$page.props.user.role === 'admin'; //TODO nicer
+            return this.$page.props.user.role === 'admin' //TODO nicer
         }
     }
 }

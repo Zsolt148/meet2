@@ -31,17 +31,17 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row md:space-x-6 text-gray-600 dark:text-gray-200 w-full mb-5">
-                    <div class="flex" v-if="data.location">
-                        <icon name="location-arrow" class="w-5 h-5 sm:w-4 sm:h-4 mt-1 mr-3 sm:mr-2" />
-                        <span>{{data.location.city}}, {{content.location.name}} <span v-if="content.location.address">- {{content.location.address}}</span></span>
-                    </div>
                     <div class="flex" v-if="data.type">
                         <icon name="swimmer" class="w-5 h-5 mt-1 mr-2" />
                         <span>{{data.type}}</span>
                     </div>
-                    <div class="flex" v-if="data.host">
+                    <div class="flex" v-if="data.location">
+                        <LocationMarkerIcon class="w-5 h-5 mr-2" />
+                        <span>{{data.location.city}} <span v-if="data.location.address">- {{data.location.address}}</span></span>
+                    </div>
+                    <div class="flex" v-if="data.location">
                         <icon name="pool" class="w-5 h-5 mt-1 mr-2" />
-                        <span>{{data.host}} M - {{data.host}} időmérés</span>
+                        <span>{{data.location.pool}} M - {{data.location.timing}}</span>
                     </div>
                 </div>
                 <div>
@@ -69,13 +69,15 @@ import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import Pagination from '@/Shared/Pagination'
 import Icon from "@/Shared/Icon";
 import {ref} from "vue";
+import { LocationMarkerIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
         AppLayout,
         BaseSearch,
         Pagination,
-        Icon
+        Icon,
+        LocationMarkerIcon
     },
     props: {
         filters: Object,

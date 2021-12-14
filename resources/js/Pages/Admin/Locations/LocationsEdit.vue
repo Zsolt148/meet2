@@ -1,4 +1,5 @@
 <template>
+    <Head title="Helyszín szerkesztése" />
     <portal-layout>
         <div>
             <bread-crumb :back-route="route('admin:locations.index')" back-name="Helyszínek" :current="form.city + ' ' + form.address" />

@@ -1,4 +1,5 @@
 <template>
+    <Head title="Helyszín létrehozása" />
     <portal-layout>
         <div>
             <bread-crumb :back-route="route('admin:locations.index')" back-name="Helyszínek" current="Új helyszín" />

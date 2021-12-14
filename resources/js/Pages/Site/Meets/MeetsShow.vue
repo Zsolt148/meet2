@@ -23,7 +23,7 @@
 
         <div class="max-w-7xl mx-auto py-8 px-0 xl:px-2">
             <div class="bg-white dark:bg-gray-600 -mt-16 shadow p-5 rounded-md">
-                <div class="flex flex-col sm:flex-row justify-between">
+                <div class="flex flex-col sm:flex-row justify-between mb-2">
                     <h1 class="text-green dark:text-green-light text-3xl">
                         {{ meet.name }}
                     </h1>
@@ -34,17 +34,21 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row md:space-x-6 text-gray-600 dark:text-gray-200 w-full mb-5">
-                    <div class="flex" v-if="meet.location">
-                        <icon name="location-arrow" class="w-5 h-5 sm:w-4 sm:h-4 mt-1 mr-3 sm:mr-2" />
-                        <span>{{meet.location.city}}, {{meet.location.name}} <span v-if="meet.location.address">- {{meet.location.address}}</span></span>
-                    </div>
                     <div class="flex" v-if="meet.type">
                         <icon name="swimmer" class="w-5 h-5 mt-1 mr-2" />
                         <span>{{meet.type}}</span>
                     </div>
-                    <div class="flex" v-if="meet.host">
+                    <div class="flex" v-if="meet.contact">
+                        <AtSymbolIcon class="w-5 h-5 mr-2" />
+                        <span>{{meet.contact.name}} - {{meet.contact.email}}</span>
+                    </div>
+                    <div class="flex" v-if="meet.location">
+                        <LocationMarkerIcon class="w-5 h-5 mr-2" />
+                        <span>{{meet.location.city}} <span v-if="meet.location.address">- {{meet.location.address}}</span></span>
+                    </div>
+                    <div class="flex" v-if="meet.location">
                         <icon name="pool" class="w-5 h-5 mt-1 mr-2" />
-                        <span>{{meet.host}} M - {{meet.host}} időmérés</span>
+                        <span>{{meet.location.pool}} M - {{meet.location.timing}}</span>
                     </div>
                 </div>
 
@@ -114,7 +118,7 @@
                 <div class="w-full my-10 flex justify-center">
                     <transition-group>
                         <div class="transition">
-                            <article class="prose dark:prose-dark max-w-none overflow-x-auto text-center"
+                            <article class="prose dark:prose-dark text-center overflow-x-scroll max-w-md sm:max-w-none"
                                      v-if="!fileContent.loading && fileContent.data != 'empty'"
                                      v-html="fileContent.data"
                                      id="data"
@@ -124,7 +128,7 @@
                                     {{ __('Please, choose from the dropdown, there is no available data') }}
                                 </div>
                             </div>
-                            <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-16 mb-48">
+                            <div v-else-if="fileContent.loading" class="flex justify-center items-center mt-16 mb-60">
                                 <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 dark:border-gray-100" />
                             </div>
                         </div>
@@ -142,7 +146,7 @@ import JetButton from '@/Jetstream/Button'
 import JetInput from '@/Jetstream/Input'
 import {ref, reactive, watch} from 'vue'
 import Icon from "@/Shared/Icon"
-import { DocumentIcon, CogIcon } from '@heroicons/vue/outline'
+import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
@@ -152,7 +156,9 @@ export default {
         JetInput,
         Icon,
         DocumentIcon,
-        CogIcon
+        CogIcon,
+        LocationMarkerIcon,
+        AtSymbolIcon,
     },
     props: ['meet'],
     setup(props) {
@@ -222,8 +228,8 @@ export default {
                                     id: 'getStartlists',
                                     name: 'All',
                                 });
-                                sections.selected = (Array.isArray(sections.data)) ? sections.data[0].id : null
-                                break;
+                                sections.selected = (Array.isArray(sections.data) && sections.data[0]) ? sections.data[0].id : null
+                                break
                             case 'getResultSections':
                                 clearSelects()
                                 sections.data = resp.data
@@ -231,20 +237,20 @@ export default {
                                     id: 'getResults',
                                     name: 'All',
                                 });
-                                sections.selected = (Array.isArray(sections.data)) ? sections.data[0].id : null
-                                break;
+                                sections.selected = (Array.isArray(sections.data) && sections.data[0]) ? sections.data[0].id : null
+                                break
                             case 'getTimeSchedule':
                                 toggleHide(true)
                                 events.selected = resp.data.id
-                                break;
+                                break
                             case 'getSummary':
                                 clearSelects()
                                 sections.data = resp.data
-                                sections.selected = (Array.isArray(sections.data)) ? sections.data[0].id : null
-                                break;
+                                sections.selected = (Array.isArray(sections.data) && sections.data[0]) ? sections.data[0].id : null
+                                break
                             default:
                                 clearSelects()
-                                break;
+                                break
                         }
 
                     }).catch(err => {
@@ -266,7 +272,7 @@ export default {
 
                 if (value == null || value == 'null') {
                     events.selected = null
-                    fileContent.data = 'empty'
+                    events.loading = false
                     return;
                 }
 
@@ -285,6 +291,7 @@ export default {
                         break
                     default:
                         method = value
+                        break
                 }
 
                 console.log('secondselect method: ' + method)
@@ -301,7 +308,7 @@ export default {
                         switch (method) {
                             case 'getStartlistByParam':
                                 events.hidden = true
-                                events.selected = resp.data[0].id
+                                events.selected = (resp.data[0]) ? resp.data[0].id : null
                                 break
                             case 'getFileContent':
                                 events.hidden = true
@@ -310,13 +317,18 @@ export default {
                             default:
                                 events.hidden = false
                                 events.data = resp.data
-                                events.selected = (Array.isArray(resp.data)) ? resp.data[0].id : null
+                                events.selected = (Array.isArray(resp.data) && resp.data[0]) ? resp.data[0].id : null
+                                if (!events.selected) {
+                                    fileContent.data = 'empty'
+                                }
+                                break
                         }
                     }).catch(err => {
                         console.error(err)
                         fileContent.data = 'empty'
                     });
 
+                //console.log('events selected value: ' + events.selected)
                 events.loading = false;
             }
         );
@@ -326,15 +338,16 @@ export default {
             () => events.selected,
             async (value) => {
 
+                console.log('thirdselectvalue: ' + value)
                 fileContent.loading = true
 
                 if (value == null || value == 'null') {
-                    events.selected = null
+                    //events.selected = null
                     fileContent.data = 'empty'
+                    fileContent.loading = false
                     return;
                 }
 
-                console.log('thirdselectvalue: ' + value)
                 await axios
                     .get(route('api:meet.contents', {
                             meetId: props.meet.id,

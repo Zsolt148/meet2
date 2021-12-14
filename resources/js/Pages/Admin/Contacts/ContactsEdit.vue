@@ -1,4 +1,5 @@
 <template>
+    <Head title="Kapcsolattartó szerkesztése" />
     <portal-layout>
         <div>
             <bread-crumb :back-route="route('admin:contacts.index')" back-name="Kapcsolattartók" :current="form.name" />

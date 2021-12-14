@@ -6,7 +6,7 @@
             <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-12 md:pr-16 md:mb-0">
                 <h2 class="mb-8 text-xs font-semibold tracking-widest text-black dark:text-white uppercase title-font">
                     Üdvözöljük az új oldalon!</h2>
-                <h1 class="mb-8 text-5xl font-black tracking-tighter text-green dark:text-green-light title-font">
+                <h1 class="mb-8 text-4xl md:text-5xl font-black tracking-tighter text-green dark:text-green-light title-font">
                     meet.kvsc.info</h1>
                 <p class="mb-8 text-base leading-relaxed text-left text-black dark:text-white">
                     Online {{__('news')}} <br>
@@ -78,21 +78,21 @@
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row md:space-x-6 text-gray-600 dark:text-gray-200 w-full mb-5">
-                    <div class="flex" v-if="data.location">
-                        <icon name="location-arrow" class="w-5 h-5 sm:w-4 sm:h-4 mt-1 mr-3 sm:mr-2"/>
-                        <span>{{data.location.city}}, {{content.location.name}} <span v-if="content.location.address">- {{content.location.address}}</span></span>
-                    </div>
                     <div class="flex" v-if="data.type">
-                        <icon name="swimmer" class="w-5 h-5 mt-1 mr-2"/>
+                        <icon name="swimmer" class="w-5 h-5 mt-1 mr-2" />
                         <span>{{data.type}}</span>
                     </div>
-                    <div class="flex" v-if="data.host">
-                        <icon name="pool" class="w-5 h-5 mt-1 mr-2"/>
-                        <span>{{data.host}} M - {{data.host}} időmérés</span>
+                    <div class="flex" v-if="data.location">
+                        <LocationMarkerIcon class="w-5 h-5 mr-2" />
+                        <span>{{data.location.city}} <span v-if="data.location.address">- {{data.location.address}}</span></span>
+                    </div>
+                    <div class="flex" v-if="data.location">
+                        <icon name="pool" class="w-5 h-5 mt-1 mr-2" />
+                        <span>{{data.location.pool}} M - {{data.location.timing}}</span>
                     </div>
                 </div>
                 <div>
-                    <article class="my-5 prose dark:prose-dark max-w-none bg-gray-100"
+                    <article class="my-5 prose dark:prose-dark max-w-none bg-gray-100 dark:bg-gray-600"
                              v-if="data.latestNews && data.latestNews.body" v-html="data.latestNews.body"/>
                 </div>
                 <div>
@@ -136,12 +136,14 @@
 import AppLayout from '@/Layouts/AppLayout'
 import JetButton from "@/Jetstream/Button";
 import Icon from "@/Shared/Icon"
+import { LocationMarkerIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
         AppLayout,
         JetButton,
         Icon,
+        LocationMarkerIcon
     },
     props: {
         meets: Object

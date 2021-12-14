@@ -152,17 +152,16 @@ return [
 
     'attributes' => [
         'name' => 'Név',
-        'original_name' => 'Eredeti név',
         'email' => 'Email',
+        'password' => 'Jelszó',
+        'current_password' => 'Jelenlegi jelszó',
         'role' => 'Jogosultság',
         'short' => 'Rövidítés',
-        'sa' => 'SA',
         'address' => 'Cím',
-        'webpage' => 'Weboldal',
         'contact_name' => 'Kapcsolattartó neve',
         'contact_email' => 'Kapcsolattartó email címe',
         'slug' => 'URL',
-        'type' => 'Típus', //news / document
+        'type' => 'Típus',
         'date' => 'Dátum',
         'is_visible' => 'Látható',
         'body' => 'Szöveg',

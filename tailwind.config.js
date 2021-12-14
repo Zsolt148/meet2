@@ -71,34 +71,34 @@ module.exports = {
                         strong: {
                             color: theme('colors.white'),
                         },
-                        'ol > li::before': {
-                            color: theme('colors.gray.200'),
-                        },
-                        'ul > li::before': {
-                            backgroundColor: theme('colors.gray.600'),
-                        },
-                        hr: {
-                            borderColor: theme('colors.gray.200'),
-                        },
-                        blockquote: {
-                            color: theme('colors.gray.200'),
-                            borderLeftColor: theme('colors.gray.600'),
-                        },
-                        h1: {
-                            color: theme('colors.white'),
-                        },
-                        h2: {
-                            color: theme('colors.white'),
-                        },
-                        h3: {
-                            color: theme('colors.white'),
-                        },
-                        h4: {
-                            color: theme('colors.white'),
-                        },
-                        'figure figcaption': {
-                            color: theme('colors.gray.200'),
-                        },
+                        // 'ol > li::before': {
+                        //     color: theme('colors.gray.200'),
+                        // },
+                        // 'ul > li::before': {
+                        //     backgroundColor: theme('colors.gray.600'),
+                        // },
+                        // hr: {
+                        //     borderColor: theme('colors.gray.200'),
+                        // },
+                        // blockquote: {
+                        //     color: theme('colors.gray.200'),
+                        //     borderLeftColor: theme('colors.gray.600'),
+                        // },
+                        // h1: {
+                        //     color: theme('colors.white'),
+                        // },
+                        // h2: {
+                        //     color: theme('colors.white'),
+                        // },
+                        // h3: {
+                        //     color: theme('colors.white'),
+                        // },
+                        // h4: {
+                        //     color: theme('colors.white'),
+                        // },
+                        // 'figure figcaption': {
+                        //     color: theme('colors.gray.200'),
+                        // },
                         pre: {
                             color: theme('colors.gray.100'),
                             backgroundColor: theme('colors.gray.600'),

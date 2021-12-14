@@ -6,11 +6,11 @@
 
         <jet-dialog-modal :show="confirmingPassword" @close="closeModal">
             <template #title>
-                {{ title }}
+                {{ __(title) }}
             </template>
 
             <template #content>
-                {{ content }}
+                {{ __(content) }}
 
                 <div class="mt-4">
                     <jet-input type="password" class="mt-1 block w-3/4" placeholder="Password"
@@ -24,11 +24,11 @@
 
             <template #footer>
                 <jet-button variant="secondary" type="button" @click="closeModal">
-                    Cancel
+                    {{__('Cancel')}}
                 </jet-button>
 
                 <jet-button class="ml-2" @click="confirmPassword" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    {{ button }}
+                    {{ __(button) }}
                 </jet-button>
             </template>
         </jet-dialog-modal>

@@ -74,6 +74,9 @@
                 />
             </Button>
 
+            <!-- Language Selector -->
+            <language-selector />
+
             <!-- Dropdwon -->
             <jet-dropdown width="48" align="right">
                 <template #trigger>
@@ -92,18 +95,18 @@
                 <template #content>
                     <!-- Account Management -->
                     <div class="block px-4 py-2 text-xs text-gray-700 dark:text-gray-200">
-                        Profil kezelése
+                        {{__('Profile settings')}}
                     </div>
 
                     <jet-dropdown-link :href="route('profile.show')">
-                        Beállítások
+                        {{__('Settings')}}
                     </jet-dropdown-link>
 
                     <div class="border-t border-gray-100 dark:border-gray-700"></div>
 
                     <!-- Authentication -->
                     <jet-dropdown-link :href="route('logout')" method="post">
-                        Kijelentkezés
+                        {{__('Logout')}}
                     </jet-dropdown-link>
                 </template>
             </jet-dropdown>
@@ -182,6 +185,7 @@ import ApplicationLogo from '@/Jetstream/ApplicationLogo'
 import JetDropdown from "@/Jetstream/Dropdown";
 import JetDropdownLink from "@/Jetstream/DropdownLink";
 import { ArrowsInnerIcon } from '@/Icons/outline.jsx'
+import LanguageSelector from "@/Shared/LanguageSelector";
 
 export default {
     components: {
@@ -189,6 +193,7 @@ export default {
         Button,
         JetDropdown,
         JetDropdownLink,
+        LanguageSelector,
         // icons
         SunIcon,
         MoonIcon,

@@ -1,11 +1,11 @@
 <template>
     <jet-form-section @submitted="updatePassword">
         <template #title>
-            Update Password
+            {{__('Update Password')}}
         </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
+            {{__('Ensure your account is using a long, random password to stay secure.')}}
         </template>
 
         <template #form>
@@ -30,11 +30,11 @@
 
         <template #actions>
             <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-                Saved.
+                {{__('Saved.')}}
             </jet-action-message>
 
             <jet-button :loading="form.processing">
-                Save
+                {{__('Save')}}
             </jet-button>
         </template>
     </jet-form-section>

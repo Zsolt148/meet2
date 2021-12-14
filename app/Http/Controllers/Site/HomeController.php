@@ -13,6 +13,7 @@ class HomeController extends Controller
     {
         $meets = Meet::query()
             ->visible()
+            ->with('location')
             ->latest()
             ->limit(5)
             ->get()

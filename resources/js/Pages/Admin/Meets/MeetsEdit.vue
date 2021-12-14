@@ -203,11 +203,33 @@
             </div>
         </div>
         <div class="mt-10" v-if="meet.news && meet.news[0]">
-            <div class="mb-5 font-bold text-2xl">
+            <div class="mb-5 font-bold text-xl flex flex-row cursor-pointer" @click="historyIsOpen = !historyIsOpen">
                 Leírás előzmények
+                <span
+                    class="relative w-6 h-6 mt-1 ml-2"
+                >
+                    <span
+                        :class="[
+                            'absolute right-[9px] bg-black dark:bg-white mt-[-5px] h-2 w-[2px] top-1/2 transition-all duration-200',
+                            {
+                                '-rotate-45': historyIsOpen,
+                                'rotate-45': !historyIsOpen,
+                            },
+                        ]"
+                    ></span>
+                    <span
+                        :class="[
+                            'absolute left-[9px] bg-black dark:bg-white mt-[-5px] h-2 w-[2px] top-1/2 transition-all duration-200',
+                            {
+                                'rotate-45': historyIsOpen,
+                                '-rotate-45': !historyIsOpen,
+                            },
+                        ]"
+                    ></span>
+                </span>
             </div>
 
-            <div v-for="news in meet.news" :key="news.id" class="bg-white dark:bg-gray-600 rounded-md shadow overflow-hidden mb-5">
+            <div v-for="news in meet.news" :key="news.id" class="bg-white dark:bg-gray-600 rounded-md shadow overflow-hidden mb-5" v-if="historyIsOpen">
                 <div class="p-5 flex flex-col">
                     <div class="items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
                         {{ news.created_at }}
@@ -309,6 +331,7 @@ export default {
         const fileConfirmModalShow = ref(false)
         const fileToDeleteId = ref(null)
         const files = reactive([]);
+        const historyIsOpen = ref(false)
 
         const filesServer = {
             process: {
@@ -391,6 +414,7 @@ export default {
             filesServer,
             files,
             isDark,
+            historyIsOpen
         }
     },
 }

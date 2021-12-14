@@ -12,13 +12,13 @@
                 <div class="flex justify-between h-16 border-b border-gray-400 border-opacity-60">
 
                     <!-- Logo -->
-                    <div class="flex-shrink-0 flex items-center px-4 xl:px-2">
+                    <div class="flex-shrink-0 flex items-center pl-4 sm:px-4 xl:px-2">
                         <jet-application-logo classes="text-white" />
                     </div>
 
                     <!-- Navigation Links -->
-                    <div class="flex px-4 xl:px-2">
-                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <div class="flex px-0 sm:px-4 xl:px-2">
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 md:flex">
                             <jet-nav-link :href="route('home')" :active="route().current('home')">
                                 {{ __('Home') }}
                             </jet-nav-link>
@@ -88,7 +88,7 @@
                         <language-selector />
 
                         <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden px-4">
+                        <div class="-mr-2 flex items-center md:hidden px-4">
                             <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -103,7 +103,7 @@
             </div>
 
             <!-- Responsive Navigation Menu -->
-            <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+            <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="md:hidden">
                 <div class="pt-2 pb-3 space-y-1">
                     <jet-responsive-nav-link :href="route('home')" :active="route().current('home')">
                         {{ __('Home') }}

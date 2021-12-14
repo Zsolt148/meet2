@@ -21,7 +21,9 @@ class MeetController extends Controller
             'field' => ['in:name,created_at'],
         ]);
 
-        $query = Meet::query()->visible();
+        $query = Meet::query()
+            ->with('location')
+            ->visible();
 
         if($search = request('search')) {
             $query->where(function ($query) use ($search) {
@@ -67,6 +69,7 @@ class MeetController extends Controller
             abort_if(!$meet->is_visible, 404);
         }
 
+        $meet->load('location', 'contact');
         $meet = $meet->getMediaFiles();
         $meet->latestNews = $meet->latestNews();
 
