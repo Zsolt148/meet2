@@ -41,6 +41,8 @@
                 <tr v-for="user in users.data" :key="user.id" class="tr-class">
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:users.edit', user.id)">
+                            <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-8 w-8 object-cover mr-4">
+
                             {{ user.name }}
                         </Link>
                     </td>

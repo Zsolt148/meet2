@@ -106,9 +106,13 @@
                             </div>
                         </div>
 
+
                         <div class="w-full mt-5">
-                            <jet-label for="files" value="Fájlok"/>
+                            <label class="block font-medium text-sm text-gray-700 dark:text-white" for="files">
+                                Fájlok - <a class="link cursor-pointer" @click="fileNamingModal = true">Fájl elnevezési tematika</a>
+                            </label>
                             <file-pond
+                                id="files"
                                 name="files"
                                 ref="pond"
                                 :required="false"
@@ -238,6 +242,36 @@
                 </div>
             </div>
         </div>
+        <jet-dialog-modal :show="fileNamingModal" @close="fileNamingModal = false">
+            <template #title>
+                Fájl elnevezési tematika
+            </template>
+            <template #content>
+                <div class="prose dark:prose-dark max-w-none dark:bg-gray-700">
+                    <ul>
+                        <li>Rajtlisták: <b>rajtlista.htm</b> vagy <b>startlist.htm</b></li>
+                        <li>Összes Eredmény: <b>results.htm</b></li>
+                        <li>Szakasz rajtlisák: <b>meetprogs1.htm</b> (A szám ahanyadik szakasznak a rajtlistája)</li>
+                        <li>Időterv: <b>idoterv.htm</b> vagy <b>schedule.htm</b></li>
+                        <li>Összesítés:
+                            <ul>
+                                <li>Éremtablazat: <b>eremtablazat.htm</b></li>
+                                <li>Csapat pontverseny: <b>csapat_pontverseny.htm</b></li>
+                                <li>Férfi egyéni pontverseny: <b>ferfi_egyeni_pontverseny.htm</b></li>
+                                <li>Női egyéni pontverseny: <b>noi_egyeni_pontverseny.htm</b></li>
+                                <li>Férfi abszolút pontverseny: <b>ferfi_abszolut.htm</b></li>
+                                <li>Nőit abszolút pontverseny:<b>noi_abszolut.htm</b></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+            <template #footer>
+                <jet-button variant="secondary" type="button" class="mr-2" @click.native="fileNamingModal = false">
+                    Bezárás
+                </jet-button>
+            </template>
+        </jet-dialog-modal>
         <jet-confirmation-modal :show="fileConfirmModalShow" @close="fileConfirmModalShow = false">
             <template #title>
                 Fájl törlése
@@ -289,6 +323,7 @@ import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
+import JetDialogModal from "@/Jetstream/DialogModal";
 import BreadCrumb from "@/Shared/BreadCrumb";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import Editor from '@tinymce/tinymce-vue';
@@ -312,6 +347,7 @@ export default {
         JetInputError,
         JetLabel,
         JetConfirmationModal,
+        JetDialogModal,
         BreadCrumb,
         JetCheckbox,
         Editor,
@@ -327,6 +363,7 @@ export default {
     },
 
     setup({ meet }) {
+        const fileNamingModal = ref(false)
         const confirmModalShow = ref(false)
         const fileConfirmModalShow = ref(false)
         const fileToDeleteId = ref(null)
@@ -403,6 +440,7 @@ export default {
         }
 
         return {
+            fileNamingModal,
             confirmModalShow,
             fileConfirmModalShow,
             form,

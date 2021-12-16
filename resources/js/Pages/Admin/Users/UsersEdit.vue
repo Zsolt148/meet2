@@ -5,6 +5,9 @@
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
                 <form @submit.prevent="update">
                     <div class="p-8">
+                        <div class="mb-5">
+                            <img :src="editUser.profile_photo_url" :alt="editUser.name" class="rounded-full h-20 w-20 object-cover">
+                        </div>
                         <div class="space-x-4 flex flex-row">
                             <div class="w-1/3">
                                 <jet-label for="name" value="Név" />

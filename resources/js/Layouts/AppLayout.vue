@@ -139,37 +139,37 @@
                 <nav class="flex flex-wrap justify-center -mx-5 -my-2">
                     <div class="px-5 py-2">
                         <a href="#" class="text-base leading-6 text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-gray-300">
-                            Impresszum
+                            {{ __('Imprint') }}
                         </a>
                     </div>
                     <div class="px-5 py-2">
                         <a href="#" class="text-base leading-6 text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-gray-300">
-                            Adatvédelmi Irányelvek
+                            {{ __('Privacy Policy') }}
                         </a>
                     </div>
                     <div class="px-5 py-2">
                         <a href="#" class="text-base leading-6 text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-gray-300">
-                            Elérhetőség
+                            {{ __('Availability') }}
                         </a>
                     </div>
                 </nav>
                 <p class="mt-8 text-base leading-6 text-center text-gray-400">
-                    © 2021 MME Team. All rights reserved.
+                    © 2021 MME Team. {{__('All rights reserved.')}}
                 </p>
             </div>
         </section>
     </div>
     <!--    COOKIES    -->
     <div class="fixed bottom-5 right-0 lg:right-4 p-4 bg-white dark:bg-gray-800 border-t-4 border-gray-300 dark:border-gray-500 shadow-lg rounded w-full sm:w-1/2 md:w-1/3 lg:w-1/4" v-if="!cookieAccepted">
-        <h2 class="text-lg lg:text-xl mb-4 block font-bold leading-tight text-gray-700 dark:text-white">Sütik használata</h2>
+        <h2 class="text-lg lg:text-xl mb-4 block font-bold leading-tight text-gray-700 dark:text-white">{{ __('Use of cookies') }}</h2>
         <div class="flex flex-col">
             <p class="mb-5 font-medium text-gray-600 dark:text-gray-200">
-                A weboldal sütiket (cookie-kat) használ, hogy biztonságos böngészés mellett a legjobb felhasználói élményt nyújtsa.
+                {{ __('The website uses cookies in order to provide the best user experience while browsing securely.') }}
             </p>
-            <button class="w-full px-3 py-1 bg-gray-300 dark:text-white dark:bg-gray-500 hover:bg-blue-500 hover:underline hover:text-white rounded text-gray-700 uppercase tracking-widest text-xs font-bold"
+            <button class="w-full px-3 py-1 bg-gray-300 dark:text-white dark:bg-gray-500 hover:bg-green dark:hover:bg-green-light hover:underline hover:text-white rounded text-gray-700 uppercase tracking-widest text-xs font-bold"
                     @click.prevent="acceptCookie"
             >
-                Elfogadom
+                {{ __('Accept') }}
             </button>
         </div>
     </div>

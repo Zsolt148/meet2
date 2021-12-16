@@ -5,7 +5,7 @@
         <div class="max-w-7xl flex flex-col items-center px-5 py-16 mx-auto md:flex-row lg:px-28">
             <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-12 md:pr-16 md:mb-0">
                 <h2 class="mb-8 text-xs font-semibold tracking-widest text-black dark:text-white uppercase title-font">
-                    Üdvözöljük az új oldalon!</h2>
+                    {{ __('Welcome at the new site!') }}</h2>
                 <h1 class="mb-8 text-4xl md:text-5xl font-black tracking-tighter text-green dark:text-green-light title-font">
                     meet.kvsc.info</h1>
                 <p class="mb-8 text-base leading-relaxed text-left text-black dark:text-white">
