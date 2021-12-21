@@ -129,6 +129,7 @@
             <!--                </div>-->
             <!--            </div>-->
         </div>
+        <ScrollTop />
     </app-layout>
 </template>
 
@@ -136,6 +137,7 @@
 import AppLayout from '@/Layouts/AppLayout'
 import JetButton from "@/Jetstream/Button";
 import Icon from "@/Shared/Icon"
+import ScrollTop from "@/Shared/ScrollTop"
 import { LocationMarkerIcon } from '@heroicons/vue/outline'
 
 export default {
@@ -143,6 +145,7 @@ export default {
         AppLayout,
         JetButton,
         Icon,
+        ScrollTop,
         LocationMarkerIcon
     },
     props: {

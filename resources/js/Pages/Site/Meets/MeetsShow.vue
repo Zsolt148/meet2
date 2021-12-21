@@ -132,6 +132,7 @@
                 </div>
             </div>
         </div>
+        <ScrollTop />
     </app-layout>
 </template>
 
@@ -142,6 +143,7 @@ import JetButton from '@/Jetstream/Button'
 import JetInput from '@/Jetstream/Input'
 import {ref, reactive, watch} from 'vue'
 import Icon from "@/Shared/Icon"
+import ScrollTop from "@/Shared/ScrollTop"
 import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon } from '@heroicons/vue/outline'
 
 export default {
@@ -155,6 +157,7 @@ export default {
         CogIcon,
         LocationMarkerIcon,
         AtSymbolIcon,
+        ScrollTop
     },
     props: ['meet'],
     setup(props) {

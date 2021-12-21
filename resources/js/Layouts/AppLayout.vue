@@ -160,7 +160,7 @@
         </section>
     </div>
     <!--    COOKIES    -->
-    <div class="fixed bottom-5 right-0 lg:right-4 p-4 bg-white dark:bg-gray-800 border-t-4 border-gray-300 dark:border-gray-500 shadow-lg rounded w-full sm:w-1/2 md:w-1/3 lg:w-1/4" v-if="!cookieAccepted">
+    <div class="fixed bottom-5 right-0 lg:right-4 p-4 bg-white dark:bg-gray-800 border-t-4 border-gray-300 dark:border-gray-500 shadow-lg rounded w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-50" v-if="!cookieAccepted">
         <h2 class="text-lg lg:text-xl mb-4 block font-bold leading-tight text-gray-700 dark:text-white">{{ __('Use of cookies') }}</h2>
         <div class="flex flex-col">
             <p class="mb-5 font-medium text-gray-600 dark:text-gray-200">
