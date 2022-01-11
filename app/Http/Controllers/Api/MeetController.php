@@ -172,26 +172,23 @@ class MeetController extends Controller
                 $summary = array();
 
                 foreach($files as $key => $value) {
-                    if(Str::contains($value, '.htm')) {
-                        if(stripos($value, 'csapat_pontverseny') !==false ) {
-                            $summary[] = ['name' => __('Team points race'), 'id' => $value];
-                        }
-                        if(stripos($value, 'ferfi_egyeni_pontverseny') !== false) {
-                            $summary[] = ['name' => 'Férfi egyéni pontverseny', 'id' => $value];
-                        }
-                        if(stripos($value, 'noi_egyeni_pontverseny') !== false) {
-                            $summary[] = ['name' => 'Női egyéni pontverseny', 'id' => $value];
-                        }
-                        if(stripos($value, 'eremtablazat') !== false) {
-                            $summary[] = ['name' => 'Éremtáblázat', 'id' => $value];
-                        }
-                        if(stripos($value, 'ferfi_abszolut') !== false) {
-                            $summary[] = ['name' => 'Férfi abszolút pontverseny', 'id' => $value];
-                        }
-                        if(stripos($value, 'noi_abszolut') !== false) {
-                            $summary[] = ['name' => 'Női abszolút pontverseny', 'id' => $value];
-                        }
-
+                    if(stripos($value, 'csapat_pontverseny') !==false ) {
+                        $summary[] = ['name' => __('Team points race'), 'id' => $value];
+                    }
+                    if(stripos($value, 'ferfi_egyeni_pontverseny') !== false) {
+                        $summary[] = ['name' => 'Férfi egyéni pontverseny', 'id' => $value];
+                    }
+                    if(stripos($value, 'noi_egyeni_pontverseny') !== false) {
+                        $summary[] = ['name' => 'Női egyéni pontverseny', 'id' => $value];
+                    }
+                    if(stripos($value, 'eremtablazat') !== false) {
+                        $summary[] = ['name' => 'Éremtáblázat', 'id' => $value];
+                    }
+                    if(stripos($value, 'ferfi_abszolut') !== false) {
+                        $summary[] = ['name' => 'Férfi abszolút pontverseny', 'id' => $value];
+                    }
+                    if(stripos($value, 'noi_abszolut') !== false) {
+                        $summary[] = ['name' => 'Női abszolút pontverseny', 'id' => $value];
                     }
                 }
 
@@ -202,7 +199,7 @@ class MeetController extends Controller
                 $file = $this->replaceForeignChar(utf8_encode(file_get_contents($this->dir . '/' . $param)));
 
                 //Ha .htm fájl akkor darabol
-                if(strpos($param, '.htm') !== false) {
+                if(Str::contains($param, '.htm')) {
 
                     //Első sornyi cím leszedése
                     if (Str::contains($file, '<b>')) {
@@ -214,8 +211,7 @@ class MeetController extends Controller
                     //Div ezés a kereséshez
                     if (strpos($file, "Versenyszám") !== false) {
                         $file = str_replace("Versenyszám", "</div><div>Versenyszám", $file);
-                    }
-                    if (strpos($file, "Event") !== false) {
+                    }elseif (strpos($file, "Event") !== false) {
                         $file = str_replace("Event", "</div><div>Event", $file);
                     }
 
@@ -223,6 +219,11 @@ class MeetController extends Controller
                     if(!Str::contains($file, '<b>') && stripos($file, 'input') !== false && stripos($file, '<body>')) {
                         $file = explode('<body>', $file, 2)[1];
                     }
+                }
+
+                if(Str::contains($param, '.html') && Str::contains($file, 'BODY')) {
+                    $file = file_get_contents($this->dir . '/' . $param);
+                    //$file = explode('BODY', $file, 2)[1];
                 }
 
                 $file = str_replace("=", " ", $file);

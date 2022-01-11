@@ -87,7 +87,7 @@ class Meet extends Model implements HasMedia
     ];
 
     protected $casts = [
-        'deadline' => 'datetime',
+        'deadline' => 'date',
         'phases' => 'integer',
         'is_visible' => 'boolean',
     ];

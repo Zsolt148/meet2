@@ -51,9 +51,10 @@
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="deadline" value="Nevezési határidő" />
                                 <Datepicker class="mt-1" :dark="isDark"
-                                            locale="hu" format="yyyy.MM.dd HH:mm"
+                                            locale="hu" format="yyyy.MM.dd"
                                             selectText="Mentés" cancelText="Mégse"
                                             id="deadline" name="deadline"
+                                            :enableTimePicker="false"
                                             v-model="form.deadline"
                                 />
                                 <jet-input-error :message="form.errors.deadline" class="mt-2" />
