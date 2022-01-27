@@ -10,6 +10,7 @@ use App\Models\Location;
 use App\Models\Meet;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use App\Models\Media;
 
@@ -65,6 +66,7 @@ class MeetController extends BaseAdminController
         $meet->is_visible = $request->is_visible;
         $meet->name = $request->name;
         $meet->slug = $request->slug;
+        $meet->folder = Str::ascii($request->slug);
         $meet->date = meetDate($request->date);
         $meet->deadline = $request->deadline;
         $meet->host = $request->host;
@@ -80,8 +82,6 @@ class MeetController extends BaseAdminController
                 'body' => $body,
             ]);
         }
-
-        $meet->update(['folder' => meetFolderName($meet)]);
 
         foreach($request->post('files') as $file) {
             $meet
@@ -140,7 +140,7 @@ class MeetController extends BaseAdminController
     {
         $meet->fill($request->only(
             'is_visible',
-            'name',
+            //'name', TODO: meet dir rename
             'slug',
             'deadline',
             'host',
@@ -154,7 +154,7 @@ class MeetController extends BaseAdminController
             'time_schedule_id'
         ));
 
-        $meet->date = meetDate($request->date);
+        //$meet->date = meetDate($request->date); TODO: meet dir rename
 
         $meet->save();
 

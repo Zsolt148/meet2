@@ -21,7 +21,7 @@ function translations($json)
  * @return string
  */
 function meetDir(Meet $meet) {
-    return storage_path('app/meets/' . meetFolderName($meet));
+    return storage_path('app/meets/' . $meet->folder);
 }
 
 /**
@@ -30,8 +30,8 @@ function meetDir(Meet $meet) {
  */
 function meetFolderName(Meet $meet) {
     $date = Str::ascii(explode(" ", $meet->date)[0]);
-    $name = Str::ascii(explode(" ", $meet->name)[0]);
-    return str_replace(".", "_", $date) . "_" . $name; //2019_10_22_Mercedes
+    return Str::slug(str_replace(".", "-", $date) . '-' . Str::ascii($meet->name));
+    //return str_replace(".", "_", $date) . "_" . $name; //2019_10_22_Mercedes - DEPRACETED
 }
 
 /**
@@ -40,5 +40,5 @@ function meetFolderName(Meet $meet) {
  * @return string
  */
 function meetDate(array $dates) {
-    return Carbon::create($dates[0])->addDay()->format('Y.m.d') . ' - ' . Carbon::create($dates[1])->addDay()->format('Y.m.d');
+    return Carbon::create($dates[0])->format('Y.m.d') . ' - ' . Carbon::create($dates[1])->format('Y.m.d');
 }
