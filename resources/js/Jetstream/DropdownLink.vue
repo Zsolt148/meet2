@@ -25,7 +25,7 @@ export default {
 
     data() {
         return {
-            style: 'block px-4 py-2 text-sm leading-5 text-black hover:bg-green hover:bg-opacity-30 dark:text-white focus:outline-none transition'
+            style: 'block px-4 py-2 text-sm leading-5 text-black hover:bg-teal-400 dark:hover:bg-teal-500 hover:bg-opacity-30 dark:text-white focus:outline-none transition'
         }
     }
 }

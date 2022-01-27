@@ -237,7 +237,7 @@
 
             <div v-for="news in meet.news" :key="news.id" class="bg-white dark:bg-gray-600 rounded-md shadow overflow-hidden mb-5" v-if="historyIsOpen">
                 <div class="p-5 flex flex-col">
-                    <div class="items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
+                    <div class="items-center mt-3 sm:mt-0 font-semibold text-teal-500 dark:text-teal-400">
                         {{ news.created_at }}
                     </div>
                     <article class="my-5 prose dark:prose-dark max-w-none" v-html="news.body" />

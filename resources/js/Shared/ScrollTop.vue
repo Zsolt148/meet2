@@ -1,6 +1,6 @@
 <template>
     <button v-show="visible" class="focus:outline-none" @click="scrollTop">
-        <div class="fixed bottom-5 right-2 lg:right-4 p-3 bg-white text-green dark:bg-gray-500 dark:text-green-light shadow-lg rounded-full flex justify-center">
+        <div class="fixed bottom-5 right-2 lg:right-4 p-3 bg-white text-teal-500 dark:bg-gray-500 dark:text-teal-400 shadow-lg rounded-full flex justify-center">
             <ArrowUpIcon class="w-5 h-5" />
         </div>
     </button>

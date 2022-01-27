@@ -79,7 +79,7 @@
                             </Link>
                         </td>
                     </tr>
-                    <tr v-if="meets.data.length.value === 0">
+                    <tr v-if="meets.data.length === 0">
                         <td class="border-t px-6 py-2" colspan="4">Nem található verseny</td>
                     </tr>
                 </template>

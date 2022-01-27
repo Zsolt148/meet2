@@ -6,7 +6,7 @@
             <div class="flex flex-col items-start mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-12 md:pr-16 md:mb-0">
                 <h2 class="mb-8 text-xs font-semibold tracking-widest text-black dark:text-white uppercase title-font">
                     {{ __('Welcome at the new site!') }}</h2>
-                <h1 class="mb-8 text-4xl md:text-5xl font-black tracking-tighter text-green dark:text-green-light title-font">
+                <h1 class="mb-8 text-4xl md:text-5xl font-black tracking-tighter text-teal-500 dark:text-teal-400 title-font">
                     meet.kvsc.info</h1>
                 <p class="mb-8 text-base leading-relaxed text-left text-black dark:text-white">
                     Online {{__('news')}} <br>
@@ -18,7 +18,7 @@
                         {{__('Meets')}}
                     </jet-button>
 <!--                    <Link :href="route('home')"-->
-<!--                          class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-green-light ml-4">-->
+<!--                          class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-main dark:hover:text-teal-500 ml-4">-->
 <!--                        Hírek-->
 <!--                        <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>-->
 <!--                    </Link>-->
@@ -34,16 +34,16 @@
         <div class="bg-main">
             <div class="container mx-auto">
                 <div
-                    class="rounded-lg bg-green text-black p-8 flex flex-col md:flex-row space-between items-center justify-between relative overflow-hidden">
+                    class="rounded-lg bg-teal-400 text-black p-8 flex flex-col md:flex-row space-between items-center justify-between relative overflow-hidden">
                     <!-- LEFT PART -->
                     <div class="flex flex-col lg:ml-14 xl:ml-28 max-w-sm lg:max-w-3xl z-10">
                         <h4 class="text-2xl text-center md:text-left font-bold text-white md:pb-2">
                             {{ __('Official results of swimming competitions - ') }} nevezes@kvsc.info
                         </h4>
-                        <p class="text-center md:text-left text-gray-100 md:pb-6">
+                        <p class="text-center md:text-left text-gray-50 md:pb-6">
                             {{ __('Follow the results online, even on mobiles too.') }}
                         </p>
-                        <p class="text-xs text-gray-200 hidden md:block">
+                        <p class="text-sm text-gray-50 hidden md:block">
                             MME Team
                         </p>
                     </div>
@@ -65,14 +65,14 @@
 
         <div class="max-w-7xl mx-auto mb-20">
             <div v-for="(data, key) in meets" :key="key"
-                 class="mx-auto mb-6 px-4 py-2 bg-gray-100 dark:bg-gray-600 shadow hover:shadow-md hover:border-transparent transition-shadow duration-200 ease-in-out rounded-lg w-full">
+                 class="mx-auto mb-6 px-4 py-2 bg-gray-50 dark:bg-gray-600 shadow hover:shadow-md hover:border-transparent transition-shadow duration-200 ease-in-out rounded-lg w-full">
                 <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
                         <Link class="text-2xl link" :href="route('meets.show', data.slug)">
                             {{data.name}}
                         </Link>
                     </div>
-                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
+                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-teal-500 dark:text-teal-400">
                         <icon name="calendar" class="w-4 h-4 mt-1 mr-2"/>
                         <span>{{data.date}}</span>
                     </div>
@@ -92,11 +92,11 @@
                     </div>
                 </div>
                 <div>
-                    <article class="my-5 prose dark:prose-dark max-w-none bg-gray-100 dark:bg-gray-600"
+                    <article class="my-5 prose dark:prose-dark max-w-none bg-gray-50 dark:bg-gray-600"
                              v-if="data.latestNews && data.latestNews.body" v-html="data.latestNews.body"/>
                 </div>
                 <div>
-                    <Link class="inline-flex items-center text-green dark:text-green-light hover:text-green-light"
+                    <Link class="inline-flex items-center text-teal-500 hover:text-teal-400 dark:text-teal-400"
                           :href="route('meets.show', data.slug)">
                         Tovább
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>

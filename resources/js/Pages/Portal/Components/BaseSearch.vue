@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6 flex w-full justify-between items-center">
-        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2 placeholder-gray-400 dark:placeholder-gray-200 focus:placeholder-green dark:focus:placeholder-green-light"
+        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2 placeholder-gray-400 dark:placeholder-gray-200 focus:placeholder-teal-400 dark:focus:placeholder-teal-500"
                autocomplete="off" type="text" name="search" :placeholder="__('Search')"
                @input="search"
                v-model="searchTerm"

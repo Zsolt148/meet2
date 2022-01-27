@@ -65,7 +65,7 @@
                         </Link>
                     </td>
                 </tr>
-                <tr v-if="contacts.data.length.value === 0">
+                <tr v-if="contacts.data.length === 0">
                     <td class="border-t px-6 py-2" colspan="4">Nem található kapcsolattartó</td>
                 </tr>
             </table>

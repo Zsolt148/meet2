@@ -8,7 +8,7 @@
                 <HeartIcon class="w-6 h-6 text-red-500" />
             </span>
             <span>by</span>
-            Budai Zsolt
+            Budai Zsolt - MME Team
         </p>
     </footer>
 </template>

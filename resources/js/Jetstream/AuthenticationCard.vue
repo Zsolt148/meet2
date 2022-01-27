@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col sm:justify-center items-center pt-6 sm:pt-0 my-12">
-        <div class="text-2xl text-green dark:text-green-light">
+        <div class="text-2xl text-teal-500 dark:text-teal-400">
             <slot name="logo" />
         </div>
 

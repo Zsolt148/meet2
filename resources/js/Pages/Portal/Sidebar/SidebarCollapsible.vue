@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <SidebarLink @click="isOpen = !isOpen" :title="title" :class="{ 'text-green dark:text-green-light' : active }">
+        <SidebarLink @click="isOpen = !isOpen" :title="title" :class="{ 'text-teal-500 dark:text-teal-400' : active }">
             <template #icon>
                 <slot name="icon">
                     <EmptyCircleIcon

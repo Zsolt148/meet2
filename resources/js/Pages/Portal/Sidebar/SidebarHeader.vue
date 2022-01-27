@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center justify-between flex-shrink-0 px-3">
         <Link :href="route('home')" class="inline-flex items-center gap-2">
-            <span class="text-green dark:text-green-light font-bold my-2">Meet</span>
+            <span class="text-teal-500 dark:text-teal-400 font-bold my-2">Meet</span>
         </Link>
 
         <Button

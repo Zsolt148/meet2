@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div v-if="$page.props.flash.success && show" class="bg-green-300 flex items-center text-green-700 font-bold px-4 py-3 relative mb-4 rounded-md" role="alert">
-            <icon name="check" class="w-4 h-4 mr-2 text-green-700 fill-current"></icon>
+        <div v-if="$page.props.flash.success && show" class="bg-teal-300 flex items-center text-teal-700 font-bold px-4 py-3 relative mb-4 rounded-md" role="alert">
+            <icon name="check" class="w-4 h-4 mr-2 text-teal-700 fill-current"></icon>
             <div>{{ $page.props.flash.success }}</div>
             <button class="absolute top-0 bottom-0 right-0 px-4 py-3 focus:outline-none" @click="show = false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4 text-green-700" viewBox="0 0 1792 1792">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-4 w-4 text-teal-700" viewBox="0 0 1792 1792">
                     <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z">
                     </path>
                 </svg>

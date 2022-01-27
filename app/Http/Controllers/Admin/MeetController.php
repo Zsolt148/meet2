@@ -83,12 +83,7 @@ class MeetController extends BaseAdminController
             ]);
         }
 
-        foreach($request->post('files') as $file) {
-            $meet
-                ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
-                ->usingName($file['name'])
-                ->toMediaCollection('files');
-        }
+        $this->createMediaFiles($meet, $request->post('files'));
 
         return redirect()->route('admin:meets.edit', $meet)->with('success', 'Verseny sikeresen létrehozva');
     }
@@ -164,14 +159,7 @@ class MeetController extends BaseAdminController
             ]);
         }
 
-        foreach($request->post('files') as $file) {
-            if(Storage::disk('tmp')->exists($file['path'])) {
-                $meet
-                    ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
-                    ->usingName($file['name'])
-                    ->toMediaCollection('files');
-            }
-        }
+        $this->createMediaFiles($meet, $request->post('files'));
 
         return redirect()->back()->with('success', 'Verseny sikeresen frissítve');
     }
@@ -215,5 +203,23 @@ class MeetController extends BaseAdminController
         $meet->delete();
 
         return redirect()->route('admin:meets.index')->with('success', 'Verseny sikeresen frissítve');
+    }
+
+    /**
+     * @param Meet $meet
+     * @param $files
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
+     */
+    private function createMediaFiles(Meet $meet, $files)
+    {
+        foreach($files as $file) {
+            if(Storage::disk('tmp')->exists($file['path'])) {
+                $meet
+                    ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
+                    ->usingName($file['name'])
+                    ->toMediaCollection('files');
+            }
+        }
     }
 }

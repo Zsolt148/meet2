@@ -89,7 +89,7 @@
 
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center md:hidden px-4">
-                            <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
+                            <button @click="showingNavigationDropdown = ! showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                     <path :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -166,7 +166,7 @@
             <p class="mb-5 font-medium text-gray-600 dark:text-gray-200">
                 {{ __('The website uses cookies in order to provide the best user experience while browsing securely.') }}
             </p>
-            <button class="w-full px-3 py-1 bg-gray-300 dark:text-white dark:bg-gray-500 hover:bg-green dark:hover:bg-green-light hover:underline hover:text-white rounded text-gray-700 uppercase tracking-widest text-xs font-bold"
+            <button class="w-full px-3 py-1 bg-gray-300 dark:text-white dark:bg-gray-500 hover:bg-green dark:hover:bg-green hover:underline hover:text-white rounded text-gray-700 uppercase tracking-widest text-xs font-bold"
                     @click.prevent="acceptCookie"
             >
                 {{ __('Accept') }}

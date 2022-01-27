@@ -32,12 +32,12 @@
     [multiple],
     textarea,
     select {
-        @apply mt-1 block w-full text-black dark:text-white bg-white dark:bg-dark-eval-3 border-gray-300 dark:border-gray-500 focus:border-green focus:ring focus:ring-green focus:ring-opacity-50 rounded-md shadow-sm
+        @apply mt-1 block w-full text-black dark:text-white bg-white dark:bg-dark-eval-3 border-gray-300 dark:border-gray-500 focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50 rounded-md shadow-sm
         disabled:text-gray-600 dark:disabled:text-gray-400 disabled:bg-gray-200;
     }
     [type='checkbox'],
     [type='radio'] {
-        @apply rounded border-gray-300 dark:border-gray-500 text-green dark:text-green-light shadow-sm focus:border-green focus:ring focus:ring-green focus:ring-opacity-50;
+        @apply rounded border-gray-300 dark:border-gray-500 text-teal-500 dark:text-teal-400 shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-500 focus:ring-opacity-50;
     }
 }
 
@@ -47,20 +47,19 @@
     }
 
     .dashboard-link {
-        @apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 hover:text-green dark:hover:text-green-light;
+        @apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 hover:text-teal-500 dark:hover:text-teal-400;
     }
 
     .dashboard-link-active {
-        /*@apply flex items-center px-6 py-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-white to-green-light border-r-4 border-green dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-900 text-green dark:text-blue-500;*/
-        @apply flex items-center px-6 py-2 text-gray-700 bg-green-light dark:bg-green bg-opacity-30 dark:bg-opacity-30 rounded-xl shadow dark:shadow-none text-green dark:text-green-light;
+        @apply flex items-center px-6 py-2 text-gray-700 bg-teal-400 dark:bg-teal-500 bg-opacity-30 dark:bg-opacity-30 rounded-xl shadow dark:shadow-none text-teal-700 dark:text-teal-300;
     }
 
     .responsive-nav-link-active {
-        @apply block pl-3 pr-4 py-2 border-l-4 border-green-light font-bold text-white bg-gray-300 bg-opacity-50 dark:bg-gray-600 focus:outline-none
+        @apply block pl-3 pr-4 py-2 border-l-4 border-teal-400 font-bold text-white bg-gray-300 bg-opacity-50 dark:bg-gray-600 focus:outline-none
     }
 
     .responsive-nav-link {
-        @apply block pl-3 pr-4 py-2 border-l-4 border-transparent font-bold text-white dark:text-white hover:bg-gray-600 dark:hover:bg-gray-700 hover:border-gray-400
+        @apply block pl-3 pr-4 py-2 border-l-4 border-transparent hover:border-teal-400 font-bold text-white hover:bg-gray-300 dark:hover:bg-gray-600 hover:bg-opacity-50
     }
 
     .spacer {
@@ -69,16 +68,16 @@
     }
 
     .link {
-        @apply hover:underline text-green hover:text-green-light dark:text-green-light dark:hover:text-green
+        @apply hover:underline text-teal-500 hover:text-teal-400 dark:text-teal-400
     }
 
     .toggle-checkbox:checked {
-        @apply: right-0 border-green-400;
+        @apply: right-0 border-teal-400;
         right: 0;
         border-color: #68D391;
     }
     .toggle-checkbox:checked + .toggle-label {
-        @apply: bg-green-400;
+        @apply: bg-teal-500;
         background-color: #68D391;
     }
 }

@@ -25,7 +25,7 @@
                             {{ data.name }}
                         </Link>
                     </div>
-                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
+                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-teal-500 dark:text-teal-400">
                         <icon name="calendar" class="w-4 h-4 mt-1 mr-2" />
                         <span>{{ data.date }}</span>
                     </div>
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div>
-                    <Link class="inline-flex items-center text-green dark:text-green-light hover:text-green-light" :href="route('meets.show', data.slug)">
+                    <Link class="inline-flex items-center text-teal-500 hover:text-teal-400 dark:text-teal-400" :href="route('meets.show', data.slug)">
                         Tovább
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
                     </Link>

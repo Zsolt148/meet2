@@ -8,7 +8,7 @@
         <template #header>
             <div class="pb-8 flex justify-between">
                 <div>
-                    <Link class="text-green-light" :href="route('meets.index')">{{__('Meets')}}</Link>
+                    <Link class="text-teal-500 dark:text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
                     /
                     {{ meet.name }}
                 </div>
@@ -24,10 +24,10 @@
         <div class="max-w-7xl mx-auto py-8 px-0 xl:px-2">
             <div class="bg-white dark:bg-gray-600 -mt-16 shadow p-5 rounded-md">
                 <div class="flex flex-col sm:flex-row justify-between mb-2">
-                    <h1 class="text-green dark:text-green-light text-3xl">
+                    <h1 class="text-teal-500 dark:text-teal-400 text-3xl">
                         {{ meet.name }}
                     </h1>
-                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-green dark:text-green-light">
+                    <div class="flex items-center mt-3 sm:mt-0 font-semibold text-teal-500 dark:text-teal-400">
                         <icon name="calendar" class="w-4 h-4 mr-2" />
                         <span>{{ meet.date }}</span>
                     </div>

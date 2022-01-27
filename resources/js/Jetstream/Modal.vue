@@ -3,7 +3,7 @@
         <transition leave-active-class="duration-200">
             <div v-show="show" class="fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50" scroll-region>
                 <div v-show="show" class="fixed inset-0 transform transition-all" @click="close">
-                    <div class="absolute inset-0 opacity-80 backdrop-blur"></div>
+                    <div class="absolute inset-0 opacity-90 backdrop-blur"></div>
                 </div>
 
                 <transition enter-active-class="ease-out duration-300"

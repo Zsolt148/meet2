@@ -893,7 +893,10 @@ class MeetSeeder extends Seeder
                     ]
                 );
 
-            $meet->update(['folder' => meetFolderName($meet)]);
+            if($meet->wasRecentlyCreated && !$meet->folder) {
+                $meet->update(['folder' => meetFolderName($meet)]);
+            }
+
         }
     }
 

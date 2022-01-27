@@ -75,19 +75,24 @@ export default {
         const { disabled } = toRefs(props)
 
         const baseClasses = [
-            'inline-flex items-center font-medium select-none tracking-widest shadow-sm transition' +
+            'inline-flex items-center font-medium select-none tracking-widest shadow-lg transition' +
             ' disabled:opacity-50 disabled:cursor-not-allowed ' +
             'focus:outline-none focus:ring focus:ring-offset-1 focus:ring-opacity-50 focus:ring-offset-white dark:focus:ring-offset-dark-eval-2',
         ]
 
         const variantClasses = (variant) => ({
-            'bg-green text-white hover:bg-green-light focus:ring-green': variant == 'primary',
-            'bg-white dark:bg-dark-eval-1 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 hover:text-green dark:hover:text-green-light focus:outline-none focus:ring focus:ring-green dark:ring-green-light':
+            'bg-teal-400 text-white hover:bg-teal-500 focus:ring-teal-500 dark:focus:ring-teal-400 dark:bg-teal-500 dark:hover:bg-teal-400 shadow-teal-400/30 hover:shadow-teal-500/50 dark:shadow-teal-500/30 dark:hover:shadow-teal-400/30':
+                variant == 'primary',
+            'bg-white dark:bg-dark-eval-1 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-300 hover:text-teal-400 dark:hover:text-teal-500 focus:outline-none focus:ring-white dark:focus:ring-dark-eval-1':
                 variant == 'secondary',
-            'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500': variant == 'success',
-            'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500': variant == 'danger',
-            'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500': variant == 'warning',
-            'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500': variant == 'info',
+            'bg-green-500 text-white hover:bg-green-600 focus:ring-green-500':
+                variant == 'success',
+            'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500 shadow-red-500/30':
+                variant == 'danger',
+            'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500':
+                variant == 'warning',
+            'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500':
+                variant == 'info',
             'bg-black text-gray-300 hover:text-white hover:bg-gray-800 focus:ring-black dark:hover:bg-dark-eval-3':
                 variant == 'black',
         })

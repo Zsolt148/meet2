@@ -1,10 +1,9 @@
 //const defaultTheme = require('tailwindcss/defaultTheme');
-//const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
-    mode: 'jit',
     darkMode: 'class',
-    purge: [
+    content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './resources/views/**/*.blade.php',
@@ -18,15 +17,16 @@ module.exports = {
                 poppins: ['Poppins', 'sans-serif'],
             },
             colors: {
+                grey: colors.slate,
                 main: {
                     light: "#1974D2",
                     DEFAULT: '#094074',
                 },
-                green: {
-                    DEFAULT: '#008F93',
-                    light: '#30BFBF',
-                    dark: '#059669',
-                },
+                // green: {
+                //     DEFAULT: '#008F93',
+                //     light: '#30BFBF',
+                //     dark: '#059669',
+                // },
                 dark: {
                     bg: "#151823",
                     "eval-1": "#222738",
@@ -44,9 +44,9 @@ module.exports = {
                         backgroundColor: theme('colors.white'),
                         color: theme('colors.gray.900'),
                         a: {
-                            color: theme('colors.green.DEFAULT'),
+                            color: theme('colors.teal.500'),
                             '&:hover': {
-                                color: theme('colors.green.light'),
+                                color: theme('colors.teal.400'),
                             },
                         },
                         pre: {
@@ -63,9 +63,9 @@ module.exports = {
                             color: theme('colors.gray.100'),
                         },
                         a: {
-                            color: theme('colors.green.light'),
+                            color: theme('colors.teal.500'),
                             '&:hover': {
-                                color: theme('colors.green.DEFAULT'),
+                                color: theme('colors.teal.400'),
                             },
                         },
                         strong: {
@@ -113,12 +113,6 @@ module.exports = {
                     },
                 },
             }),
-        },
-    },
-
-    variants: {
-        extend: {
-            opacity: ['disabled'],
         },
     },
 

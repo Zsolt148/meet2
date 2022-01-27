@@ -39,6 +39,20 @@
             </template>
         </SidebarLink>
 
+<!--        <SidebarLink-->
+<!--            title="Egyesületek"-->
+<!--            :href="route('admin:teams.index')"-->
+<!--            :active="isUrl('admin/teams*')"-->
+<!--            v-show="isAdmin()"-->
+<!--        >-->
+<!--            <template #icon>-->
+<!--                <UserGroupIcon-->
+<!--                    class="flex-shrink-0 w-6 h-6"-->
+<!--                    aria-hidden="true"-->
+<!--                />-->
+<!--            </template>-->
+<!--        </SidebarLink>-->
+
         <SidebarCollapsible
             title="Versenyek"
             :active="isUrl('admin/meets*')"

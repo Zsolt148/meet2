@@ -81,7 +81,7 @@
             <jet-dropdown width="48" align="right">
                 <template #trigger>
                     <span class="inline-flex rounded-md">
-                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-bold rounded-md text-black dark:text-white bg-white dark:bg-dark-eval-1 hover:text-green dark:hover:text-green-light focus:outline-none transition">
+                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-bold rounded-md text-black dark:text-white bg-white dark:bg-dark-eval-1 hover:text-teal-500 dark:hover:text-teal-500 focus:outline-none transition">
 
                             <img :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" class="rounded-full h-8 w-8 object-cover">
 
