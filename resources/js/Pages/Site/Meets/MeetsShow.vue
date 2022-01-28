@@ -8,7 +8,7 @@
         <template #header>
             <div class="pb-8 flex justify-between">
                 <div>
-                    <Link class="text-teal-500 dark:text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
+                    <Link class="text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
                     /
                     {{ meet.name }}
                 </div>
@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <article class="my-5 prose dark:prose-dark max-w-none" v-if="meet.latestNews && meet.latestNews.body" v-html="meet.latestNews.body" />
+                <article class="prose dark:prose-dark my-5 max-w-none" v-if="meet.latestNews && meet.latestNews.body" v-html="meet.latestNews.body" />
 
                 <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
                     <div class="w-full sm:w-1/3">

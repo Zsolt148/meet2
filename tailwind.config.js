@@ -2,8 +2,9 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+    mode: 'jit',
     darkMode: 'class',
-    content: [
+    purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './resources/views/**/*.blade.php',
@@ -34,8 +35,8 @@ module.exports = {
                     "eval-3": "#2C3142",
                 },
                 'light-blue': '#caf0f8',
-                //'jet': '#343434',
                 'jet': '#222222',
+                teal: colors.teal,
             },
 
             typography: (theme) => ({
@@ -52,7 +53,7 @@ module.exports = {
                         pre: {
                             color: theme('colors.gray.900'),
                             backgroundColor: theme('colors.white'),
-                        }
+                        },
                     },
                 },
                 dark: {
@@ -71,12 +72,10 @@ module.exports = {
                         strong: {
                             color: theme('colors.white'),
                         },
-                        // 'ol > li::before': {
-                        //     color: theme('colors.gray.200'),
-                        // },
-                        // 'ul > li::before': {
-                        //     backgroundColor: theme('colors.gray.600'),
-                        // },
+                        pre: {
+                            color: theme('colors.gray.100'),
+                            backgroundColor: theme('colors.gray.600'),
+                        },
                         // hr: {
                         //     borderColor: theme('colors.gray.200'),
                         // },
@@ -99,20 +98,17 @@ module.exports = {
                         // 'figure figcaption': {
                         //     color: theme('colors.gray.200'),
                         // },
-                        pre: {
-                            color: theme('colors.gray.100'),
-                            backgroundColor: theme('colors.gray.600'),
-                        },
-                        thead: {
-                            color: theme('colors.white'),
-                            borderBottomColor: theme('colors.gray.200'),
-                        },
-                        'tbody tr': {
-                            borderBottomColor: theme('colors.gray.600'),
-                        },
+                        // thead: {
+                        //     color: theme('colors.white'),
+                        //     borderBottomColor: theme('colors.gray.200'),
+                        // },
+                        // 'tbody tr': {
+                        //     borderBottomColor: theme('colors.gray.600'),
+                        // },
                     },
                 },
             }),
+
         },
     },
 
