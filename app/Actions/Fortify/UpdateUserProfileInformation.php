@@ -28,14 +28,15 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->updateProfilePhoto($input['photo']);
         }
 
+        /*
         if ($input['email'] !== $user->email && $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
-        } else {
-            $user->forceFill([
-                'name' => $input['name'],
-                //'email' => $input['email'],
-            ])->save();
         }
+        */
+
+        $user->forceFill([
+            'name' => $input['name'],
+        ])->save();
     }
 
     /**
@@ -49,7 +50,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         $user->forceFill([
             'name' => $input['name'],
-            'email' => $input['email'],
+            //'email' => $input['email'],
             'email_verified_at' => null,
         ])->save();
 
