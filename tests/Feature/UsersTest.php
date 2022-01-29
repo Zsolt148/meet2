@@ -1,23 +1,35 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use function Pest\Laravel\{get};
 
-//beforeEach(fn () => User::factory()->create());
+beforeEach(fn () => $this->user = User::factory()->create());
 
 test('has user profile page', function () {
-    actingAs($user = User::factory()->create())
-        ->get('/user/profile')
+    actingAs($this->user)
+        ->get(route('profile.show'))
         ->assertStatus(200);
 });
 
 test('user can update his name', function () {
-    $user = User::factory()->create();
 
-    actingAs($user)
-        ->put('/user/profile-information', [
+    actingAs( $user = $this->user)
+        ->put(route('user-profile-information.update'), [
             'name' => 'Test Name',
         ]);
 
     $this->assertEquals('Test Name', $user->fresh()->name);
+});
+
+test('user can update his password', function () {
+
+    actingAs($user = $this->user)
+        ->put(route('user-password.update'), [
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ]);
+
+    $this->assertTrue(Hash::check('new-password', $user->fresh()->password));
 });

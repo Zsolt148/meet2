@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /*
@@ -14,10 +15,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 |
 */
 
-// Uses the given trait in the current file
-//uses(RefreshDatabase::class);
-
-uses(\Tests\TestCase::class)->in('Feature', 'Unit');
+// Uses the given test case and trait in the current folder recursively
+uses(TestCase::class, RefreshDatabase::class)->in(__DIR__);
 
 /*
 |--------------------------------------------------------------------------

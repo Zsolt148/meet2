@@ -19,7 +19,7 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({delay: 0, color: '#008F93' });
+InertiaProgress.init({delay: 0, color: '#2dd4bf' });
 
 // Images
 require('../images/main-swimmer.png')
