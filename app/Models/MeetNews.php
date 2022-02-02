@@ -31,7 +31,7 @@ class MeetNews extends Model
         'body',
     ];
 
-    public function getCreatedAtAttribute($date)
+    protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
     }

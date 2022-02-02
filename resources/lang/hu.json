@@ -109,6 +109,17 @@
   "Team points race" : "Csapat pontverseny",
   "Man" : "Férfi egyéni pontverseny",
   "Woman" : "Női egyéni pontverseny",
+  "" : "",
+
+  "senior" : "szenior",
+  "male" : "férfi",
+  "female" : "női",
+  "freestyle" : "gyorsúszás",
+  "backstroke" : "mellúszás",
+  "breaststroke" : "hátúszás",
+  "butterfly" : "pillangóúszás",
+  "medley" : "vegyesúszás",
+
   "" : ""
 
 }

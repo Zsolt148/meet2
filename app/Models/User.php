@@ -96,7 +96,6 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
         'role_val',
-        'created_at',
     ];
 
     const ROLE_USER = 'user';
@@ -107,7 +106,7 @@ class User extends Authenticatable
         self::ROLE_ADMIN => 'Admin',
     ];
 
-    public function getCreatedAtAttribute($date)
+    protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
     }

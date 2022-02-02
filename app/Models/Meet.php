@@ -121,7 +121,7 @@ class Meet extends Model implements HasMedia
 //        return $this->hasOne(meets_entry::class, 'meets_id');
 //    }
 
-    public function getCreatedAtAttribute($date)
+    protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
     }

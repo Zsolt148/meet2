@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\EventController;
 
 Route::prefix('admin')
     ->name('admin:')
@@ -23,5 +24,7 @@ Route::prefix('admin')
 
         Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
         Route::resource('meets', MeetController::class);
+
+        Route::resource('events', EventController::class);
 
     });
