@@ -1,9 +1,9 @@
 <template>
-    <Head title="Versenyek" />
+    <Head title="Nevezhető Versenyek" />
 
     <portal-layout>
         <template #header>
-            Versenyek
+            Nevezhető Versenyek
         </template>
 
         <base-search @search="updateSearch" :search-term="params.search"
@@ -22,15 +22,15 @@
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('host')">
-                            Rendező
-                            <table-chevron :params="params" value="host" />
+                        <span class="th-content" @click="updateSort('entry_type')">
+                            Típus
+                            <table-chevron :params="params" value="entry_type" />
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('type')">
-                            Típus
-                            <table-chevron :params="params" value="type" />
+                        <span class="th-content" @click="updateSort('entries_count')">
+                            Nevezések
+                            <table-chevron :params="params" value="entries_count" />
                         </span>
                     </th>
                     <th class="th-class">
@@ -49,32 +49,32 @@
                 <template #body>
                     <tr v-for="meet in meets.data" :key="meet.id" class="tr-class">
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)">
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)">
                                 {{ meet.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                                {{ meet.host }}
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
+                                {{ meet.entry_type }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                                {{ meet.type }}
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
+                                0
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
                                 {{ meet.date }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
                                 {{ meet.created_at }}
                             </Link>
                         </td>
                         <td class="td-class w-px">
-                            <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
                                 <ChevronRightIcon class="w-5 h-5" />
                             </Link>
                         </td>

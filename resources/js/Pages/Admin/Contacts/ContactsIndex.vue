@@ -108,7 +108,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, 'admin:contacts.index');
+        getWatch(params, route('admin:contacts.index'));
 
         return {
             params,

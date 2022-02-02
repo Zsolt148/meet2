@@ -15,7 +15,7 @@ class EventController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(Event::class, request(), ['length', 'sex', 'swim']);
+        $query = $this->getQuery(Event::class, request(), ['length']);
 
         return Inertia::render('Admin/Events/EventsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),

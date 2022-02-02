@@ -10,7 +10,7 @@
             :active="route().current('portal:dashboard')"
         >
             <template #icon>
-                <DashboardIcon
+                <HomeIcon
                     class="flex-shrink-0 w-6 h-6"
                     aria-hidden="true"
                 />
@@ -46,7 +46,7 @@
             v-show="isAdmin()"
         >
             <template #icon>
-                <UserGroupIcon
+                <UsersIcon
                     class="flex-shrink-0 w-6 h-6"
                     aria-hidden="true"
                 />
@@ -58,14 +58,15 @@
             :href="route('admin:events.index')"
             :active="isUrl('admin/events*')"
             v-show="isAdmin()"
+        />
+
+        <SidebarCollapsible
+            title="Nevezések"
+            :active="isUrl('admin/entries/meet*')"
+            v-show="isAdmin()"
         >
-            <template #icon>
-                <UserGroupIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-        </SidebarLink>
+            <SidebarCollapsibleItem :href="route('admin:entries.meet.index')" title="Összes" :active="route().current('admin:entries.meet.index') || route().current('admin:entries.meet.edit') || route().current('admin:entries.meet.show')" />
+        </SidebarCollapsible>
 
         <SidebarCollapsible
             title="Versenyek"
@@ -144,8 +145,7 @@
 <script>
 import PerfrectScrollbar from '@/Shared/PerfectScrollbar'
 import SidebarLink from '@/Pages/Portal/Sidebar/SidebarLink.vue'
-import { DashboardIcon } from '@/Icons/outline.jsx'
-import { UserGroupIcon, LocationMarkerIcon, AtSymbolIcon, CalendarIcon } from '@heroicons/vue/outline'
+import { UserGroupIcon, LocationMarkerIcon, AtSymbolIcon, CalendarIcon, HomeIcon, UsersIcon } from '@heroicons/vue/outline'
 import SidebarCollapsible from '@/Pages/Portal/Sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/Pages/Portal/Sidebar/SidebarCollapsibleItem.vue'
 
@@ -156,11 +156,12 @@ export default {
         SidebarCollapsible,
         SidebarCollapsibleItem,
         //Icons
-        DashboardIcon,
+        HomeIcon,
         UserGroupIcon,
         LocationMarkerIcon,
         AtSymbolIcon,
-        CalendarIcon
+        CalendarIcon,
+        UsersIcon
     },
 
     methods: {

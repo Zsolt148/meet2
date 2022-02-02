@@ -119,7 +119,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, 'admin:locations.index');
+        getWatch(params, route('admin:locations.index'));
 
         return {
             params,

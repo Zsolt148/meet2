@@ -26,6 +26,7 @@ class MeetRequest extends FormRequest
     {
         return [
             'is_visible' => ['nullable'],
+            'is_entriable' => ['nullable'],
             'name' => ['required', 'string'],
             'slug' => ['required', 'string'],
             'date' => ['required'],

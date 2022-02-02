@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
+use App\Http\Controllers\Admin\MeetEntryController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\EventController;
@@ -24,6 +25,11 @@ Route::prefix('admin')
 
         Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
         Route::resource('meets', MeetController::class);
+
+        Route::get('entries/meet', [MeetEntryController::class, 'index'])->name('entries.meet.index');
+        Route::get('entries/meet/{meet}', [MeetEntryController::class, 'show'])->name('entries.meet.show');
+        Route::get('entries/meet/{meet}/edit', [MeetEntryController::class, 'edit'])->name('entries.meet.edit');
+        Route::put('entries/meet/{meet}/update', [MeetEntryController::class, 'update'])->name('entries.meet.update');
 
         Route::resource('events', EventController::class);
 

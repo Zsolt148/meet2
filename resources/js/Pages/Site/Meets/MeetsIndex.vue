@@ -101,7 +101,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, 'meets.index');
+        getWatch(params, route('meets.index'));
 
         return {
             params,

@@ -126,7 +126,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, 'admin:teams.index');
+        getWatch(params, route('admin:teams.index'));
 
         function syncTeams() {
             useForm({_method: 'POST'}).post(route('admin:teams.sync'));

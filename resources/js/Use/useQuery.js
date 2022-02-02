@@ -18,9 +18,9 @@ export function getParams(props) {
 
 /**
  * @param params
- * @param routeName
+ * @param route
  */
-export function getWatch(params, routeName) {
+export function getWatch(params, route) {
     watch(() => params,
         _.throttle(() => {
             let search = {
@@ -31,7 +31,7 @@ export function getWatch(params, routeName) {
                 year: params.year ? params.year.value : null,
             };
             let query = _.pickBy(search);
-            Inertia.get(route(routeName), query,{ replace: true, preserveState: true, preserveScroll: true });
+            Inertia.get(route, query,{ replace: true, preserveState: true, preserveScroll: true });
         }, 200), {
             deep: true
         }

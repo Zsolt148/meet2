@@ -6,7 +6,7 @@ import {createInertiaApp, Link, Head } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 
 createInertiaApp({
-    title: (title) => `${title} - meet.kvsc.info`,
+    title: (title) => `${title} | meet.kvsc.info`,
     resolve: (name) => require(`./Pages/${name}.vue`),
 
     setup({ el, app, props, plugin }) {

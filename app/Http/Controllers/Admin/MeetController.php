@@ -135,6 +135,7 @@ class MeetController extends BaseAdminController
     {
         $meet->fill($request->only(
             'is_visible',
+            'is_entriable',
             //'name', TODO: meet dir rename
             'slug',
             'deadline',

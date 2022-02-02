@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 abstract class BaseAdminController extends Controller
 {
@@ -16,19 +18,21 @@ abstract class BaseAdminController extends Controller
     }
 
     /**
-     * @param $model
+     * @param $query|$model
      * @param $request
      * @param array $fields
      * @return mixed
      */
-    protected function getQuery($model, Request $request, array $fields = [])
+    protected function getQuery($query, Request $request, array $fields = [])
     {
         $request->validate([
             'direction' => ['in:asc,desc'],
             'field' => ['in:created_at,' . implode(',', $fields)],
         ]);
 
-        $query = $model::query();
+        if(is_string($query) && Str::contains($query, 'App\\Models')) {
+            $query = $query::query();
+        }
 
         $query = $this->search($request->get('search'), $query, $fields);
 

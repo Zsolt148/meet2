@@ -109,7 +109,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, 'admin:events.index');
+        getWatch(params, route('admin:events.index'));
 
         return {
             params,

@@ -7,26 +7,39 @@
 
                 <form @submit.prevent="update">
                     <div class="p-8 flex flex-col">
-                        <div class="flex justify-between mb-5">
-                            <jet-label for="is_visible">
-                                <div class="flex items-center text-xl">
-                                    <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
+                        <div class="flex flex-col md:flex-row justify-between mb-5">
+                            <div class="flex justify-start space-x-4">
+                                <jet-label for="is_visible">
+                                    <div class="flex items-center text-xl">
+                                        <jet-checkbox name="is_visible" id="is_visible" v-model:checked="form.is_visible" />
 
-                                    <div class="ml-2">
-                                        Látható
+                                        <div class="ml-2">
+                                            Látható
+                                        </div>
                                     </div>
-                                </div>
-                            </jet-label>
-<!--                                <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">-->
-<!--                                    <input type="checkbox" name="is_visible" id="is_visible" class="toggle-checkbox absolute block w-6 h-6 rounded-full border-2 bg-white appearance-none cursor-pointer" v-model:checked="form.is_visible"/>-->
-<!--                                    <label for="is_visible" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>-->
-<!--                                </div>-->
-<!--                                <label for="is_visible" class="text-xs text-gray-700">Látható</label>-->
+                                </jet-label>
 
-                            <jet-button size="sm" :href="route('meets.show', meet)">
-                                <EyeIcon class="w-5 h-5 mr-2" />
-                                Megtekintés
-                            </jet-button>
+                                <jet-label for="is_entriable">
+                                    <div class="flex items-center text-xl">
+                                        <jet-checkbox name="is_entriable" id="is_entriable" v-model:checked="form.is_entriable" />
+
+                                        <div class="ml-2">
+                                            Nevezhető
+                                        </div>
+                                    </div>
+                                </jet-label>
+                            </div>
+
+                            <div class="flex justify-end space-x-4">
+                                <jet-button :loading="form.processing" @click.native="update" size="sm" variant="info" :href="route('admin:entries.meet.show', meet)" v-show="form.is_entriable">
+                                    Nevezések
+                                </jet-button>
+
+                                <jet-button size="sm" :href="route('meets.show', meet)">
+                                    <EyeIcon class="w-5 h-5 mr-2" />
+                                    Megtekintés
+                                </jet-button>
+                            </div>
                         </div>
 
                         <div class="w-full flex flex-row space-x-4">
@@ -385,6 +398,7 @@ export default {
         const form = useForm({
             _method: 'PUT',
             is_visible: meet.is_visible,
+            is_entriable: meet.is_entriable,
             name: meet.name,
             slug: meet.slug,
             host: meet.host,

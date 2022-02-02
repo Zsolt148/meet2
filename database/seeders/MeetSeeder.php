@@ -874,7 +874,10 @@ class MeetSeeder extends Seeder
         ];
 
         foreach($data as $meet) {
-            $meet = Meet::firstOrCreate(
+
+            // quietly so the folder wont create
+            $meet = Meet::withoutEvents(function () use ($meet) {
+                return Meet::firstOrCreate(
                     [
                         'id' => $meet['id'],
                     ], [
@@ -892,9 +895,13 @@ class MeetSeeder extends Seeder
                         'updated_at' => $meet['updated_at'],
                     ]
                 );
+            });
 
             if($meet->wasRecentlyCreated && !$meet->folder) {
                 $meet->update(['folder' => meetFolderName($meet)]);
+                //$meet->folder = str_replace(".", "_", Str::ascii(explode(" ", $meet->date)[0])) . "_" . Str::ascii(explode(" ", $meet->name)[0]);
+
+                $meet->saveQuietly();
             }
 
         }

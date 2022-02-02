@@ -19,6 +19,7 @@ class CreateTeamsTable extends Migration
             $table->string('type')->nullable();
             $table->string('SA')->nullable();
             $table->string('address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

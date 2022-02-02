@@ -63,6 +63,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \App\Models\Media|null $raceRecord
  * @property-read \App\Models\Media|null $timeSchedule
  * @method static \Illuminate\Database\Eloquent\Builder|Meet visible()
+ * @property bool $is_entriable
+ * @property string|null $entry_type
+ * @property int $entry_price
+ * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Meet whereIsEntriable($value)
  */
 class Meet extends Model implements HasMedia
 {
@@ -70,7 +76,11 @@ class Meet extends Model implements HasMedia
 
     protected $fillable = [
         'is_visible',
+        'is_entriable',
         'name',
+        'entry_type',
+        'entry_app',
+        'entry_price',
         'folder',
         'slug',
         'host',
@@ -90,10 +100,30 @@ class Meet extends Model implements HasMedia
         'deadline' => 'date',
         'phases' => 'integer',
         'is_visible' => 'boolean',
+        'is_entriable' => 'boolean',
+        'entry_price' => 'integer',
+    ];
+
+    const ENTRY_TYPE_SENIOR = 'senior';
+
+    const ENTRY_TYPES = [
+        self::ENTRY_TYPE_SENIOR,
+    ];
+
+    const ENTRY_APP_MEET_MANAGER = 'meetmanager';
+    const ENTRY_APP_SWIMMING = 'uszas';
+
+    const ENTRY_APPS = [
+        self::ENTRY_APP_MEET_MANAGER,
+        //self::ENTRY_APP_SWIMMING,
     ];
 
     public function scopeVisible($query) {
         return $query->whereIsVisible(true);
+    }
+
+    public function scopeEntriable($query) {
+        return $query->whereIsEntriable(true);
     }
 
     public function location()
@@ -115,11 +145,6 @@ class Meet extends Model implements HasMedia
     {
         return $this->news()->latest()->firstOrNew();
     }
-
-//    public function meets_entry()
-//    {
-//        return $this->hasOne(meets_entry::class, 'meets_id');
-//    }
 
     protected function getCreatedAtAttribute($date)
     {
