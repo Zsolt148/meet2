@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\EventController;
 
 Route::prefix('admin')
     ->name('admin:')
-    ->middleware(['auth:sanctum', 'verified', 'web', 'role:admin'])
+    ->middleware(['auth:sanctum', 'verified', 'role:admin'])
     ->group(function () {
 
         Route::resource('users', UsersController::class)->only('index', 'edit', 'update', 'destroy');

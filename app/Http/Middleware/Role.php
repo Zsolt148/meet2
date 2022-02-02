@@ -15,12 +15,12 @@ class Role
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $role = null)
     {
-        if(Auth::user()->role != $role) {
-            return redirect()->route('home');
+        if(Auth::user() && Auth::user()->role == $role) {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect()->route('home');
     }
 }

@@ -2,6 +2,13 @@
 
 return [
 
+    'basic' => [
+        'mszuosz' => [
+            'username' => env('MSZUOSZ_USERNAME'),
+            'password' => env('MSZUOSZ_PASSWORD'),
+        ]
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults

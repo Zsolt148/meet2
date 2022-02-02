@@ -7,7 +7,7 @@ use App\Http\Controllers\Portal\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware(['auth:sanctum', 'verified', 'web'])
+Route::middleware(['auth:sanctum', 'verified'])
     ->prefix('portal')
     ->name('portal:')
     ->group(function () {
