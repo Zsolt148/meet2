@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MeetEntryController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\MeetEventController;
 
 Route::prefix('admin')
     ->name('admin:')
@@ -30,6 +31,12 @@ Route::prefix('admin')
         Route::get('entries/meet/{meet}', [MeetEntryController::class, 'show'])->name('entries.meet.show');
         Route::get('entries/meet/{meet}/edit', [MeetEntryController::class, 'edit'])->name('entries.meet.edit');
         Route::put('entries/meet/{meet}/update', [MeetEntryController::class, 'update'])->name('entries.meet.update');
+
+        Route::get('entries/meet/{meet}/events', [MeetEventController::class, 'index'])->name('entries.meet.event.index');
+        Route::get('entries/meet/{meet}/events/create', [MeetEventController::class, 'create'])->name('entries.meet.event.create');
+        Route::post('entries/meet/{meet}/events/store', [MeetEventController::class, 'store'])->name('entries.meet.event.store');
+        //Route::get('entries/meet/{meet}/events/edit', [MeetEventController::class, 'edit'])->name('entries.meet.event.edit');
+        //Route::put('entries/meet/{meet}/events/update', [MeetEventController::class, 'update'])->name('entries.meet.event.update');
 
         Route::resource('events', EventController::class);
 

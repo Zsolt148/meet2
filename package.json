@@ -37,6 +37,7 @@
         "filepond-plugin-file-validate-type": "^1.2.6",
         "vue-filepond": "^7.0.2",
         "vue3-date-time-picker": "^2.3.6",
+        "vuedraggable": "^4.1.0",
         "yarn": "^1.22.17"
     },
     "packageManager": "yarn@3.1.0"

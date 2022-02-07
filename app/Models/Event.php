@@ -36,6 +36,20 @@ class Event extends Model
         'swim'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function meets()
+    {
+        return $this->belongsToMany(Meet::class, 'meet_event', 'event_id', 'meet_id')
+            ->withTimestamps()
+            ->withPivot('order', 'category');
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');

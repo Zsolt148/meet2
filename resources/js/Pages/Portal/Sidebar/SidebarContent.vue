@@ -65,7 +65,7 @@
             :active="isUrl('admin/entries/meet*')"
             v-show="isAdmin()"
         >
-            <SidebarCollapsibleItem :href="route('admin:entries.meet.index')" title="Összes" :active="route().current('admin:entries.meet.index') || route().current('admin:entries.meet.edit') || route().current('admin:entries.meet.show')" />
+            <SidebarCollapsibleItem :href="route('admin:entries.meet.index')" title="Versenyek" :active="route().current('admin:entries.meet.index') || route().current('admin:entries.meet.edit') || route().current('admin:entries.meet.show')" />
         </SidebarCollapsible>
 
         <SidebarCollapsible

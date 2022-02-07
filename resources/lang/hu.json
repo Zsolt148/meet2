@@ -115,8 +115,8 @@
   "male" : "férfi",
   "female" : "női",
   "freestyle" : "gyorsúszás",
-  "backstroke" : "mellúszás",
-  "breaststroke" : "hátúszás",
+  "backstroke" : "hátúszás",
+  "breaststroke" : "mellúszás",
   "butterfly" : "pillangóúszás",
   "medley" : "vegyesúszás",
 

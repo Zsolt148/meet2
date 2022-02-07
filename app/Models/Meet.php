@@ -118,59 +118,109 @@ class Meet extends Model implements HasMedia
         //self::ENTRY_APP_SWIMMING,
     ];
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeVisible($query) {
         return $query->whereIsVisible(true);
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeEntriable($query) {
         return $query->whereIsEntriable(true);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function location()
     {
         return $this->belongsTo(Location::class, 'location_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function contact()
     {
         return $this->belongsTo(Contact::class, 'contact_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function news()
     {
         return $this->hasMany(MeetNews::class, 'meet_id')->orderBy('created_at', 'DESC');
     }
 
+    /**
+     * @return Model
+     */
     public function latestNews()
     {
         return $this->news()->latest()->firstOrNew();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'meet_event', 'meet_id', 'event_id')
+            ->using(MeetEvent::class)
+            ->withPivot('order', 'category')
+            ->withTimestamps();
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function raceInfo()
     {
         return $this->belongsTo(Media::class, 'race_info_id', 'uuid');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function preStartlist()
     {
         return $this->belongsTo(Media::class, 'pre_startlist_id', 'uuid');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function raceRecord()
     {
         return $this->belongsTo(Media::class, 'race_record_id', 'uuid');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function timeSchedule()
     {
         return $this->belongsTo(Media::class, 'time_schedule_id', 'uuid');
     }
 
+    /**
+     * @return $this
+     */
     public function getMediaFiles()
     {
         if($media = $this->raceInfo) {

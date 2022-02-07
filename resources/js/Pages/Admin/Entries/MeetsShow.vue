@@ -2,30 +2,34 @@
     <Head title="Nevezhető verseny" />
 
     <portal-layout>
-        <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-        <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mb-5 -mt-3">
-            <div>
-                <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
-                    <CogIcon class="w-5 h-5 mr-2" />
-                    Szerkesztés
-                </jet-button>
-            </div>
+        <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
 
-            <div>
-                <jet-button size="sm" variant="success" :href="route('admin:entries.meet.edit', meet)">
-                    Versenyszámok
-                </jet-button>
-            </div>
+            <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-            <div>
-                <jet-button size="sm" variant="info" :href="route('admin:entries.meet.edit', meet)">
-                    Fizetések
-                </jet-button>
+            <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0">
+                <div>
+                    <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
+                        <CogIcon class="w-5 h-5 mr-2" />
+                        Szerkesztés
+                    </jet-button>
+                </div>
+
+                <div>
+                    <jet-button size="sm" variant="success" :href="route('admin:entries.meet.event.index', meet)">
+                        Versenyszámok
+                    </jet-button>
+                </div>
+
+                <div>
+                    <jet-button size="sm" variant="info" :href="route('admin:entries.meet.edit', meet)">
+                        Fizetések
+                    </jet-button>
+                </div>
             </div>
         </div>
 
-        <div class="text-lg font-bold">
+        <div class="text-lg font-bold ">
             Leadott Nevezések
         </div>
 
