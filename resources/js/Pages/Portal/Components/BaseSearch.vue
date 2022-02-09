@@ -25,7 +25,6 @@ export default {
     },
     props: {
         searchTerm: {
-            type: String,
             default: null
         },
         selectValue: {

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Role\RoleService;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -21,10 +23,12 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(RoleService $roleService)
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('isAdmin', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin'));
+        Gate::define('isTeamLeader', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin', 'senior_team_leader', 'bm_team_leader'));
+
     }
 }

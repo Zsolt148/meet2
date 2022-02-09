@@ -164,8 +164,11 @@ export default {
 
     methods: {
         isAdmin() {
-            return this.$page.props.user.role === 'admin' //TODO nicer
-        }
+            return this.$page.props.roles.isAdmin
+        },
+        isTeamLeader() {
+            return this.$page.props.roles.isTeamLeader
+        },
     }
 }
 </script>

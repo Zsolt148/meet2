@@ -1,5 +1,6 @@
 <template>
     <portal-layout>
+        <Head title="Felhasználó szerkesztése" />
         <div>
             <bread-crumb :back-route="route('admin:users.index')" back-name="Felhasználók" :current="form.name" />
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
@@ -21,12 +22,22 @@
                                 <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
-                            <div class="w-1/3">
-                                <jet-label for="role" value="Típus"/>
-                                <select name="role" id="role" v-model="form.role">
-                                    <option v-for="(role, key) in roles" :key="key" :value="key">{{role}}</option>
-                                </select>
-                                <jet-input-error :message="form.errors.role" class="mt-2" />
+                        </div>
+                        <div class="space-x-4 flex flex-row mt-5">
+                            <div class="w-full">
+                                <jet-label for="" value="Jogosultságok"/>
+                                <div v-for="(role, index) in allRoles" :key="index" class="my-3">
+                                    <jet-label :for="role.id">
+                                        <div class="flex items-center text-xl">
+                                            <jet-checkbox :id="role.id" v-model="roles[index].isSelected" :checked="role.isSelected" />
+
+                                            <div class="ml-2">
+                                                {{ role.name }} <br>
+                                                <div class="text-xs">{{ role.hint }}</div>
+                                            </div>
+                                        </div>
+                                    </jet-label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +75,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useForm } from '@inertiajs/inertia-vue3'
 import { Inertia } from "@inertiajs/inertia";
 import PortalLayout from "@/Layouts/PortalLayout";
@@ -72,6 +83,7 @@ import JetButton from "@/Jetstream/Button";
 import JetInput from "@/Jetstream/Input";
 import JetInputError from "@/Jetstream/InputError";
 import JetLabel from "@/Jetstream/Label";
+import JetCheckbox from "@/Jetstream/Checkbox";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 import BreadCrumb from "@/Shared/BreadCrumb";
 
@@ -82,24 +94,27 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
+        JetCheckbox,
         JetConfirmationModal,
         BreadCrumb
     },
     props: {
         editUser: Object,
-        roles: Array,
+        allRoles: Array,
     },
     setup(props) {
         const confirmModalShow = ref(false);
+        const roles = reactive(props.allRoles);
 
         const form = useForm({
             _method: 'PUT',
             name: props.editUser.name,
             email: props.editUser.email,
-            role: props.editUser.role,
+            roles: []
         })
 
         function update() {
+            form.roles = roles
             form.put(route('admin:users.update', props.editUser.id))
         }
 
@@ -107,11 +122,17 @@ export default {
             Inertia.delete(route('admin:users.destroy', props.editUser.id))
         }
 
+        function isChecked(obj, id) {
+            return obj.find(x => x.id === id) ? true : false
+        }
+
         return {
             confirmModalShow,
             form,
+            roles,
             update,
             deleteModel,
+            isChecked
         }
     },
 }

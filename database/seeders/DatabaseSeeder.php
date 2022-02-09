@@ -15,15 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (App::environment('local')) {
-            User::factory(5)->create();
-        }
-
-        $this->call(UserSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(AdminSeeder::class);
         $this->call(ContactSeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(MeetSeeder::class);
         $this->call(MeetNewsSeeder::class);
         $this->call(EventSeeder::class);
+
+        if (App::environment('local')) {
+            User::factory(5)->create();
+        }
     }
 }

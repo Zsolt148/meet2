@@ -3,11 +3,24 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Role\RoleService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UserSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
+
+    protected $roleService;
+
+    /**
+     * AdminSeeder constructor.
+     * @param RoleService $roleService
+     */
+    public function __construct(RoleService $roleService)
+    {
+        $this->roleService = $roleService;
+    }
+
     /**
      * Run the database seeds.
      *
@@ -19,28 +32,30 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Budai Zsolt',
                 'email' => 'b.zsolt148@gmail.com',
-                'role' => 'admin',
                 'password' => '$2y$10$RTKomZaszHHGhelMjszMIeyn01vqv4dMe0GKKVizXtuDwZ0DN8NCC',
             ],[
                 'name' => 'Kolonics Krisztián',
                 'email' => 'kolonics@kvsc.info',
-                'role' => 'admin',
                 'password' => '$2y$10$StbLrYkjt9cK1G1dWtuGCe743bAKp/GJA5qTU//XQhm0Xt/NNHg5i',
             ],
         ];
 
         foreach($users as $data) {
-            User::firstOrCreate(
+            $user = User::firstOrCreate(
                 [
                     'email' => $data['email']
                 ], [
                     'name' => $data['name'],
-                    'role' => $data['role'],
                     'password' => $data['password'],
                     'email_verified_at' => now(),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
+            );
+
+            $this->roleService->syncRoles(
+                $user,
+                ['admin']
             );
         }
     }

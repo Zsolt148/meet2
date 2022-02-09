@@ -53,7 +53,10 @@
                     </td>
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:users.edit', user.id)" tabindex="-1">
-                            {{ user.role_val }}
+                            <span v-if="user.roles.length" v-for="(role, index) in user.roles" :key="index" class="mr-2">
+                                {{ role.name }}
+                            </span>
+                            <span v-else>Felhasználó</span>
                         </Link>
                     </td>
                     <td class="td-class">

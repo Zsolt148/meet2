@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
@@ -34,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
                     'success' => Session::get('success'),
                 ];
             },
+            'roles' => function (User $user) {
+                return [
+                    'isAdmin' => Gate::allows('isAdmin', $user),
+                    'isTeamLeader' => Gate::allows('isTeamLeader', $user),
+                ];
+            }
         ]);
     }
 

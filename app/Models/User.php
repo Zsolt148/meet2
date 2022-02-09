@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -95,15 +96,6 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
-        'role_val',
-    ];
-
-    const ROLE_USER = 'user';
-    const ROLE_ADMIN = 'admin';
-
-    const ROLES = [
-        self::ROLE_USER => 'Felhasználó',
-        self::ROLE_ADMIN => 'Admin',
     ];
 
     protected function getCreatedAtAttribute($date)
@@ -111,13 +103,25 @@ class User extends Authenticatable
         return Carbon::parse($date)->format('Y.m.d H:i');
     }
 
-    public function getRoleValAttribute()
+    public function isAdmin()
     {
-        return self::ROLES[$this->role];
+        return $this->roles()->where('slug', 'admin')->exists();
     }
 
-    public function isAdmin() {
-        return $this->role == self::ROLE_ADMIN;
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAdmins(Builder $query)
+    {
+        return $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'admin'));
     }
 
     public function scopeWhereRole($query, $role)
@@ -132,8 +136,6 @@ class User extends Authenticatable
                 $query->where('name', 'like', '%'.$search.'%')
                     ->orWhere('email', 'like', '%'.$search.'%');
             });
-        })->when($filters['role'] ?? null, function ($query, $role) {
-            $query->whereRole($role);
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
                 $query->withTrashed();
