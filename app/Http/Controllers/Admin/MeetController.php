@@ -121,6 +121,7 @@ class MeetController extends BaseAdminController
             'meet' => $meet,
             'locations' => Location::all(),
             'contacts' => Contact::all(),
+            'isEntriable' => $meet->isEntriable()
         ]);
     }
 

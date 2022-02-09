@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="flex justify-end space-x-4">
-                                <jet-button :loading="form.processing" @click.native="update" size="sm" variant="info" :href="route('admin:entries.meet.show', meet)" v-show="form.is_entriable">
+                                <jet-button size="sm" variant="info" :href="route('admin:entries.meet.show', meet)" v-show="form.is_entriable && isEntriable">
                                     Nevezések
                                 </jet-button>
 
@@ -375,6 +375,7 @@ export default {
         meet: Object,
         locations: Object,
         contacts: Object,
+        isEntriable: Boolean,
     },
 
     setup({ meet }) {

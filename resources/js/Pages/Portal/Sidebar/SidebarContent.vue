@@ -60,13 +60,11 @@
             v-show="isAdmin()"
         />
 
-        <SidebarCollapsible
-            title="Nevezések"
-            :active="isUrl('admin/entries/meet*')"
-            v-show="isAdmin()"
-        >
-            <SidebarCollapsibleItem :href="route('admin:entries.meet.index')" title="Versenyek" :active="route().current('admin:entries.meet.index') || route().current('admin:entries.meet.edit') || route().current('admin:entries.meet.show')" />
-        </SidebarCollapsible>
+        <SidebarLink :href="route('admin:entries.meet.index')"
+                     title="Nevezések"
+                     v-show="isAdmin()"
+                     :active="isUrl('admin/entries/meet*')"
+        />
 
         <SidebarCollapsible
             title="Versenyek"

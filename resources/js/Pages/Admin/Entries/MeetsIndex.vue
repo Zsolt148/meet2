@@ -132,7 +132,7 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, route('admin:meets.index'));
+        getWatch(params, route('admin:entries.meet.index'));
 
         return {
             params,

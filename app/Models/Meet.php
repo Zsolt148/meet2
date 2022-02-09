@@ -241,4 +241,9 @@ class Meet extends Model implements HasMedia
 
         return $this;
     }
+
+    public function isEntriable()
+    {
+        return $this->is_entriable;
+    }
 }

@@ -10,22 +10,33 @@
                 <span class="font-medium pl-1">/</span>
                 <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.event.index', meet.id)"> Versenyszámok </Link>
                 <span class="font-medium pl-1">/</span>
-                Létrehozás
+                <span v-if="isEventsEmpty">Létrehozás</span><span v-else>Szerkesztés</span>
             </bread-crumb>
         </div>
 
-        <div class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
-            <ExclamationIcon class="w-5 h-5 mr-2" />
+        <div v-if="isEventsEmpty" class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+            <div class="mr-2">
+                <ExclamationIcon class="w-5 h-5" />
+            </div>
             <div>
                 <span class="font-bold">Figyelem!</span>
                 Ezt a listát egyszer lehet létrehozni, szerkesztésre nincs mód, csupán teljes törlésre amely a nevezések törlésével is járhat!
+            </div>
+        </div>
+        <div v-else class="flex flex-row items-center bg-red-100 rounded-lg p-3 text-sm text-red-700 mb-5" role="alert">
+            <div class="mr-2">
+                <ExclamationIcon class="w-5 h-5" />
+            </div>
+            <div>
+                <span class="font-bold">Figyelem!</span>
+                Ez a lista már létre lett hozva egyszer, az újboli mentés az előző lista és a hozzá tartozó összes nevezés törlésével jár!
             </div>
         </div>
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto p-8">
 
             <div class="flex flex-row items-center justify-end">
-                <jet-button @click="save">
+                <jet-button @click="confirmModalShow = true">
                     Mentés
                 </jet-button>
             </div>
@@ -80,6 +91,45 @@
                 </div>
             </div>
         </div>
+        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
+            <template #title>
+                Nevezések létrehozása
+            </template>
+
+            <template #content>
+                <div v-if="isEventsEmpty" class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+                    <div class="mr-2">
+                        <ExclamationIcon class="w-5 h-5" />
+                    </div>
+                    <div>
+                        <span class="font-bold">Figyelem!</span>
+                        Ezt a listát egyszer lehet létrehozni, szerkesztésre nincs mód, csupán teljes törlésre amely a nevezések törlésével is járhat!
+                    </div>
+                </div>
+                <div v-else class="flex flex-row items-center bg-red-100 rounded-lg p-3 text-sm text-red-700 mb-5" role="alert">
+                    <div class="mr-2">
+                        <ExclamationIcon class="w-5 h-5" />
+                    </div>
+                    <div>
+                        <span class="font-bold">Figyelem!</span>
+                        Ez a lista már létre lett hozva egyszer, az újboli mentés az előző lista és a hozzá tartozó összes nevezés törlésével jár!
+                    </div>
+                </div>
+
+                Biztosan létre szeretnéd hozni a versenyszámokat ?
+
+            </template>
+
+            <template #footer>
+                <jet-button variant="secondary" type="button" class="mr-2" @click.native="confirmModalShow = false">
+                    Mégse
+                </jet-button>
+
+                <jet-button variant="primary" type="button" @click.native="save">
+                    Mentés
+                </jet-button>
+            </template>
+        </jet-confirmation-modal>
     </portal-layout>
 </template>
 
@@ -89,6 +139,7 @@ import JetButton from "@/Jetstream/Button";
 import { ExclamationIcon, ViewListIcon, XIcon } from '@heroicons/vue/outline'
 import BreadCrumb from "@/Shared/BreadCrumb";
 import draggable from 'vuedraggable'
+import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 
 export default {
     components: {
@@ -99,15 +150,18 @@ export default {
         ViewListIcon,
         XIcon,
         draggable,
+        JetConfirmationModal
     },
     props: {
         allEvents: Object,
         meet: Object,
+        isEventsEmpty: Boolean,
     },
     data() {
         return {
             eventList: [],
             idGlobal: 0,
+            confirmModalShow: false,
         }
     },
     methods: {

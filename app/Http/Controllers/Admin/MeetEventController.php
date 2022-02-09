@@ -17,13 +17,12 @@ class MeetEventController extends BaseAdminController
      */
     public function index(Request $request, Meet $meet)
     {
-        $query = $this->getQuery($meet->events(), request(), ['length']);
+        $query = $meet->events();
 
         return Inertia::render('Admin/Entries/Events/EventsIndex', [
             'meet' => $meet,
-            'events' => $query->paginate()->withQueryString(),
+            'events' => $query->get(),
             'isEventsEmpty' => $meet->events()->get()->isEmpty(),
-            'filters' => request()->all(['length']),
         ]);
     }
 
@@ -35,7 +34,8 @@ class MeetEventController extends BaseAdminController
     {
         return Inertia::render('Admin/Entries/Events/EventsCreate', [
             'meet' => $meet,
-            'allEvents' => Event::all()
+            'allEvents' => Event::all(),
+            'isEventsEmpty' => $meet->events()->get()->isEmpty(),
         ]);
     }
 
@@ -48,6 +48,10 @@ class MeetEventController extends BaseAdminController
      */
     public function store(Request $request, Meet $meet)
     {
+        if($meet->events()->get()->isNotEmpty()) {
+            $meet->events()->detach();
+        }
+
         collect($request->events)->each(function ($event, $key) use (&$meet) {
             // attach one by one beacuse event_id can be the same
             $meet->events()->attach([
@@ -58,7 +62,7 @@ class MeetEventController extends BaseAdminController
             ]);
         });
 
-        dd('store', $meet, $request->all());
+        return redirect()->route('admin:entries.meet.event.index', $meet)->with('success', 'Versenszámok sikeresn létrehozva');
     }
 
 //    /**
