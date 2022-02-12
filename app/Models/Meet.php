@@ -65,10 +65,15 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder|Meet visible()
  * @property bool $is_entriable
  * @property string|null $entry_type
+ * @property string|null $entry_app
  * @property int $entry_price
  * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Meet whereIsEntriable($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read int|null $events_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Meet entriable()
+ * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryApp($value)
  */
 class Meet extends Model implements HasMedia
 {
@@ -245,5 +250,10 @@ class Meet extends Model implements HasMedia
     public function isEntriable()
     {
         return $this->is_entriable;
+    }
+
+    public function isEntryPriceSet()
+    {
+        return $this->entry_price !== 0;
     }
 }

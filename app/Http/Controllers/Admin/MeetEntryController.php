@@ -40,6 +40,7 @@ class MeetEntryController extends BaseAdminController
             'meet' => $meet,
             'entries' => $query->paginate()->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
+            'isEntrySet' => $meet->isEntryPriceSet() && $meet->entry_type !== null && $meet->entry_app !== null,
         ]);
     }
 

@@ -80,7 +80,7 @@
                         </td>
                     </tr>
                     <tr v-if="meets.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="4">Nem található verseny</td>
+                        <td class="border-t px-6 py-2" colspan="5">Nem található verseny</td>
                     </tr>
                 </template>
             </base-table>

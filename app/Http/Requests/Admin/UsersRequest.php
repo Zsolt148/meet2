@@ -27,6 +27,7 @@ class UsersRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'role' => ['array'],
+            'team_id' => ['nullable'],
         ];
     }
 }

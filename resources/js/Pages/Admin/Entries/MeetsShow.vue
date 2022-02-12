@@ -29,6 +29,16 @@
             </div>
         </div>
 
+        <div v-if="!isEntrySet" class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+            <div class="mr-2">
+                <ExclamationIcon class="w-5 h-5" />
+            </div>
+            <div>
+                <span class="font-bold">Figyelem!</span>
+                Nincs még minden nevezési beállítás megadva! Kattintson a szerkesztés gombra!
+            </div>
+        </div>
+
         <div class="text-lg font-bold ">
             Leadott Nevezések
         </div>
@@ -118,7 +128,7 @@
 import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
-import { ChevronRightIcon, CogIcon } from '@heroicons/vue/outline'
+import { ChevronRightIcon, CogIcon, ExclamationIcon } from '@heroicons/vue/outline'
 import Pagination from '@/Shared/Pagination'
 import { getParams, getWatch } from '@/Use/useQuery';
 import TableChevron from '@/Shared/TableChevron'
@@ -129,6 +139,7 @@ export default {
     components: {
         ChevronRightIcon,
         CogIcon,
+        ExclamationIcon,
         JetButton,
         PortalLayout,
         Pagination,
@@ -141,6 +152,7 @@ export default {
         meet: Object,
         entries: Object,
         filters: Object,
+        isEntrySet: Boolean,
     },
     setup(props) {
         const params = getParams(props);

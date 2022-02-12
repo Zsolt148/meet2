@@ -48,6 +48,12 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $team_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \App\Models\Team|null $team
+ * @method static Builder|User admins()
+ * @method static Builder|User whereTeamId($value)
  */
 class User extends Authenticatable
 {
@@ -66,6 +72,7 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'team_id',
     ];
 
     /**
@@ -101,6 +108,11 @@ class User extends Authenticatable
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id');
     }
 
     public function isAdmin()

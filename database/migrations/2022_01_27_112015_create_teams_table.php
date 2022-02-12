@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type')->nullable();
+            $table->string('country')->nullable();
             $table->string('SA')->nullable();
             $table->string('address')->nullable();
             $table->softDeletes();

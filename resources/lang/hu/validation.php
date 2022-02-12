@@ -137,6 +137,21 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'team_id' => [
+            'required_if' => 'Az egyesület mező nem lehet üres, ha szenior csapatvezető szeretne lenni',
+        ],
+        'other_team' => [
+            'required_if' => 'Az egyéb csapat neve mező nem lehet üres, ha az egyesület egyéb',
+        ],
+        'other_team_country' => [
+            'required_if' => 'Az egyéb csapat országa mező nem lehet üres, ha az egyesület egyéb',
+        ],
+        'entry_type' => [
+            'required_if' => 'A nevezés típusa nem lehet üres, ha nevezhető a verseny',
+        ],
+        'entry_app' => [
+            'required_if' => 'A nevezés exportálása nem lehet üres, ha nevezhető a verseny',
+        ],
     ],
 
     /*
@@ -178,5 +193,6 @@ return [
         'files' => 'Fájlok',
         'race_info' => 'Versenykiírás',
         'report' => 'Jegyzőkönyv',
+        'terms' => 'Szolgáltatási feltételek és Adatvédelmi irányelvek'
     ],
 ];

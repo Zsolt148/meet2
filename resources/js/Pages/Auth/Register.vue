@@ -28,6 +28,38 @@
                     <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" :error="form.errors.password" required autocomplete="new-password" />
                 </div>
 
+                <div class="mt-4">
+                    <jet-label for="isSenior">
+                        <div class="flex items-center">
+                            <jet-checkbox name="isSenior" id="isSenior" v-model:checked="form.isSenior" />
+
+                            <div class="ml-2">
+                                {{ __('I would like to register as a senior team leader so I can submit entries for competitions') }}
+                            </div>
+                        </div>
+                    </jet-label>
+                </div>
+
+                <div class="mt-4" v-if="form.isSenior">
+                    <jet-label for="team_id" value="Egyesület"/>
+                    <select name="team_id" id="team_id" v-model="form.team_id">
+                        <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
+                        <option value="other">{{ __('Other') }}</option>
+                    </select>
+                    <jet-input-error :message="form.errors.team_id" class="mt-2" />
+                </div>
+
+                <div class="mt-4" v-if="form.isSenior && form.team_id == 'other'">
+                    <jet-label for="other_team" :value="__('Other team name')" />
+                    <jet-input id="other_team" type="text" v-model="form.other_team" autocomplete="off" />
+                    <jet-input-error :message="form.errors.other_team" class="mt-2" />
+                </div>
+                <div class="mt-4" v-if="form.isSenior && form.team_id == 'other'">
+                    <jet-label for="other_team_country" :value="__('Other team country')" />
+                    <jet-input id="other_team_country" type="text" v-model="form.other_team_country" autocomplete="off" />
+                    <jet-input-error :message="form.errors.other_team_country" class="mt-2" />
+                </div>
+
                 <div class="mt-4" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
                     <jet-label for="terms">
                         <div class="flex items-center">
@@ -83,6 +115,8 @@
             AppLayout
         },
 
+        props: ['teams'],
+
         data() {
             return {
                 form: this.$inertia.form({
@@ -90,6 +124,10 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
+                    isSenior: false,
+                    team_id: '',
+                    other_team: '',
+                    other_team_country: '',
                     terms: false,
                 })
             }

@@ -52,34 +52,29 @@
                 </tr>
                 <tr v-for="team in teams.data" :key="team.id" class="tr-class">
                     <td class="td-class">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)">
+                        <span class="td-content">
                             {{ team.name }}
-                        </Link>
+                        </span>
                     </td>
                     <td class="td-class">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)">
+                        <span class="td-content">
                             {{ __(team.type) }}
-                        </Link>
+                        </span>
                     </td>
                     <td class="td-class">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)" tabindex="-1">
+                        <span class="td-content" tabindex="-1">
                             {{ team.SA }}
-                        </Link>
+                        </span>
                     </td>
                     <td class="td-class">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)" tabindex="-1">
+                        <span class="td-content" tabindex="-1">
                             {{ team.address }}
-                        </Link>
+                        </span>
                     </td>
                     <td class="td-class">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)" tabindex="-1">
+                        <span class="td-content" tabindex="-1">
                             {{ team.created_at }}
-                        </Link>
-                    </td>
-                    <td class="td-class w-px">
-                        <Link class="td-content" :href="route('admin:teams.edit', team.id)" tabindex="-1">
-                            <ChevronRightIcon class="w-5 h-5" />
-                        </Link>
+                        </span>
                     </td>
                 </tr>
                 <tr v-if="teams.data.length === 0">

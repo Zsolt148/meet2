@@ -22,7 +22,16 @@
                                 <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
+                            <div class="w-1/3">
+                                <jet-label for="team_id" value="Egyesület"/>
+                                <select name="team_id" id="team_id" v-model="form.team_id">
+                                    <option value="null">{{ __('Empty') }}</option>
+                                    <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
+                                </select>
+                                <jet-input-error :message="form.errors.team_id" class="mt-2" />
+                            </div>
                         </div>
+
                         <div class="space-x-4 flex flex-row mt-5">
                             <div class="w-full">
                                 <jet-label for="" value="Jogosultságok"/>
@@ -101,6 +110,7 @@ export default {
     props: {
         editUser: Object,
         allRoles: Array,
+        teams: Array,
     },
     setup(props) {
         const confirmModalShow = ref(false);
@@ -110,6 +120,7 @@ export default {
             _method: 'PUT',
             name: props.editUser.name,
             email: props.editUser.email,
+            team_id: props.editUser.team_id,
             roles: []
         })
 

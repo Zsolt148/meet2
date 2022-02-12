@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -94,12 +95,12 @@ if (Features::enabled(Features::resetPasswords())) {
 // Registration...
 if (Features::enabled(Features::registration())) {
     if ($enableViews) {
-        Route::get('/register', [RegisteredUserController::class, 'create'])
+        Route::get('/register', [RegisterController::class, 'create'])
             ->middleware(['guest:'.config('fortify.guard')])
             ->name('register');
     }
 
-    Route::post('/register', [RegisteredUserController::class, 'store'])
+    Route::post('/register', [RegisterController::class, 'store'])
         ->middleware(['guest:'.config('fortify.guard')]);
 }
 

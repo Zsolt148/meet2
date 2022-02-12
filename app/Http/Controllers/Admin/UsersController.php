@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UsersRequest;
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use App\Role\RoleService;
 use Inertia\Inertia;
@@ -17,7 +18,18 @@ class UsersController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(User::query()->with('roles'), request(), ['name', 'email']);
+        $query = $this->getQuery(User::query()->with('roles', 'team'), request(), ['name', 'email']);
+
+        if($search = request()->get('search')) {
+            $query
+                ->orWhereHas('roles', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%'.$search.'%');
+                })
+                ->orWhereHas('team', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%'.$search.'%');
+                })
+            ;
+        }
 
         return Inertia::render('Admin/Users/UsersIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
@@ -33,7 +45,7 @@ class UsersController extends BaseAdminController
      */
     public function edit(User $user)
     {
-        $user->load('roles');
+        $user->load('roles', 'team');
 
         $roles = collect(Role::all())->map(function ($role) use ($user) {
             return [
@@ -47,7 +59,8 @@ class UsersController extends BaseAdminController
 
         return Inertia::render('Admin/Users/UsersEdit', [
             'editUser' => $user,
-            'allRoles' => $roles
+            'allRoles' => $roles,
+            'teams' => Team::all(),
         ]);
     }
 
@@ -60,10 +73,13 @@ class UsersController extends BaseAdminController
      */
     public function update(UsersRequest $request, User $user, RoleService $roleService)
     {
-        $user->update($request->only(
+        $user->fill($request->only(
             'name',
-            'email'
+            'email',
+            'team_id'
         ));
+
+        $user->save();
 
         $roles = collect($request->roles)->filter(function ($role) {
             return $role['isSelected'];

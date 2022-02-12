@@ -26,7 +26,13 @@
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('role')">
+                        <span class="th-content">
+                            Egyesület
+                            <table-chevron :params="params" value="team" />
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content">
                             Jogosultság
                             <table-chevron :params="params" value="role" />
                         </span>
@@ -42,13 +48,17 @@
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:users.edit', user.id)">
                             <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-8 w-8 object-cover mr-4">
-
                             {{ user.name }}
                         </Link>
                     </td>
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:users.edit', user.id)" tabindex="-1">
                             {{ user.email }}
+                        </Link>
+                    </td>
+                    <td class="td-class">
+                        <Link class="td-content" :href="route('admin:users.edit', user.id)" tabindex="-1">
+                            {{ user.team ? user.team.name : '-' }}
                         </Link>
                     </td>
                     <td class="td-class">
