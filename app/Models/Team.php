@@ -47,10 +47,17 @@ class Team extends Model
     ];
 
     const TYPE_SENIOR = 'senior';
+    const TYPE_OTHER = 'other';
 
     CONST TYPES = [
         self::TYPE_SENIOR,
+        self::TYPE_OTHER,
     ];
+
+    public function scopeSenior($query)
+    {
+        return $query->whereType(self::TYPE_SENIOR);
+    }
 
     protected function getCreatedAtAttribute($date)
     {

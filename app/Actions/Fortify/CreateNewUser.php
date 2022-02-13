@@ -44,7 +44,7 @@ class CreateNewUser implements CreatesNewUsers
         if($input['isSenior']) {
             $team = Team::create([
                 'name' => $input['other_team'],
-                'type' => 'other',
+                'type' => Team::TYPE_OTHER,
                 'country' => $input['other_team_country'],
             ]);
 
