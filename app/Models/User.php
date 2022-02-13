@@ -105,21 +105,34 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    /**
+     * @param $date
+     * @return string
+     */
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function team()
     {
         return $this->belongsTo(Team::class, 'team_id');
     }
 
+    /**
+     * @return bool
+     */
     public function isAdmin()
     {
         return $this->roles()->where('slug', 'admin')->exists();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')
@@ -136,11 +149,10 @@ class User extends Authenticatable
         return $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'admin'));
     }
 
-    public function scopeWhereRole($query, $role)
-    {
-        return $query->where('role', $role);
-    }
-
+    /**
+     * @param $query
+     * @param array $filters
+     */
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Competitor;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
-class TeamController extends BaseAdminController
+class CompetitorController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +17,11 @@ class TeamController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(Team::class, request(), ['name', 'type', 'SA', 'address']);
+        $query = $this->getQuery(Competitor::query()->with('team'), request(), ['name', 'type', 'birth']);
 
-        return Inertia::render('Admin/Teams/TeamsIndex', [
+        return Inertia::render('Admin/Competitors/CompetitorsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
-            'teams' => $query->paginate()->withQueryString()
+            'competitors' => $query->paginate()->withQueryString()
         ]);
     }
 
@@ -48,10 +49,10 @@ class TeamController extends BaseAdminController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Team  $team
+     * @param  \App\Models\Competitor  $competitor
      * @return \Illuminate\Http\Response
      */
-    public function show(Team $team)
+    public function show(Competitor $competitor)
     {
         //
     }
@@ -59,10 +60,10 @@ class TeamController extends BaseAdminController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Team  $team
+     * @param  \App\Models\Competitor  $competitor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Team $team)
+    public function edit(Competitor $competitor)
     {
         //
     }
@@ -71,10 +72,10 @@ class TeamController extends BaseAdminController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Team  $team
+     * @param  \App\Models\Competitor  $competitor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, Competitor $competitor)
     {
         //
     }
@@ -82,30 +83,35 @@ class TeamController extends BaseAdminController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Team  $team
+     * @param  \App\Models\Competitor  $competitor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Team $team)
+    public function destroy(Competitor $competitor)
     {
         //
     }
 
     public function sync()
     {
-        $response = Http::get('https://mszuosz.hu/api/teams');
+        $response = Http::get('https://engedely.mszuosz.hu/api/competitors');
 
         $response->throw();
 
-        $teams = $response->json();
+        $competitors = $response->json();
 
-        foreach($teams as $team) {
-            Team::updateOrCreate(
+        foreach($competitors as $competitor) {
+            // team by unique SA
+            $team = Team::query()->where('SA', $competitor['team_sa'])->first();
+
+            Competitor::updateOrCreate(
                 [
-                    'SA' => $team['SA'],
+                    'foreign_id' => $competitor['id'],
                 ], [
-                    'name' => $team['name'],
-                    'type' => Team::TYPE_SENIOR,
-                    'address' => $team['address'],
+                    'team_id' => $team ? $team->id : null,
+                    'name' => $competitor['name'],
+                    'birth' => $competitor['birth'],
+                    'type' => Competitor::TYPE_SENIOR,
+                    //'created_at' => $team['created_at'], // parse error from get attribute
                 ]
             );
         }

@@ -17,6 +17,13 @@
             </template>
         </SidebarLink>
 
+        <SidebarLink
+            :title="__('Entry')"
+            :href="route('portal:dashboard')"
+            :active="route().current('portal:dashboard')"
+        >
+        </SidebarLink>
+
         <div class="mt-4 flex items-center justify-between" v-show="isAdmin()">
             <span class="border-b border-gray-300 dark:border-gray-500 w-2/6"></span>
 
@@ -39,33 +46,6 @@
             </template>
         </SidebarLink>
 
-        <SidebarLink
-            title="Egyesületek"
-            :href="route('admin:teams.index')"
-            :active="isUrl('admin/teams*')"
-            v-show="isAdmin()"
-        >
-            <template #icon>
-                <UsersIcon
-                    class="flex-shrink-0 w-6 h-6"
-                    aria-hidden="true"
-                />
-            </template>
-        </SidebarLink>
-
-        <SidebarLink
-            title="Versenyszámok"
-            :href="route('admin:events.index')"
-            :active="isUrl('admin/events*')"
-            v-show="isAdmin()"
-        />
-
-        <SidebarLink :href="route('admin:entries.meet.index')"
-                     title="Nevezések"
-                     v-show="isAdmin()"
-                     :active="isUrl('admin/entries/meet*')"
-        />
-
         <SidebarCollapsible
             title="Versenyek"
             :active="isUrl('admin/meets*')"
@@ -81,6 +61,36 @@
             <SidebarCollapsibleItem :href="route('admin:meets.create')" title="Új verseny" :active="route().current('admin:meets.create')" />
             <SidebarCollapsibleItem :href="route('admin:meets.index')" title="Összes" :active="route().current('admin:meets.index') || route().current('admin:meets.edit')" />
         </SidebarCollapsible>
+
+        <SidebarLink
+            title="Egyesületek"
+            :href="route('admin:teams.index')"
+            :active="isUrl('admin/teams*')"
+            v-show="isAdmin()"
+        >
+        </SidebarLink>
+
+        <SidebarLink
+            title="Versenyzők"
+            :href="route('admin:competitors.index')"
+            :active="isUrl('admin/competitors*')"
+            v-show="isAdmin()"
+        >
+        </SidebarLink>
+
+
+        <SidebarLink
+            title="Versenyszámok"
+            :href="route('admin:events.index')"
+            :active="isUrl('admin/events*')"
+            v-show="isAdmin()"
+        />
+
+        <SidebarLink :href="route('admin:entries.meet.index')"
+                     title="Nevezések"
+                     v-show="isAdmin()"
+                     :active="isUrl('admin/entries/meet*')"
+        />
 
         <SidebarCollapsible
             title="Helyszínek"

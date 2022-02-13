@@ -15,13 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoleSeeder::class);
-        $this->call(AdminSeeder::class);
-        $this->call(ContactSeeder::class);
-        $this->call(LocationSeeder::class);
-        $this->call(MeetSeeder::class);
-        $this->call(MeetNewsSeeder::class);
-        $this->call(EventSeeder::class);
+        $this->call([
+            RoleSeeder::class,
+            AdminSeeder::class,
+            ContactSeeder::class,
+            LocationSeeder::class,
+            MeetSeeder::class,      // TODO update
+            MeetNewsSeeder::class,  // TODO update
+            EventSeeder::class,
+            TeamSeeder::class,
+            CompetitorSeeder::class,
+        ]);
 
         if (App::environment('local')) {
             User::factory(5)->create();

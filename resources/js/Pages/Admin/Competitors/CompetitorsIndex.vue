@@ -4,9 +4,9 @@
     <portal-layout>
         <template #header>
             <div class="flex flex-col md:flex-row justify-between">
-                <span>Egyesületek</span>
+                <span>Versenyzők</span>
                 <div class="justify-content-end">
-                    <span class="text-sm font-normal mr-2">Szenior egyesületek lekérdezése az mszuosz.hu-ról</span>
+                    <span class="text-sm font-normal mr-2">Szenior versenyzők lekérdezése az engedely.mszuosz.hu-ről</span>
                     <Button size="sm" @click="syncTeams" :loading="form.processing">Szinkronizálás</Button>
                 </div>
             </div>
@@ -14,7 +14,7 @@
 
         <base-search @search="updateSearch" :search-term="params.search"></base-search>
 
-        <pagination class="my-5" :links="teams.links" />
+        <pagination class="my-5" :links="competitors.links" />
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
             <table class="w-full whitespace-nowrap">
@@ -32,14 +32,14 @@
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('SA')">
-                            SA
+                        <span class="th-content" @click="updateSort('birth')">
+                            Születési év
                             <table-chevron :params="params" value="SA" />
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('address')">
-                            Cím
+                        <span class="th-content" @click="updateSort('team')">
+                            Egyesület
                             <table-chevron :params="params" value="address" />
                         </span>
                     </th>
@@ -50,39 +50,39 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="team in teams.data" :key="team.id" class="tr-class">
+                <tr v-for="competitor in competitors.data" :key="competitor.id" class="tr-class">
                     <td class="td-class">
                         <span class="td-content">
-                            {{ team.name }}
+                            {{ competitor.name }}
                         </span>
                     </td>
                     <td class="td-class">
                         <span class="td-content">
-                            {{ __(team.type) }}
+                            {{ __(competitor.type) }}
                         </span>
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ team.SA }}
+                            {{ competitor.birth }}
                         </span>
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ team.address }}
+                            {{ competitor.team ? competitor.team.name : '-' }}
                         </span>
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ team.created_at }}
+                            {{ competitor.created_at }}
                         </span>
                     </td>
                 </tr>
-                <tr v-if="teams.data.length === 0">
-                    <td class="border-t px-6 py-2" colspan="5">Nem található egyesület</td>
+                <tr v-if="competitors.data.length === 0">
+                    <td class="border-t px-6 py-2" colspan="5">Nem található versenyző</td>
                 </tr>
             </table>
         </div>
-        <pagination class="my-5" :links="teams.links" />
+        <pagination class="my-5" :links="competitors.links" />
     </portal-layout>
 </template>
 
@@ -107,28 +107,28 @@ export default {
     },
     props: {
         filters: Object,
-        teams: Object,
+        competitors: Object,
     },
     setup(props) {
-        const params = getParams(props);
+        const params = getParams(props)
 
         function updateSearch(value) {
-            params.search.value = value;
+            params.search.value = value
         }
 
         function updateSort(field) {
-            params.field.value = field;
-            params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
+            params.field.value = field
+            params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc'
         }
 
-        getWatch(params, route('admin:teams.index'));
+        getWatch(params, route('admin:competitors.index'));
 
         const form = useForm({
             _method: 'POST'
         })
 
         function syncTeams() {
-            form.post(route('admin:teams.sync'));
+            form.post(route('admin:competitors.sync'))
         }
 
         return {

@@ -30,6 +30,7 @@ abstract class BaseAdminController extends Controller
             'field' => ['in:created_at,' . implode(',', $fields)],
         ]);
 
+        // if its a model
         if(is_string($query) && Str::contains($query, 'App\\Models')) {
             $query = $query::query();
         }

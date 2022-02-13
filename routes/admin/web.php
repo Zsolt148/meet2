@@ -1,6 +1,7 @@
 <?php
 
 // Users
+use App\Http\Controllers\Admin\CompetitorController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
@@ -19,6 +20,9 @@ Route::prefix('admin')
 
         Route::post('teams/sync', [TeamController::class, 'sync'])->name('teams.sync');
         Route::resource('teams', TeamController::class);
+
+        Route::post('competitors/sync', [CompetitorController::class, 'sync'])->name('competitors.sync');
+        Route::resource('competitors', CompetitorController::class);
 
         Route::resource('locations', LocationController::class)->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 
