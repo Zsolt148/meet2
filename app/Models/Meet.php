@@ -109,17 +109,21 @@ class Meet extends Model implements HasMedia
         'entry_price' => 'integer',
     ];
 
+    protected $appends = [
+        'is_deadline_ok'
+    ];
+
     const ENTRY_TYPE_SENIOR = 'senior';
 
     const ENTRY_TYPES = [
         self::ENTRY_TYPE_SENIOR,
     ];
 
-    const ENTRY_APP_MEET_MANAGER = 'meetmanager';
+    const ENTRY_APP_MEET_MANAGER_CSV = 'meetmanager - csv';
     const ENTRY_APP_SWIMMING = 'uszas';
 
     const ENTRY_APPS = [
-        self::ENTRY_APP_MEET_MANAGER,
+        self::ENTRY_APP_MEET_MANAGER_CSV,
         //self::ENTRY_APP_SWIMMING,
     ];
 
@@ -183,12 +187,29 @@ class Meet extends Model implements HasMedia
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function entries() 
+    {
+        return $this->hasMany(Entry::class, 'meet_id');
+    }
+
+    /**
      * @param $date
      * @return string
      */
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    protected function getDeadlineAttribute($date)
+    {
+        return Carbon::parse($date)->format('Y.m.d');
     }
 
     /**
@@ -255,5 +276,10 @@ class Meet extends Model implements HasMedia
     public function isEntryPriceSet()
     {
         return $this->entry_price !== 0;
+    }
+
+    public function getIsDeadlineOkAttribute()
+    {
+        return Carbon::createFromFormat('Y.m.d', $this->deadline)->endOfDay()->greaterThanOrEqualTo(Carbon::now());
     }
 }

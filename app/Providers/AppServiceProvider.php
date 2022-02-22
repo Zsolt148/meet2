@@ -38,8 +38,8 @@ class AppServiceProvider extends ServiceProvider
             },
             'roles' => function (User $user) {
                 return [
-                    'isAdmin' => Gate::allows('isAdmin', $user),
-                    'isTeamLeader' => Gate::allows('isTeamLeader', $user),
+                    'isAdmin' => Gate::allows('admin', $user),
+                    'isTeamLeader' => Gate::allows('team-leader', $user),
                 ];
             }
         ]);

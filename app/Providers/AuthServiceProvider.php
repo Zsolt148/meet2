@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('isAdmin', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin'));
-        Gate::define('isTeamLeader', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin', 'senior_team_leader', 'bm_team_leader'));
+        Gate::define('admin', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin'));
+        Gate::define('team-leader', fn(User $user) => $roleService->hasAnyRoleOf($user, 'admin', 'senior_team_leader', 'bm_team_leader'));
 
     }
 }

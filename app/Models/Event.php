@@ -44,6 +44,7 @@ class Event extends Model
     public function meets()
     {
         return $this->belongsToMany(Meet::class, 'meet_event', 'event_id', 'meet_id')
+            ->using(MeetEvent::class)
             ->withTimestamps()
             ->withPivot('order', 'category');
     }

@@ -54,11 +54,27 @@ class Team extends Model
         self::TYPE_OTHER,
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function competitors()
+    {
+        return $this->hasMany(Competitor::class, 'team_id');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
     public function scopeSenior($query)
     {
         return $query->whereType(self::TYPE_SENIOR);
     }
 
+    /**
+     * @param $date
+     * @return string
+     */
     protected function getCreatedAtAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d H:i');

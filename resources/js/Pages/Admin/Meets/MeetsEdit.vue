@@ -325,6 +325,7 @@
                 </jet-button>
             </template>
         </jet-confirmation-modal>
+        <ScrollTop />
     </portal-layout>
 </template>
 
@@ -351,11 +352,13 @@ import { EyeIcon } from '@heroicons/vue/outline'
 import vueFilePond, { setOptions } from 'vue-filepond';
 import "filepond/dist/filepond.min.css";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import ScrollTop from "@/Shared/ScrollTop";
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType);
 
 export default {
     components: {
+        ScrollTop,
         PortalLayout,
         JetButton,
         JetInput,

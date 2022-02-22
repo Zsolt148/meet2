@@ -123,6 +123,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function competitors()
+    {
+        return $this->team->competitors;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function entries()
+    {
+        return $this->hasMany(Entry::class, 'user_id');
+    }
+
+    /**
      * @return bool
      */
     public function isAdmin()

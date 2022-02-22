@@ -18,9 +18,9 @@
         </SidebarLink>
 
         <SidebarLink
-            :title="__('Entry')"
-            :href="route('portal:dashboard')"
-            :active="route().current('portal:dashboard')"
+            :title="__('Entries')"
+            :href="route('portal:meets.index')"
+            :active="isUrl('portal/meets*')"
         >
         </SidebarLink>
 
@@ -173,12 +173,7 @@ export default {
     },
 
     methods: {
-        isAdmin() {
-            return this.$page.props.roles.isAdmin
-        },
-        isTeamLeader() {
-            return this.$page.props.roles.isTeamLeader
-        },
+
     }
 }
 </script>

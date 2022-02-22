@@ -31,6 +31,14 @@ class Competitor extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function entries()
+    {
+        return $this->hasMany(Entry::class, 'competitor_id');
+    }
+
+    /**
      * @param $query
      * @return mixed
      */

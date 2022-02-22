@@ -21,6 +21,12 @@ module.exports = {
         isUrl(...urls) {
             return urls.filter(url => this.$page.url.match(url)).length ? true : false;
         },
+        isAdmin() {
+            return this.$page.props.roles.isAdmin
+        },
+        isTeamLeader() {
+            return this.$page.props.roles.isTeamLeader
+        },
         route
     }
 }
