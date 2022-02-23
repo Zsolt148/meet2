@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Portal;
+namespace App\Http\Requests\Admin;
 
 use App\Rules\TimeRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,8 +26,6 @@ class EntryRequest extends FormRequest
     public function rules()
     {
         return [
-            'competitor_id' => ['required', Rule::exists('competitors', 'id')],
-            'meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
             'time' => ['required', new TimeRule],
         ];
     }

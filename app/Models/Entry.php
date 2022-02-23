@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,7 +31,7 @@ class Entry extends Model
      */
     public function user() 
     {
-        return $this->belongsTo(User::class, 'user_id');    
+        return $this->belongsTo(User::class, 'user_id')->with('team');
     }
 
     /**
@@ -52,9 +53,9 @@ class Entry extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function event()
+    public function meetEvent()
     {
-        return $this->belongsTo(MeetEvent::class, 'meet_event_id');
+        return $this->belongsTo(MeetEvent::class, 'meet_event_id')->with('event');
     }
 
     public function isFinal()
@@ -65,5 +66,14 @@ class Entry extends Model
     public function isPaid()
     {
         return $this->is_paid;
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    protected function getCreatedAtAttribute($date)
+    {
+        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

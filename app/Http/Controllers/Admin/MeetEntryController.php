@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Meet;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -17,31 +17,24 @@ class MeetEntryController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(Meet::query()->entriable(), request(), ['name', 'entry_type', 'date']);
+        $query = $this->getQuery(Meet::query()->entriable()->withCount('entries'), request(), ['name', 'entry_type', 'date', 'deadline']);
 
         return Inertia::render('Admin/Entries/MeetsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
-            'meets' => $query->paginate()->withQueryString()
+            'meets' => $query->paginate()->withQueryString(),
         ]);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  Request $request
      * @param  Meet $meet
      * @return \Illuminate\Http\Response
      */
-    public function show(Meet $meet)
+    public function show(Request $request, Meet $meet)
     {
-        $query = $this->getQuery($meet->events(), request(), ['name']);
-        //$query = $meet->
 
-        return Inertia::render('Admin/Entries/MeetsShow', [
-            'meet' => $meet,
-            'entries' => $query->paginate()->withQueryString(),
-            'filters' => request()->all(['search', 'field', 'direction', 'year']),
-            'isEntrySet' => $meet->isEntryPriceSet() && $meet->entry_type !== null && $meet->entry_app !== null,
-        ]);
     }
 
     /**

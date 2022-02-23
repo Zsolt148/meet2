@@ -52,25 +52,25 @@
                 <template #head>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('name')">
-                            Név
+                            Versenyző
                             <table-chevron :params="params" value="name" />
                         </span>
                     </th>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('entry_type')">
-                            Típus
+                            Versenyszám
                             <table-chevron :params="params" value="entry_type" />
                         </span>
                     </th>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('entries_count')">
-                            Nevezések
+                            Idő
                             <table-chevron :params="params" value="entries_count" />
                         </span>
                     </th>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('date')">
-                            Dátum
+                            Nevezte
                             <table-chevron :params="params" value="date" />
                         </span>
                     </th>
@@ -84,32 +84,32 @@
                 <template #body>
                     <tr v-for="entry in entries.data" :key="entry.id" class="tr-class">
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)">
-                                {{ entry.name }}
+                            <Link class="td-content" :href="entryRoute(meet, entry)">
+                                {{ entry.competitor.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)" tabindex="-1">
-                                {{ entry.entry_type }}
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                                {{ entry.meet_event.event.length }}m {{ __(entry.meet_event.event.sex) }} {{ __(entry.meet_event.event.swim) }} {{ entry.meet_event.category }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)" tabindex="-1">
-                                0
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                                {{ entry.time }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)" tabindex="-1">
-                                {{ entry.date }}
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                                {{ entry.user.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
                                 {{ entry.created_at }}
                             </Link>
                         </td>
                         <td class="td-class w-px">
-                            <Link class="td-content" :href="route('admin:entries.meet.edit', entry.id)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
                                 <ChevronRightIcon class="w-5 h-5" />
                             </Link>
                         </td>
@@ -157,6 +157,10 @@ export default {
     setup(props) {
         const params = getParams(props);
 
+        function entryRoute(meet, entry) {
+            return route('admin:entries.edit', { meet: meet, entry: entry })
+        }
+
         function updateSearch(value) {
             params.search.value = value;
         }
@@ -166,10 +170,11 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
-        getWatch(params, route('admin:entries.meet.show', props.meet.id));
+        getWatch(params, route('admin:entries.index', props.meet.id));
 
         return {
             params,
+            entryRoute,
             updateSearch,
             updateSort,
         }

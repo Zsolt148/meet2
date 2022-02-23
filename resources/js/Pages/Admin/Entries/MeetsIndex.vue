@@ -28,9 +28,14 @@
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('entries_count')">
+                        <span class="th-content">
                             Nevezések
-                            <table-chevron :params="params" value="entries_count" />
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content" @click="updateSort('deadline')">
+                            Nevezési határidő
+                            <table-chevron :params="params" value="deadline" />
                         </span>
                     </th>
                     <th class="th-class">
@@ -39,42 +44,36 @@
                             <table-chevron :params="params" value="date" />
                         </span>
                     </th>
-                    <th class="th-class">
-                        <span class="th-content" @click="updateSort('created_at')">
-                            Létrehozva
-                            <table-chevron :params="params" value="created_at" />
-                        </span>
-                    </th>
                 </template>
                 <template #body>
                     <tr v-for="meet in meets.data" :key="meet.id" class="tr-class">
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)">
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)">
                                 {{ meet.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
                                 {{ meet.entry_type }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
-                                0
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
+                                {{ meet.entries_count }} db
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
+                                {{ meet.deadline }}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
                                 {{ meet.date }}
                             </Link>
                         </td>
-                        <td class="td-class">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
-                                {{ meet.created_at }}
-                            </Link>
-                        </td>
                         <td class="td-class w-px">
-                            <Link class="td-content" :href="route('admin:entries.meet.show', meet.id)" tabindex="-1">
+                            <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
                                 <ChevronRightIcon class="w-5 h-5" />
                             </Link>
                         </td>

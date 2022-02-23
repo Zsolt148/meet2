@@ -17,12 +17,19 @@ class MeetEventController extends BaseAdminController
      */
     public function index(Request $request, Meet $meet)
     {
-        $query = $meet->events();
+        $meetEvents = MeetEvent::query()
+            ->whereMeetId($meet->id)
+            ->with('event')
+            ->withCount('entries')
+            ->orderBy('order')
+            ->get();
+
+
 
         return Inertia::render('Admin/Entries/Events/EventsIndex', [
             'meet' => $meet,
-            'events' => $query->get(),
-            'isEventsEmpty' => $meet->events()->get()->isEmpty(),
+            'events' => $meetEvents,
+            'entries_count' => $meetEvents->sum('entries_count')
         ]);
     }
 

@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="w-full sm:w-1/2">
-                                <jet-label for="deadline" value="Nevezési határidő" />
+                                <jet-label for="deadline" value="Nevezési határidő (éjfél)" />
                                 <Datepicker class="mt-1" :dark="isDark"
                                             locale="hu" format="yyyy.MM.dd"
                                             selectText="Mentés" cancelText="Mégse"

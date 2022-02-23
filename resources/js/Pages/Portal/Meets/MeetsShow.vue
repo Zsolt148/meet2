@@ -7,11 +7,7 @@
 
         <template #header>
             <div class="flex justify-between">
-                <div>
-                    <Link class="text-teal-400" :href="route('portal:meets.index')">{{__('Meets')}}</Link>
-                    /
-                    {{ meet.name }}
-                </div>
+                <bread-crumb :back-route="route('portal:meets.index')" :back-name="__('Entriable Meets')" :current="meet.name" />
                 <div>
                     <jet-button size="sm" :href="route('admin:meets.edit', meet.id)" v-show="isAdmin()">
                         <CogIcon class="w-5 h-5 mr-2" />
@@ -93,12 +89,14 @@ import JetButton from '@/Jetstream/Button'
 import JetInput from '@/Jetstream/Input'
 import Icon from "@/Shared/Icon"
 import ScrollTop from "@/Shared/ScrollTop"
+import BreadCrumb from "@/Shared/BreadCrumb"
 import PortalLayout from "@/Layouts/PortalLayout"
 import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
         PortalLayout,
+        BreadCrumb,
         JetLabel,
         JetButton,
         JetInput,

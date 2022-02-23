@@ -3,6 +3,7 @@
 // Users
 use App\Http\Controllers\Admin\CompetitorController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
 use App\Http\Controllers\Admin\MeetEntryController;
@@ -31,13 +32,21 @@ Route::prefix('admin')
         Route::delete('meets/destroy/media/{mediaId}', [MeetController::class, 'destroyMedia'])->name('meets.delete.media');
         Route::resource('meets', MeetController::class);
 
+        // Entries
         Route::prefix('entries')->name('entries.')->group(function () {
 
+            // Meets
             Route::get('meet', [MeetEntryController::class, 'index'])->name('meet.index');
             Route::get('meet/{meet}', [MeetEntryController::class, 'show'])->name('meet.show');
             Route::get('meet/{meet}/edit', [MeetEntryController::class, 'edit'])->name('meet.edit');
             Route::put('meet/{meet}/update', [MeetEntryController::class, 'update'])->name('meet.update');
 
+            // Entries
+            Route::get('meet/{meet}/entries', [EntryController::class, 'index'])->name('index');
+            Route::get('meet/{meet}/entries/{entry}/edit', [EntryController::class, 'edit'])->name('edit');
+            Route::post('meet/{meet}/entries/{entry}/update', [EntryController::class, 'update'])->name('update');
+
+            // Events
             Route::get('meet/{meet}/events', [MeetEventController::class, 'index'])->name('meet.event.index');
             Route::get('meet/{meet}/events/create', [MeetEventController::class, 'create'])->name('meet.event.create');
             Route::post('meet/{meet}/events/store', [MeetEventController::class, 'store'])->name('meet.event.store');

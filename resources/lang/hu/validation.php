@@ -133,6 +133,8 @@ return [
     |
     */
 
+    'time' => 'Nevezési idő formátuma 00:00.00 kell hogy legyen',
+
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

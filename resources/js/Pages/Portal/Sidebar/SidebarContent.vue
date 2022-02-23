@@ -18,7 +18,7 @@
         </SidebarLink>
 
         <SidebarLink
-            :title="__('Entries')"
+            :title="__('Entry')"
             :href="route('portal:meets.index')"
             :active="isUrl('portal/meets*')"
         >
@@ -63,6 +63,13 @@
         </SidebarCollapsible>
 
         <SidebarLink
+            :href="route('admin:entries.meet.index')"
+            title="Nevezések"
+            v-show="isAdmin()"
+            :active="isUrl('admin/entries*')"
+        />
+
+        <SidebarLink
             title="Egyesületek"
             :href="route('admin:teams.index')"
             :active="isUrl('admin/teams*')"
@@ -84,12 +91,6 @@
             :href="route('admin:events.index')"
             :active="isUrl('admin/events*')"
             v-show="isAdmin()"
-        />
-
-        <SidebarLink :href="route('admin:entries.meet.index')"
-                     title="Nevezések"
-                     v-show="isAdmin()"
-                     :active="isUrl('admin/entries/meet*')"
         />
 
         <SidebarCollapsible

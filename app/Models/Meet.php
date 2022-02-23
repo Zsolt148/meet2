@@ -191,7 +191,8 @@ class Meet extends Model implements HasMedia
      */
     public function entries() 
     {
-        return $this->hasMany(Entry::class, 'meet_id');
+        return $this->hasMany(Entry::class, 'meet_id')
+            ->with('competitor', 'meetEvent', 'user');
     }
 
     /**
@@ -210,6 +211,16 @@ class Meet extends Model implements HasMedia
     protected function getDeadlineAttribute($date)
     {
         return Carbon::parse($date)->format('Y.m.d');
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    protected function setDeadlineAttribute($date)
+    {
+        //TODO check addDay timezone
+        $this->attributes['deadline'] = Carbon::parse($date)->addDay()->format('Y-m-d');
     }
 
     /**

@@ -133,6 +133,8 @@ return [
     |
     */
 
+    'time' => 'Entry time format must be 00:00.00',
+
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

@@ -44,4 +44,20 @@ class MeetEvent extends Pivot
     protected $casts = [
         'order' => 'integer',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function entries()
+    {
+        return $this->hasMany(Entry::class, 'meet_event_id');
+    }
 }

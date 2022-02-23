@@ -24,6 +24,10 @@
 
         </div>
 
+        <div>
+            Összess leadott nevezés: {{ entries_count }} db
+        </div>
+
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
             <table class="w-full whitespace-nowrap">
                 <tr class="text-left font-bold">
@@ -60,22 +64,22 @@
                 </tr>
                 <tr v-for="event in events" :key="event.id" class="tr-class">
                     <td class="td-class td-content">
-                        {{ __(event.pivot.order) }}
+                        #{{ event.order }}
                     </td>
                     <td class="td-class">
-                        {{ event.length }}m
+                        {{ event.event.length }}m
                     </td>
                     <td class="td-class">
-                        {{ __(event.sex) }}
+                        {{ __(event.event.sex) }}
                     </td>
                     <td class="td-class">
-                        {{ __(event.swim) }}
+                        {{ __(event.event.swim) }}
                     </td>
                     <td class="td-class">
-                        {{ __(event.pivot.category) }}
+                        {{ __(event.category) }}
                     </td>
                     <td class="td-class">
-                        {{ 0 }} db
+                        {{ event.entries_count }} db
                     </td>
                 </tr>
                 <tr v-if="events.length === 0">
@@ -110,6 +114,7 @@ export default {
     props: {
         events: Object,
         meet: Object,
+        entries_count: Number,
     },
     setup(props) {
         return {

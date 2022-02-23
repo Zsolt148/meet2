@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="my-5">
-                    Nevezési határidő: {{ data.deadline }}
+                    Nevezési határidő: {{ data.deadline }} éjfél
                 </div>
                 <div>
                     <Link class="inline-flex items-center text-teal-500 hover:text-teal-400 dark:text-teal-400" :href="route('portal:meets.show', data.slug)">
