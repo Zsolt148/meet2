@@ -3,23 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Role\RoleService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-//    protected $roleService;
-//
-//    /**
-//     * Role constructor.
-//     * @param RoleService $roleService
-//     */
-//    public function __construct(RoleService $roleService)
-//    {
-//        $this->roleService = $roleService;
-//    }
-
     /**
      * The name of the factory's corresponding model.
      *
@@ -57,8 +45,4 @@ class UserFactory extends Factory
         });
     }
 
-    public function hasRole()
-    {
-        //
-    }
 }

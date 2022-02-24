@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\User
@@ -17,7 +18,6 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property string $role
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $two_factor_secret
@@ -49,8 +49,6 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property int|null $team_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
- * @property-read int|null $roles_count
  * @property-read \App\Models\Team|null $team
  * @method static Builder|User admins()
  * @method static Builder|User whereTeamId($value)
@@ -63,6 +61,7 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -147,15 +146,6 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->roles()->where('slug', 'admin')->exists();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')
-            ->withTimestamps();
     }
 
     /**

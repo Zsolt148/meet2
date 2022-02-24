@@ -14,6 +14,6 @@ class CompetitorSeeder extends Seeder
      */
     public function run()
     {
-        (new CompetitorController())->sync();
+        //(new CompetitorController())->sync();
     }
 }

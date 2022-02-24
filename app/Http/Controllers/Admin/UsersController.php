@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\UsersRequest;
-use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
-use App\Role\RoleService;
 use Inertia\Inertia;
+use App\Models\Role;
 
 class UsersController extends BaseAdminController
 {
@@ -51,7 +50,7 @@ class UsersController extends BaseAdminController
             return [
                 'id' => $role->id,
                 'name' => $role->name,
-                'slug' => $role->slug,
+                'full_name' => $role->full_name,
                 'hint' => $role->hint,
                 'isSelected' => $user->roles->firstWhere('id', $role->id) ? true : false,
             ];
@@ -71,7 +70,7 @@ class UsersController extends BaseAdminController
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersRequest $request, User $user, RoleService $roleService)
+    public function update(UsersRequest $request, User $user)
     {
         $user->fill($request->only(
             'name',
@@ -83,9 +82,9 @@ class UsersController extends BaseAdminController
 
         $roles = collect($request->roles)->filter(function ($role) {
             return $role['isSelected'];
-        })->pluck('slug');
+        })->pluck('name');
 
-        $roleService->syncRoles($user, $roles);
+        $user->syncRoles($roles);
 
         return redirect()->route('admin:users.index')->with('success', 'Felhasználó sikeresen frissítve');
     }

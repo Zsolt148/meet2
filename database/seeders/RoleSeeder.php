@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use Illuminate\Database\Seeder;
+use App\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
@@ -14,33 +15,36 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        // spatie laravel permissions
+        // https://spatie.be/docs/laravel-permission/v5/introduction
+
+        // Reset cached roles and permissions
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         $roles = [
             [
-                'slug' => 'admin',
-                'name' => 'Admin',
+                'name' => 'admin',
+                'full_name' => 'Admin',
                 'hint' => 'God',
             ],
             [
-                'slug' => 'senior_team_leader',
-                'name' => 'Senior Team leader',
+                'name' => 'senior_team_leader',
+                'full_name' => 'Senior Team leader',
                 'hint' => 'Senior team leader for senior meets',
             ],
             [
-                'slug' => 'bm_team_leader',
-                'name' => 'BM Team leader',
+                'name' => 'bm_team_leader',
+                'full_name' => 'BM Team leader',
                 'hint' => 'BM team leader for BM meets',
             ],
         ];
 
         foreach($roles as $key => $role) {
-            Role::updateOrCreate(
-              [
-                  'slug' => $role['slug']
-              ], [
-                  'name' => $role['name'],
-                  'hint' => $role['hint'],
-                ]
-            );
+            Role::create([
+                'name' => $role['name'],
+                'full_name' => $role['full_name'],
+                'hint' => $role['hint']
+            ]);
         }
     }
 }

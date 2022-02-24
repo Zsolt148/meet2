@@ -41,7 +41,7 @@
                                             <jet-checkbox :id="role.id" v-model="roles[index].isSelected" :checked="role.isSelected" />
 
                                             <div class="ml-2">
-                                                {{ role.name }} <br>
+                                                {{ role.full_name }} <br>
                                                 <div class="text-xs">{{ role.hint }}</div>
                                             </div>
                                         </div>

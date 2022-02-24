@@ -2,34 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as SpatieRole;
 
-/**
- * App\Models\Role
- *
- * @property int $id
- * @property string $slug
- * @property string $name
- * @property string|null $hint
- * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Role query()
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereHint($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Role whereSlug($value)
- * @mixin \Eloquent
- */
-class Role extends Model
+class Role extends SpatieRole
 {
-    protected $table = 'roles';
-
-    public $timestamps = false;
-
     protected $fillable = [
-        'slug',
         'name',
+        'full_name',
+        'hint'
     ];
-
 }

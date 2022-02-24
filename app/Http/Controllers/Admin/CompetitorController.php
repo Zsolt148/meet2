@@ -111,7 +111,7 @@ class CompetitorController extends BaseAdminController
                     'name' => $competitor['name'],
                     'birth' => $competitor['birth'],
                     'type' => Competitor::TYPE_SENIOR,
-                    'created_at' => $team['created_at'], // TODO parse error from get attribute
+                    //'created_at' => $team['created_at'], // TODO parse error from get attribute
                 ]
             );
         }

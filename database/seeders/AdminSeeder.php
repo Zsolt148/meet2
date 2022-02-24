@@ -3,23 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Role\RoleService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
-
-    protected $roleService;
-
-    /**
-     * AdminSeeder constructor.
-     * @param RoleService $roleService
-     */
-    public function __construct(RoleService $roleService)
-    {
-        $this->roleService = $roleService;
-    }
 
     /**
      * Run the database seeds.
@@ -53,10 +41,7 @@ class AdminSeeder extends Seeder
                 ]
             );
 
-            $this->roleService->syncRoles(
-                $user,
-                ['admin']
-            );
+            $user->assignRole('admin');
         }
     }
 }

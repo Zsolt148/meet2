@@ -54,7 +54,7 @@
             </div>
 
             <div v-if="meets.data.length === 0" class="text-black dark:text-white">
-                Nincs a keresésnek '{{params.search}}' megfelelő találat
+                Nem található verseny
             </div>
 
             <pagination class="my-5" :links="meets.links" />
