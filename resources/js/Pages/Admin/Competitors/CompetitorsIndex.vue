@@ -34,13 +34,18 @@
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('birth')">
                             Születési év
-                            <table-chevron :params="params" value="SA" />
+                            <table-chevron :params="params" value="birth" />
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('team')">
+                        <span class="th-content" @click="updateSort('sex')">
+                            Nem
+                            <table-chevron :params="params" value="sex" />
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content cursor-default">
                             Egyesület
-                            <table-chevron :params="params" value="address" />
                         </span>
                     </th>
                     <th class="th-class">
@@ -64,6 +69,11 @@
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
                             {{ competitor.birth }}
+                        </span>
+                    </td>
+                    <td class="td-class">
+                        <span class="td-content" tabindex="-1">
+                            {{ competitor.sex }}
                         </span>
                     </td>
                     <td class="td-class">

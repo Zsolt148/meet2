@@ -40,7 +40,7 @@
         </div>
 
         <div class="text-lg font-bold ">
-            Leadott Nevezések (Összess leadott nevezés: {{ entries_count }} db)
+            Leadott Nevezések - Összesen: {{ entries_count }} db
         </div>
 
         <base-search @search="updateSearch" :search-term="params.search"></base-search>
@@ -126,7 +126,7 @@
                         </td>
                     </tr>
                     <tr v-if="entries.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="5">Nem található nevezés</td>
+                        <td class="border-t px-6 py-2" colspan="7">Nem található nevezés</td>
                     </tr>
                 </template>
             </base-table>

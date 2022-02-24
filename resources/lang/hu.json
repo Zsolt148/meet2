@@ -132,8 +132,12 @@
   "Entries submitted": "Leadott nevezések",
   "Competitor": "Versenyző",
   "Event": "Versenyszám",
-  "Time": "Idő",
+  "Time": "Nevezési idő",
   "Created at": "Létrehozva",
   "No entries found": "Nem található nevezés",
-  "Finalize": "Véglegesítés"
+  "Finalize": "Véglegesítés",
+  "No competition can be found": "Nem található nevezhető verseny",
+  "Empty": "Üres",
+  "Create an entry": "Nevezés létrehozása",
+  "New Entry": "Új Nevezés"
 }

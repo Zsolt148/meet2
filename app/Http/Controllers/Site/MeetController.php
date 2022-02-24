@@ -59,7 +59,7 @@ class MeetController extends Controller
     {
         // if not logged in and not admin
         // abort if not visible
-        if(!auth()->user() || !auth()->user()->isAdmin()) {
+        if(!auth()->user() || !auth()->user()->hasRole('admin')) {
             abort_if(!$meet->is_visible, 404);
         }
 

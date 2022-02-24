@@ -2,7 +2,7 @@
     <Head title="Nevezhető verseny szerkesztése" />
     <portal-layout>
         <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
-            <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.show', meet.id)">{{ form.name }}</Link>
+            <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ form.name }}</Link>
             <span class="font-medium pl-1">/</span> Szerkesztés
         </bread-crumb>
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">

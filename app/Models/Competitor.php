@@ -41,8 +41,8 @@ class Competitor extends Model
         'foreign_id',
         'team_id',
         'name',
-        'sex',
         'birth',
+        'sex',
         'type',
     ];
 

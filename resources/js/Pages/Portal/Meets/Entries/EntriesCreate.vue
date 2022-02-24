@@ -12,7 +12,7 @@
                     <Link class="text-teal-500 dark:text-teal-400" :href="route('portal:meets.show', meet)">
                         {{ meet.name }}
                     </Link>
-                    / Új Nevezés
+                    / {{ __('New Entry') }}
                 </bread-crumb>
             </div>
         </template>
@@ -21,7 +21,7 @@
             <div class="bg-white dark:bg-gray-600 shadow rounded-md">
                 <div class="p-5 flex flex-col sm:flex-row justify-between">
                     <h1 class="text-teal-500 dark:text-teal-400 text-3xl">
-                        Nevezés létrehozása
+                        {{ __('Create an entry') }}
                     </h1>
                     <div class="flex items-center mt-3 sm:mt-0 font-semibold text-teal-500 dark:text-teal-400">
                         <icon name="calendar" class="w-4 h-4 mr-2" />
@@ -33,8 +33,9 @@
                     <div class="p-5 flex flex-col max-w-3xl">
                         <div class="w-full flex flex-col space-y-4">
                             <div class="w-full">
-                                <jet-label for="competitor_id" value="Versenyző"/>
+                                <jet-label for="competitor_id" :value="__('Competitor')"/>
                                 <select name="competitor_id" id="competitor_id" v-model="form.competitor_id">
+                                    <option value="" selected>{{ __('Empty') }}</option>
                                     <option v-for="comp in competitors" :key="comp.id" :value="comp.id">
                                         {{ comp.name }} ({{ comp.birth }})
                                     </option>
@@ -43,8 +44,9 @@
                             </div>
 
                             <div class="w-full">
-                                <jet-label for="meet_event_id" value="Versenyszám"/>
+                                <jet-label for="meet_event_id" :value="__('Event')"/>
                                 <select name="meet_event_id" id="meet_event_id" v-model="form.meet_event_id">
+                                    <option value="" selected>{{ __('Empty') }}</option>
                                     <option v-for="meet_event in meet_events" :key="meet_event.id" :value="meet_event.id">
                                         {{ meet_event.event.length }}m {{ __(meet_event.event.sex) }} {{ __(meet_event.event.swim)}} {{ meet_event.category }}
                                     </option>
@@ -53,7 +55,7 @@
                             </div>
 
                             <div class="w-full">
-                                <jet-label for="time" value="Nevezési idő" />
+                                <jet-label for="time" :value="__('Time')" />
                                 <jet-input id="time" type="text" v-model="form.time" autocomplete="off" placeholder="00:00.00" />
                                 <jet-input-error :message="form.errors.time" class="mt-2" />
                             </div>
@@ -61,7 +63,7 @@
                     </div>
                     <div class="px-5 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
                         <jet-button :loading="form.processing">
-                            Mentés
+                            {{ __('Save') }}
                         </jet-button>
                     </div>
                 </form>

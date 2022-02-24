@@ -128,7 +128,7 @@ class User extends Authenticatable
      */
     public function competitors()
     {
-        return $this->team->competitors;
+        return $this->team ? $this->team->competitors : [];
     }
 
     /**
@@ -138,14 +138,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Entry::class, 'user_id')
             ->with('competitor', 'meetEvent');
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->roles()->where('slug', 'admin')->exists();
     }
 
     /**

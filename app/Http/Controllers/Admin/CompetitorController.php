@@ -17,7 +17,7 @@ class CompetitorController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(Competitor::query()->with('team'), request(), ['name', 'type', 'birth']);
+        $query = $this->getQuery(Competitor::query()->with('team'), request(), ['name', 'type', 'birth', 'sex']);
 
         return Inertia::render('Admin/Competitors/CompetitorsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
@@ -110,6 +110,7 @@ class CompetitorController extends BaseAdminController
                     'team_id' => $team ? $team->id : null,
                     'name' => $competitor['name'],
                     'birth' => $competitor['birth'],
+                    'sex' => isset($competitor['sex']) ? $competitor['sex'] : null,
                     'type' => Competitor::TYPE_SENIOR,
                     //'created_at' => $team['created_at'], // TODO parse error from get attribute
                 ]

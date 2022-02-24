@@ -18,8 +18,8 @@ class CreateCompetitorsTable extends Migration
             $table->string('foreign_id')->index()->nullable();
             $table->foreignId('team_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
-            $table->string('sex')->nullable();
             $table->year('birth');
+            $table->string('sex')->nullable();
             $table->string('type');
             $table->timestamps();
         });

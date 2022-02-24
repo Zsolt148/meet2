@@ -54,7 +54,7 @@
             </div>
 
             <div v-if="meets.data.length === 0" class="text-black dark:text-white">
-                Nem található verseny
+                {{ __('No competition can be found') }}
             </div>
 
             <pagination class="my-5" :links="meets.links" />

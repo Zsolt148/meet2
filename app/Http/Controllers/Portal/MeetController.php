@@ -63,7 +63,7 @@ class MeetController extends Controller
 
         // if not admin
         // abort if not visible or not entriable
-        if(!auth()->user()->isAdmin()) {
+        if(!auth()->user()->hasRole('admin')) {
             abort_if(!$meet->is_visible || !$meet->is_entriable, 404);
         }
 
