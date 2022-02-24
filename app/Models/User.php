@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -27,7 +28,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $profile_photo_url
- * @property-read mixed $role_val
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory(...$parameters)
@@ -43,7 +43,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereProfilePhotoPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
@@ -62,6 +61,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +71,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'role',
         'password',
         'team_id',
     ];
@@ -106,14 +105,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
-    }
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['name', 'email', 'team_id'];
+
+    protected static $ignoreChangedAttributes = ['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'profile_photo_path'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -138,16 +133,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Entry::class, 'user_id')
             ->with('competitor', 'meetEvent');
-    }
-
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeAdmins(Builder $query)
-    {
-        return $query->whereHas('roles', fn(Builder $query) => $query->where('slug', 'admin'));
     }
 
     /**

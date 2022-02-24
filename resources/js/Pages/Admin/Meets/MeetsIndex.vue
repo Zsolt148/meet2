@@ -70,7 +70,7 @@
                         </td>
                         <td class="td-class">
                             <Link class="td-content" :href="route('admin:meets.edit', meet.id)" tabindex="-1">
-                                {{ meet.created_at }}
+                                {{ timeFormat(meet.created_at) }}
                             </Link>
                         </td>
                         <td class="td-class w-px">

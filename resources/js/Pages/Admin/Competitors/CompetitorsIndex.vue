@@ -83,12 +83,12 @@
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ competitor.created_at }}
+                            {{ timeFormat(competitor.created_at) }}
                         </span>
                     </td>
                 </tr>
                 <tr v-if="competitors.data.length === 0">
-                    <td class="border-t px-6 py-2" colspan="5">Nem található versenyző</td>
+                    <td class="border-t px-6 py-2" colspan="6">Nem található versenyző</td>
                 </tr>
             </table>
         </div>

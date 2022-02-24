@@ -1,4 +1,6 @@
-module.exports = {
+import moment from 'moment';
+
+export default {
     methods: {
         __(key, replace = {}) {
 
@@ -29,6 +31,9 @@ module.exports = {
         },
         meetEvent(meet_event) {
             return meet_event.event.length + 'm ' + this.__(meet_event.event.sex) + ' ' + this.__(meet_event.event.swim) + ' ' + (meet_event.category ? meet_event.category : '')
+        },
+        timeFormat(time) {
+            return moment(time).format('YYYY.MM.DD HH:mm')
         },
         route
     }

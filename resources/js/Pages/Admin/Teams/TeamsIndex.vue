@@ -73,7 +73,7 @@
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ team.created_at }}
+                            {{ timeFormat(team.created_at) }}
                         </span>
                     </td>
                 </tr>

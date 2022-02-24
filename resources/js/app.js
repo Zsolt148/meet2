@@ -4,6 +4,7 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import {createInertiaApp, Link, Head } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import mixin from './Use/baseMixin'
 
 createInertiaApp({
     title: (title) => `${title} | meet.kvsc.info`,
@@ -14,7 +15,7 @@ createInertiaApp({
             .use(plugin)
             .component('Link', Link)
             .component('Head', Head)
-            .mixin(require('./Use/baseMixin'))
+            .mixin(mixin)
             .mount(el);
     },
 });

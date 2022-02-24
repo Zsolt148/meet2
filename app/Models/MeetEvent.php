@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\MeetEvent
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class MeetEvent extends Pivot
 {
+    use LogsActivity;
+
     public $incrementing = true;
 
     public $timestamps = true;
@@ -47,6 +50,9 @@ class MeetEvent extends Pivot
     protected $casts = [
         'order' => 'integer',
     ];
+
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

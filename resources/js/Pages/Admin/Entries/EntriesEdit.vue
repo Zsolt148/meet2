@@ -69,7 +69,7 @@
 
                         <div class="w-full">
                             <jet-label for="user_id" value="Létrehozta"/>
-                            {{ entry.created_at }}
+                            {{ timeFormat(entry.created_at) }}
                         </div>
                     </div>
 

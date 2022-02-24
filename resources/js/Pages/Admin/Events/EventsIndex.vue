@@ -56,7 +56,7 @@
                     </td>
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:events.edit', event.id)" tabindex="-1">
-                            {{ event.created_at }}
+                            {{ timeFormat(event.created_at) }}
                         </Link>
                     </td>
                     <td class="td-class w-px">

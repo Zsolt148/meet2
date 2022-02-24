@@ -46,6 +46,9 @@ class Competitor extends Model
         'type',
     ];
 
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
+
     const TYPE_SENIOR = 'senior';
 
     CONST TYPES = [
@@ -84,14 +87,5 @@ class Competitor extends Model
     protected function setCreatedAtAttribute($date)
     {
         $this->attributes['created_at'] = $date;
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

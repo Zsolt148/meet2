@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Location
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Location extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'city',
@@ -41,6 +42,9 @@ class Location extends Model
         'timing'
     ];
 
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
+
     protected $casts = [
         'pool' => 'integer'
     ];
@@ -48,10 +52,5 @@ class Location extends Model
     public function meets()
     {
         return $this->hasMany(Meet::class, 'location_id');
-    }
-
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

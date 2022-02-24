@@ -116,7 +116,7 @@
                         </td>
                         <td class="td-class">
                             <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
-                                {{ entry.created_at }}
+                                {{ timeFormat(entry.created_at) }}
                             </Link>
                         </td>
                         <td class="td-class w-px">

@@ -62,7 +62,7 @@
                         </td>
                         <td class="td-class">
                             <Link class="td-content" :href="route('admin:entries.index', meet.id)" tabindex="-1">
-                                {{ meet.deadline }}
+                                {{ timeFormat(meet.deadline) }}
                             </Link>
                         </td>
                         <td class="td-class">

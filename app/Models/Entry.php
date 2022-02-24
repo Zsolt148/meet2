@@ -57,6 +57,8 @@ class Entry extends Model
         'is_paid' => 'boolean',
     ];
 
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -100,14 +102,5 @@ class Entry extends Model
     public function isPaid()
     {
         return $this->is_paid;
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

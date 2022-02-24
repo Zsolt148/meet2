@@ -56,7 +56,7 @@
                     </td>
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:contacts.edit', contact.id)" tabindex="-1">
-                            {{ contact.created_at }}
+                            {{ timeFormat(contact.created_at) }}
                         </Link>
                     </td>
                     <td class="td-class w-px">

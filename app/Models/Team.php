@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Team
@@ -41,7 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Team extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'name',
@@ -50,6 +51,9 @@ class Team extends Model
         'SA',
         'address',
     ];
+
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
 
     const TYPE_SENIOR = 'senior';
     const TYPE_OTHER = 'other';
@@ -74,14 +78,5 @@ class Team extends Model
     public function scopeSenior($query)
     {
         return $query->whereType(self::TYPE_SENIOR);
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

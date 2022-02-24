@@ -6,6 +6,7 @@ use App\Http\Resources\MediaResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -80,7 +81,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Meet extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, LogsActivity;
 
     protected $fillable = [
         'is_visible',
@@ -103,6 +104,9 @@ class Meet extends Model implements HasMedia
         'race_record_id',
         'time_schedule_id'
     ];
+
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
 
     protected $casts = [
         'deadline' => 'date',
@@ -202,24 +206,6 @@ class Meet extends Model implements HasMedia
      * @param $date
      * @return string
      */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getDeadlineAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d');
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
     protected function setDeadlineAttribute($date)
     {
         // Try create from string format
@@ -309,6 +295,6 @@ class Meet extends Model implements HasMedia
      */
     public function getIsDeadlineOkAttribute()
     {
-        return Carbon::createFromFormat('Y.m.d', $this->deadline)->endOfDay()->greaterThanOrEqualTo(Carbon::now());
+        return $this->deadline->endOfDay()->greaterThanOrEqualTo(Carbon::now());
     }
 }

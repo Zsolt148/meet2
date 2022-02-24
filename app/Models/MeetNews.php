@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\MeetNews
@@ -26,13 +27,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MeetNews extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'meet_id',
         'body',
     ];
 
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
-    }
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['*'];
+
 }

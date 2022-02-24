@@ -51,7 +51,7 @@
 
                         <div class="w-full">
                             <jet-label for="user_id" :value="__('Created at')"/>
-                            {{ entry.created_at }}
+                            {{ timeFormat(entry.created_at) }}
                         </div>
                     </div>
 

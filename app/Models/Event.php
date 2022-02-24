@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Event
@@ -30,13 +31,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'length',
         'sex',
         'swim'
     ];
+
+    protected static $logOnlyDirty = true;
+    protected static $logAttributes = ['length', 'sex', 'swim'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -47,14 +51,5 @@ class Event extends Model
             ->using(MeetEvent::class)
             ->withTimestamps()
             ->withPivot('order', 'category');
-    }
-
-    /**
-     * @param $date
-     * @return string
-     */
-    protected function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)->format('Y.m.d H:i');
     }
 }

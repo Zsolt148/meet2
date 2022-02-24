@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="my-5">
-                    {{ __('Deadline for entries') }}: {{meet.deadline}} {{ __('midnight') }}
+                    {{ __('Deadline for entries') }}: {{ timeFormat(meet.deadline) }} {{ __('midnight') }}
                 </div>
 
                 <div class="mt-5">
@@ -150,7 +150,7 @@
                             </td>
                             <td class="td-class">
                                 <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    {{entry.created_at}}
+                                    {{ timeFormat(entry.created_at) }}
                                 </Link>
                             </td>
                             <td class="td-class w-px">
