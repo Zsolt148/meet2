@@ -26,7 +26,9 @@ class EntryRequest extends FormRequest
     public function rules()
     {
         return [
-            'time' => ['required', new TimeRule],
+            'is_final'  => ['nullable'],
+            'is_paid'   => ['nullable'],
+            'time'      => ['required', new TimeRule],
         ];
     }
 }

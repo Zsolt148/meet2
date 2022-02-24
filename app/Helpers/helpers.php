@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Meet;
+use App\Models\MeetEvent;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -41,4 +42,13 @@ function meetFolderName(Meet $meet) {
  */
 function meetDate(array $dates) {
     return Carbon::create($dates[0])->format('Y.m.d') . ' - ' . Carbon::create($dates[1])->format('Y.m.d');
+}
+
+/**
+ * Text helper
+ * @param MeetEvent $meetEvent
+ * @return string
+ */
+function meetEvent(MeetEvent $meetEvent) {
+    return $meetEvent->event->length . 'm ' . __($meetEvent->event->sex) . ' ' . __($meetEvent->event->swim) . ' ' . $meetEvent->category;
 }

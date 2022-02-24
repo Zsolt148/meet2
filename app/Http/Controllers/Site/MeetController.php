@@ -17,13 +17,13 @@ class MeetController extends Controller
     public function index()
     {
         request()->validate([
-            'direction' => ['in:asc,desc'],
             'field' => ['in:name,created_at'],
         ]);
 
         $query = Meet::query()
             ->with('location')
-            ->visible();
+            ->visible()
+            ->latest();
 
         if($search = request('search')) {
             $query->where(function ($query) use ($search) {
@@ -36,12 +36,6 @@ class MeetController extends Controller
 
         if($year = request('year')) {
             $query->where('date', 'LIKE', '%'.$year.'%');
-        }
-
-        if(request()->has(['field', 'direction'])) {
-            $query->orderBy(request('field'), request('direction'));
-        }else {
-            $query->latest();
         }
 
         for($i = 0; $i < 8; $i++) {
@@ -70,7 +64,7 @@ class MeetController extends Controller
         }
 
         $meet->load('location', 'contact');
-        $meet = $meet->getMediaFiles();
+        $meet->loadMediaFiles();
         $meet->latestNews = $meet->latestNews();
 
         return Inertia::render('Site/Meets/MeetsShow', [

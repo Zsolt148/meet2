@@ -6,9 +6,7 @@
             Nevezhető Versenyek
         </template>
 
-        <base-search @search="updateSearch" :search-term="params.search"
-                     @select="updateYear" :select-value="params.year" :select-values="years"
-        ></base-search>
+        <base-search @search="updateSearch" :search-term="params.search" />
 
         <pagination class="my-5" :links="meets.links" />
 

@@ -22,7 +22,7 @@ class EntryController extends BaseAdminController
     {
         $request->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:created_at,'],
+            'field' => ['in:name,event,is_final,time,created_at'],
         ]);
 
         $query = $meet->entries();
@@ -40,23 +40,42 @@ class EntryController extends BaseAdminController
                 })
         );
 
+        if($request->has(['field', 'direction'])) {
+            $direction = $request->get('direction');
+            switch($request->get('field')) {
+                case 'name': //TODO fix competitor orderBy
+                    $query->whereHas('competitor', function ($query) use (&$direction) {
+                        $query->orderBy('name', $direction);
+                    });
+                    break;
+                case 'event': //TODO fix event orderBy
+                    $query->whereHas('meetEvent.event', function ($query) use (&$direction) {
+                        $query->orderBy('length', $direction);
+                    });
+                    break;
+                case 'is_final':
+                    $query->orderBy('is_final', $direction);
+                    break;
+                case 'time':
+                    $query->orderBy('time', $direction);
+                    break;
+                case 'created_at':
+                    $query->orderBy('created_at', $direction);
+                    break;
+                default:
+                    break;
+            }
+        }else {
+            $query->latest();
+        }
+
         return Inertia::render('Admin/Entries/EntriesIndex', [
             'meet' => $meet,
             'entries' => $query->paginate()->withQueryString(),
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
             'isEntrySet' => $meet->isEntryPriceSet() && $meet->entry_type !== null && $meet->entry_app !== null,
+            'entries_count' => $meet->entries()->count()
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Entry  $entry
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Entry $entry)
-    {
-        //
     }
 
     /**
@@ -70,7 +89,7 @@ class EntryController extends BaseAdminController
     {
         return Inertia::render('Admin/Entries/EntriesEdit', [
             'meet' => $meet,
-            'entry' =>  $entry->load('competitor', 'user', 'meetEvent'),
+            'entry' => $entry->load('competitor', 'user', 'meetEvent'),
         ]);
     }
 
@@ -84,18 +103,27 @@ class EntryController extends BaseAdminController
      */
     public function update(EntryRequest $request, Meet $meet, Entry $entry)
     {
+        $entry->update($request->only(
+            'is_final',
+            'is_paid',
+            'time'
+        ));
 
-        return redirect()->route('admin:entries.index', $meet);
+        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen frissítve');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Entry  $entry
+     * @param  \App\Models\Meet  $meet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Entry $entry)
+    public function destroy(Meet $meet, Entry $entry)
     {
-        //
+        $entry->delete();
+
+        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen törölve');
+
     }
 }

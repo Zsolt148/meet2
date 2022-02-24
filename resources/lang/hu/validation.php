@@ -134,6 +134,7 @@ return [
     */
 
     'time' => 'Nevezési idő formátuma 00:00.00 kell hogy legyen',
+    'already_entered' => 'Ez a versenyző ebben a versenyszámban már nevezve lett',
 
     'custom' => [
         'attribute-name' => [
@@ -195,6 +196,9 @@ return [
         'files' => 'Fájlok',
         'race_info' => 'Versenykiírás',
         'report' => 'Jegyzőkönyv',
-        'terms' => 'Szolgáltatási feltételek és Adatvédelmi irányelvek'
+        'terms' => 'Szolgáltatási feltételek és Adatvédelmi irányelvek',
+        'competitor_id' => 'Versenyző',
+        'meet_event_id' => 'Versenyszám',
+        'time'          => 'Nevezési idő',
     ],
 ];

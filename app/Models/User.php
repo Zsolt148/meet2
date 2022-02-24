@@ -54,6 +54,8 @@ use Laravel\Jetstream\HasProfilePhoto;
  * @property-read \App\Models\Team|null $team
  * @method static Builder|User admins()
  * @method static Builder|User whereTeamId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
+ * @property-read int|null $entries_count
  */
 class User extends Authenticatable
 {
@@ -135,7 +137,8 @@ class User extends Authenticatable
      */
     public function entries()
     {
-        return $this->hasMany(Entry::class, 'user_id');
+        return $this->hasMany(Entry::class, 'user_id')
+            ->with('competitor', 'meetEvent');
     }
 
     /**

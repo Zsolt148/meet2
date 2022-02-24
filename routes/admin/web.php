@@ -44,7 +44,8 @@ Route::prefix('admin')
             // Entries
             Route::get('meet/{meet}/entries', [EntryController::class, 'index'])->name('index');
             Route::get('meet/{meet}/entries/{entry}/edit', [EntryController::class, 'edit'])->name('edit');
-            Route::post('meet/{meet}/entries/{entry}/update', [EntryController::class, 'update'])->name('update');
+            Route::put('meet/{meet}/entries/{entry}/update', [EntryController::class, 'update'])->name('update');
+            Route::delete('meet/{meet}/entries/{entry}/delete', [EntryController::class, 'destroy'])->name('delete');
 
             // Events
             Route::get('meet/{meet}/events', [MeetEventController::class, 'index'])->name('meet.event.index');

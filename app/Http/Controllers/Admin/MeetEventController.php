@@ -24,8 +24,6 @@ class MeetEventController extends BaseAdminController
             ->orderBy('order')
             ->get();
 
-
-
         return Inertia::render('Admin/Entries/Events/EventsIndex', [
             'meet' => $meet,
             'events' => $meetEvents,

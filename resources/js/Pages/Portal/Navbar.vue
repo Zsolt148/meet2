@@ -105,7 +105,7 @@
                     <div class="border-t border-gray-100 dark:border-gray-700"></div>
 
                     <!-- Authentication -->
-                    <jet-dropdown-link :href="route('logout')" method="post">
+                    <jet-dropdown-link @click="logout">
                         {{__('Logout')}}
                     </jet-dropdown-link>
                 </template>
@@ -164,6 +164,7 @@
 <script>
 import { defineComponent, onMounted, onUnmounted, Transition } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import { Inertia } from "@inertiajs/inertia";
 import { useFullscreen } from '@vueuse/core'
 import {
     SunIcon,
@@ -214,6 +215,10 @@ export default {
             document.removeEventListener('scroll', handleScroll)
         })
 
+        function logout() {
+            Inertia.post(route('logout'))
+        }
+
         return {
             scrolling,
             isDark,
@@ -221,6 +226,7 @@ export default {
             isFullscreen,
             toggleFullScreen,
             sidebarState,
+            logout,
         }
     },
 }

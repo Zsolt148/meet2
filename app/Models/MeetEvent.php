@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder|MeetEvent whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MeetEvent whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
+ * @property-read int|null $entries_count
+ * @property-read \App\Models\Event $event
  */
 class MeetEvent extends Pivot
 {

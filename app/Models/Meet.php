@@ -74,6 +74,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read int|null $events_count
  * @method static \Illuminate\Database\Eloquent\Builder|Meet entriable()
  * @method static \Illuminate\Database\Eloquent\Builder|Meet whereEntryApp($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
+ * @property-read int|null $entries_count
+ * @property-read bool $is_deadline_ok
  */
 class Meet extends Model implements HasMedia
 {
@@ -219,8 +222,14 @@ class Meet extends Model implements HasMedia
      */
     protected function setDeadlineAttribute($date)
     {
-        //TODO check addDay timezone
-        $this->attributes['deadline'] = Carbon::parse($date)->addDay()->format('Y-m-d');
+        // Try create from string format
+        // ifs it a trailing data exception then parse it and add a day
+        // to be a correct date (its beacuse of the datepicker timezone?)
+        try {
+            $this->attributes['deadline'] = Carbon::createFromFormat('Y.m.d', $date)->format('Y-m-d');
+        }catch(\Exception $e) {
+            $this->attributes['deadline'] = Carbon::parse($date)->addDay()->format('Y-m-d');
+        }
     }
 
     /**
@@ -258,7 +267,7 @@ class Meet extends Model implements HasMedia
     /**
      * @return $this
      */
-    public function getMediaFiles()
+    public function loadMediaFiles()
     {
         if($media = $this->raceInfo) {
             $this->raceInfo = new MediaResource($media);
@@ -279,16 +288,25 @@ class Meet extends Model implements HasMedia
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isEntriable()
     {
         return $this->is_entriable;
     }
 
+    /**
+     * @return bool
+     */
     public function isEntryPriceSet()
     {
         return $this->entry_price !== 0;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsDeadlineOkAttribute()
     {
         return Carbon::createFromFormat('Y.m.d', $this->deadline)->endOfDay()->greaterThanOrEqualTo(Carbon::now());

@@ -6,7 +6,7 @@
         <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
 
             <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
-                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.show', meet.id)">{{ meet.name }}</Link>
+                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
                 <span class="font-medium pl-1">/</span> Versenyszámok
             </bread-crumb>
 
@@ -18,6 +18,7 @@
             </div>
             <div v-else>
                 <jet-button size="sm" :href="route('admin:entries.meet.event.create', meet)">
+                    <CogIcon class="w-5 h-5 mr-2" />
                     Szerkesztés
                 </jet-button>
             </div>
@@ -94,7 +95,7 @@
 import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
-import { PlusIcon } from '@heroicons/vue/outline'
+import { PlusIcon, CogIcon } from '@heroicons/vue/outline'
 import Pagination from '@/Shared/Pagination'
 import { getParams, getWatch } from '@/Use/useQuery';
 import TableChevron from '@/Shared/TableChevron'
@@ -109,7 +110,8 @@ export default {
         BaseSearch,
         TableChevron,
         BreadCrumb,
-        PlusIcon
+        PlusIcon,
+        CogIcon
     },
     props: {
         events: Object,

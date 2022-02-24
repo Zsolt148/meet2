@@ -134,6 +134,7 @@ return [
     */
 
     'time' => 'Entry time format must be 00:00.00',
+    'already_entered' => 'This competitor has already been entered in this race',
 
     'custom' => [
         'attribute-name' => [
@@ -152,6 +153,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'competitor_id' => 'Competitor',
+        'meet_event_id' => 'Event',
+        'time'          => 'Entry time',
+    ],
 
 ];

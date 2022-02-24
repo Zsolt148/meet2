@@ -40,7 +40,7 @@
         </div>
 
         <div class="text-lg font-bold ">
-            Leadott Nevezések
+            Leadott Nevezések (Összess leadott nevezés: {{ entries_count }} db)
         </div>
 
         <base-search @search="updateSearch" :search-term="params.search"></base-search>
@@ -57,21 +57,27 @@
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('entry_type')">
+                        <span class="th-content" @click="updateSort('event')">
                             Versenyszám
-                            <table-chevron :params="params" value="entry_type" />
+                            <table-chevron :params="params" value="event" />
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('entries_count')">
+                        <span class="th-content" @click="updateSort('time')">
                             Idő
-                            <table-chevron :params="params" value="entries_count" />
+                            <table-chevron :params="params" value="time" />
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('date')">
+                        <span class="th-content" @click="updateSort('user_id')">
                             Nevezte
-                            <table-chevron :params="params" value="date" />
+                            <table-chevron :params="params" value="user_id" />
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content" @click="updateSort('is_final')">
+                            Végleges
+                            <table-chevron :params="params" value="is_final" />
                         </span>
                     </th>
                     <th class="th-class">
@@ -105,6 +111,11 @@
                         </td>
                         <td class="td-class">
                             <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                                <CheckIcon v-if="entry.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
                                 {{ entry.created_at }}
                             </Link>
                         </td>
@@ -128,7 +139,7 @@
 import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
-import { ChevronRightIcon, CogIcon, ExclamationIcon } from '@heroicons/vue/outline'
+import { ChevronRightIcon, CogIcon, ExclamationIcon, CheckIcon, XIcon } from '@heroicons/vue/outline'
 import Pagination from '@/Shared/Pagination'
 import { getParams, getWatch } from '@/Use/useQuery';
 import TableChevron from '@/Shared/TableChevron'
@@ -139,6 +150,8 @@ export default {
     components: {
         ChevronRightIcon,
         CogIcon,
+        CheckIcon,
+        XIcon,
         ExclamationIcon,
         JetButton,
         PortalLayout,
@@ -153,6 +166,7 @@ export default {
         entries: Object,
         filters: Object,
         isEntrySet: Boolean,
+        entries_count: Number,
     },
     setup(props) {
         const params = getParams(props);

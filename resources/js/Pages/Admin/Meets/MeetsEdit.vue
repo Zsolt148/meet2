@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="flex justify-end space-x-4">
-                                <jet-button size="sm" variant="info" :href="route('admin:entries.meet.show', meet)" v-show="form.is_entriable && isEntriable">
+                                <jet-button size="sm" variant="info" :href="route('admin:entries.index', meet)" v-show="form.is_entriable && isEntriable">
                                     Nevezések
                                 </jet-button>
 

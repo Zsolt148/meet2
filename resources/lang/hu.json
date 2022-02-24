@@ -125,6 +125,15 @@
   "butterfly" : "pillangóúszás",
   "medley" : "vegyesúszás",
 
-  "Entriable Meets" : "Nevezhető versenyek"
-
+  "Entriable Meets" : "Nevezhető versenyek",
+  "Deadline for entries": "Nevezési határidő",
+  "midnight": "éjfél",
+  "New entry": "Új nevezés",
+  "Entries submitted": "Leadott nevezések",
+  "Competitor": "Versenyző",
+  "Event": "Versenyszám",
+  "Time": "Idő",
+  "Created at": "Létrehozva",
+  "No entries found": "Nem található nevezés",
+  "Finalize": "Véglegesítés"
 }

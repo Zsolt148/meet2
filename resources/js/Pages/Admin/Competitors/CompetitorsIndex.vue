@@ -1,5 +1,5 @@
 <template>
-    <Head title="Egyesületek" />
+    <Head title="Versenyzők" />
 
     <portal-layout>
         <template #header>

@@ -9,11 +9,14 @@
 
             <form @submit.prevent="submit">
                 <div class="p-8 flex flex-col max-w-3xl">
+                    <div class="text-2xl">
+                        {{ entry.competitor.name }} - {{ meetEvent(entry.meet_event) }}
+                    </div>
                     <div class="w-full flex flex-col space-y-4 mt-5">
 
                         <div class="flex justify-start space-x-4">
                             <jet-label for="is_final">
-                                <div class="flex items-center text-xl">
+                                <div class="flex items-center text-lg">
                                     <jet-checkbox name="is_final" id="is_final" v-model:checked="form.is_final" />
 
                                     <div class="ml-2">
@@ -23,7 +26,7 @@
                             </jet-label>
 
                             <jet-label for="is_paid">
-                                <div class="flex items-center text-xl">
+                                <div class="flex items-center text-lg">
                                     <jet-checkbox name="is_paid" id="is_paid" v-model:checked="form.is_paid" />
 
                                     <div class="ml-2">
@@ -35,7 +38,7 @@
 
                         <div class="w-full">
                             <jet-label for="user_id" value="Nevezte"/>
-                            {{ entry.user.name }} - {{ entry.user.team.name }}
+                            {{ entry.user.name }} ({{ entry.user.team ? entry.user.team.name : '-' }})
                         </div>
 
                         <div class="w-full">
@@ -54,7 +57,7 @@
                                        type="text"
                                        name="meet_event_id"
                                        aria-readonly="true" disabled="disabled"
-                                       :value="entry.meet_event.event.length +'m ' + __(entry.meet_event.event.sex) + __(entry.meet_event.event.swim) + entry.meet_event.category"
+                                       :value="meetEvent(entry.meet_event)"
                             />
                         </div>
 
@@ -75,9 +78,31 @@
                     <jet-button type="submit" :loading="form.processing">
                         Mentés
                     </jet-button>
+                    <jet-button variant="danger" type="button" @click="confirmModalShow = true">
+                        Törlés
+                    </jet-button>
                 </div>
             </form>
         </div>
+        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
+            <template #title>
+                Nevezés törlése
+            </template>
+
+            <template #content>
+                Biztosan törölni szeretnéd a nevezést ?
+            </template>
+
+            <template #footer>
+                <jet-button variant="secondary" type="button" class="mr-2" @click.native="confirmModalShow = false">
+                    Mégse
+                </jet-button>
+
+                <jet-button variant="danger" type="button" @click.native="deleteModel" :loading="form.processing">
+                    Törlés
+                </jet-button>
+            </template>
+        </jet-confirmation-modal>
     </portal-layout>
 </template>
 
@@ -93,6 +118,7 @@ import JetLabel from "@/Jetstream/Label";
 import BreadCrumb from "@/Shared/BreadCrumb";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import { isDark } from '@/Composables'
+import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
 
 export default {
     components: {
@@ -101,6 +127,7 @@ export default {
         JetInput,
         JetInputError,
         JetLabel,
+        JetConfirmationModal,
         BreadCrumb,
         JetCheckbox,
         isDark,
@@ -112,6 +139,7 @@ export default {
 
     data() {
         return {
+            confirmModalShow: false,
             form: this.$inertia.form({
                 method: '_POST',
                 competitor_id: this.entry.competitor_id,
@@ -124,7 +152,10 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(route('admin:entries.update', { meet: this.meet, entry: this.entry }))
+            this.form.put(route('admin:entries.update', { meet: this.meet, entry: this.entry }))
+        },
+        deleteModel() {
+            this.form.delete(route('admin:entries.delete', { meet: this.meet, entry: this.entry }))
         }
     }
 }

@@ -19,7 +19,7 @@
 
         <div class="mx-auto">
             <div class="bg-white dark:bg-gray-600 shadow rounded-md">
-                <div class="p-5 flex flex-col sm:flex-row justify-between mb-2">
+                <div class="p-5 flex flex-col sm:flex-row justify-between">
                     <h1 class="text-teal-500 dark:text-teal-400 text-3xl">
                         Nevezés létrehozása
                     </h1>
@@ -36,7 +36,7 @@
                                 <jet-label for="competitor_id" value="Versenyző"/>
                                 <select name="competitor_id" id="competitor_id" v-model="form.competitor_id">
                                     <option v-for="comp in competitors" :key="comp.id" :value="comp.id">
-                                        {{ comp.name }} ({{ comp.birth}})
+                                        {{ comp.name }} ({{ comp.birth }})
                                     </option>
                                 </select>
                                 <jet-input-error :message="form.errors.competitor_id" class="mt-2" />
@@ -45,8 +45,8 @@
                             <div class="w-full">
                                 <jet-label for="meet_event_id" value="Versenyszám"/>
                                 <select name="meet_event_id" id="meet_event_id" v-model="form.meet_event_id">
-                                    <option v-for="event in events" :key="event.id" :value="event.id">
-                                        {{ event.length }}m {{ __(event.sex) }} {{ __(event.swim)}} {{ event.pivot.category }}
+                                    <option v-for="meet_event in meet_events" :key="meet_event.id" :value="meet_event.id">
+                                        {{ meet_event.event.length }}m {{ __(meet_event.event.sex) }} {{ __(meet_event.event.swim)}} {{ meet_event.category }}
                                     </option>
                                 </select>
                                 <jet-input-error :message="form.errors.meet_event_id" class="mt-2" />
@@ -98,7 +98,7 @@ export default {
         AtSymbolIcon,
         ScrollTop
     },
-    props: ['meet', 'events', 'competitors'],
+    props: ['meet', 'meet_events', 'competitors'],
     data() {
         return {
             form: this.$inertia.form({

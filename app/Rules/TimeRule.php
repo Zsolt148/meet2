@@ -26,7 +26,7 @@ class TimeRule implements Rule
     public function passes($attribute, $value)
     {
         // https://regex101.com/r/shgO0G/1
-        return preg_match('/^((?:[0-5]\d):[0-5]\d.[0-9]\d$)/D', $value);
+        return preg_match('/^((?:[0-5]\d):[0-5]\d.[0-9]\d$)/D', $value) && $value !== '00:00.00';
     }
 
     /**

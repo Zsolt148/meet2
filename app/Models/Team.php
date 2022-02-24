@@ -33,6 +33,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Team withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Team withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $country
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Competitor[] $competitors
+ * @property-read int|null $competitors_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Team senior()
+ * @method static \Illuminate\Database\Eloquent\Builder|Team whereCountry($value)
  */
 class Team extends Model
 {

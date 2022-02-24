@@ -6,7 +6,7 @@
         <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
 
             <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
-                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.show', meet.id)">{{ meet.name }}</Link>
+                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
                 <span class="font-medium pl-1">/</span>
                 <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.event.index', meet.id)"> Versenyszámok </Link>
                 <span class="font-medium pl-1">/</span>

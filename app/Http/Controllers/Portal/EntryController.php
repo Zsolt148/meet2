@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Portal\EntryRequest;
 use App\Models\Entry;
 use App\Models\Meet;
+use App\Models\MeetEvent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class EntryController extends Controller
@@ -20,11 +21,20 @@ class EntryController extends Controller
      */
     public function create(Meet $meet)
     {
-        Gate::allows('team-leader');
+        Gate::authorize('create', Entry::class);
+
+        // Ensure the deadline
+        abort_if(!$meet->is_deadline_ok, 404);
+
+        $meetEvents = MeetEvent::query()
+            ->whereMeetId($meet->id)
+            ->with('event')
+            ->orderBy('order')
+            ->get();
 
         return Inertia::render('Portal/Meets/Entries/EntriesCreate', [
             'meet' => $meet,
-            'events' => $meet->events()->get(),
+            'meet_events' => $meetEvents,
             'competitors' => auth()->user()->competitors(),
         ]);
     }
@@ -38,7 +48,19 @@ class EntryController extends Controller
      */
     public function store(EntryRequest $request, Meet $meet)
     {
-        Gate::allows('team-leader');
+        Gate::authorize('create', Entry::class);
+
+        // Ensure the deadline
+        abort_if(!$meet->getIsDeadlineOkAttribute(), 404);
+
+        if($meet
+            ->entries()
+            ->whereCompetitorId($request->input('competitor_id'))
+            ->whereMeetEventId($request->input('meet_event_id'))
+            ->exists()
+        ) {
+            throw ValidationException::withMessages(['competitor_id' => trans('validation.already_entered')]);
+        }
 
         $meet->entries()->create([
             'user_id' => auth()->user()->id,
@@ -53,35 +75,100 @@ class EntryController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Models\Meet   $meet
      * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */
-    public function show(Entry $entry)
+    public function show(Meet $meet, Entry $entry)
     {
-        //
+        Gate::authorize('view', $entry);
+
+        return Inertia::render('Portal/Meets/Entries/EntriesShow', [
+            'meet' => $meet,
+            'meet_event' => meetEvent($entry->meetEvent),
+            'entry' => $entry->load('competitor'),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \App\Models\Meet   $meet
      * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */
-    public function edit(Entry $entry)
+    public function edit(Meet $meet, Entry $entry)
     {
-        //
+        Gate::authorize('update', $entry);
+
+        // Ensure the deadline
+        // redirect to show
+        if(!$meet->is_deadline_ok) {
+            return redirect()->route('portal:meet.entry.show', [$meet, $entry]);
+        }
+
+        return Inertia::render('Portal/Meets/Entries/EntriesEdit', [
+            'meet' => $meet,
+            'meet_event' => meetEvent($entry->meetEvent),
+            'entry' => $entry->load('competitor'),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Meet   $meet
      * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Entry $entry)
+    public function update(EntryRequest $request, Meet $meet, Entry $entry)
     {
-        //
+        Gate::authorize('update', $entry);
+
+        $entry->update($request->only('time'));
+
+        return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen frissítve');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+    *  @param  \App\Models\Meet   $meet
+     * @param  \App\Models\Entry  $entry
+     * @return \Illuminate\Http\Response
+     */
+    public function finalize(EntryRequest $request, Meet $meet, Entry $entry)
+    {
+        Gate::authorize('update', $entry);
+
+        $entry->update([
+            $request->only('time'),
+            'is_final' => true,
+        ]);
+
+        return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen véglegesítve');
+    }
+
+    /**
+     * @param Meet $meet
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function finalizeAll(Meet $meet)
+    {
+        Gate::authorize('viewAny', Entry::class);
+
+        auth()
+            ->user()
+            ->entries()
+            ->whereMeetId($meet->id)
+            ->whereIsFinal(false)
+            ->update([
+                'is_final' => true,
+            ]);
+
+        return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
     /**
@@ -92,6 +179,7 @@ class EntryController extends Controller
      */
     public function destroy(Entry $entry)
     {
-        //
+        Gate::authorize('delete', $entry);
+
     }
 }
