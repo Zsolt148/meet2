@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="mt-4" v-if="form.isSenior">
-                    <jet-label for="team_id" value="Egyesület"/>
+                    <jet-label for="team_id" :value="__('Team')"/>
                     <select name="team_id" id="team_id" v-model="form.team_id">
                         <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
                         <option value="other">{{ __('Other') }}</option>

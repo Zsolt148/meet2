@@ -144,10 +144,10 @@ return [
             'required_if' => 'Az egyesület mező nem lehet üres, ha szenior csapatvezető szeretne lenni',
         ],
         'other_team' => [
-            'required_if' => 'Az egyéb csapat neve mező nem lehet üres, ha az egyesület egyéb',
+            'required_if' => 'Az egyéb egyesület neve mező nem lehet üres, ha az egyesület egyéb',
         ],
         'other_team_country' => [
-            'required_if' => 'Az egyéb csapat országa mező nem lehet üres, ha az egyesület egyéb',
+            'required_if' => 'Az egyéb egyesület országa mező nem lehet üres, ha az egyesület egyéb',
         ],
         'entry_type' => [
             'required_if' => 'A nevezés típusa nem lehet üres, ha nevezhető a verseny',

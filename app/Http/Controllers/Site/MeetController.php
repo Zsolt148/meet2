@@ -69,7 +69,8 @@ class MeetController extends Controller
 
         return Inertia::render('Site/Meets/MeetsShow', [
             'filters' => request()->all(['search', 'field', 'direction']),
-            'meet' => $meet
+            'meet' => $meet,
+            'isEntriable' => $meet->isEntriable() && $meet->is_deadline_ok,
         ]);
     }
 }

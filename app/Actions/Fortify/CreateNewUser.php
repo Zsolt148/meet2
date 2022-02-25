@@ -44,9 +44,9 @@ class CreateNewUser implements CreatesNewUsers
         if($input['isSenior']) {
 
             // if he selected a team
-            if($team_id = $input['team_id']) {
+            if($input['team_id'] && $input['team_id'] !== 'other') {
 
-                $user->team_id = $team_id;
+                $user->team_id = $input['team_id'];
 
             }elseif($input['team_id'] == 'other') {
 

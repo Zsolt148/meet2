@@ -79,4 +79,13 @@ class Team extends Model
     {
         return $query->whereType(self::TYPE_SENIOR);
     }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeOther($query)
+    {
+        return $query->orWhere('type', self::TYPE_OTHER);
+    }
 }

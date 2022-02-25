@@ -6,14 +6,18 @@
         </Head>
 
         <template #header>
-            <div class="pb-8 flex justify-between">
+            <div class="pb-8 flex flex-row flex-wrap sm:justify-between">
                 <div>
                     <Link class="text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
                     /
                     {{ meet.name }}
                 </div>
-                <div>
-                    <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="$page.props.user && $page.props.user.role === 'admin'">
+                <div class="">
+                    <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable">
+                        <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
+                        Nevezés
+                    </jet-button>
+                    <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="isAdmin()" class="ml-2">
                         <CogIcon class="w-5 h-5 mr-2" />
                         Szerkesztés
                     </jet-button>
@@ -144,7 +148,7 @@ import JetInput from '@/Jetstream/Input'
 import {ref, reactive, watch} from 'vue'
 import Icon from "@/Shared/Icon"
 import ScrollTop from "@/Shared/ScrollTop"
-import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon } from '@heroicons/vue/outline'
+import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon, StatusOnlineIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
@@ -157,9 +161,10 @@ export default {
         CogIcon,
         LocationMarkerIcon,
         AtSymbolIcon,
+        StatusOnlineIcon,
         ScrollTop
     },
-    props: ['meet'],
+    props: ['meet', 'isEntriable'],
     setup(props) {
 
         const type = reactive({

@@ -54,6 +54,30 @@
                 <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" :error="form.errors.email" disabled="disabled" />
                 <jet-input-error :message="form.errors.email" class="mt-2" />
             </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <jet-label for="team_id" :value="__('Team')"/>
+                <select name="team_id" id="team_id" v-model="form.team_id">
+                    <option value="">{{ __('Empty') }}</option>
+                    <option v-for="team in teams" :key="team.id" :value="team.id" :selected="form.team_id === team.id">{{team.name}}</option>
+                    <option value="other">{{ __('Other') }}</option>
+                </select>
+                <div class="mt-2 text-xs">
+                    {{ __('I would like to register as a senior team leader so I can submit entries for competitions') }}
+                </div>
+                <jet-input-error :message="form.errors.team_id" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4" v-if="form.team_id == 'other'">
+                <jet-label for="other_team" :value="__('Other team name')" />
+                <jet-input id="other_team" type="text" v-model="form.other_team" autocomplete="off" />
+                <jet-input-error :message="form.errors.other_team" class="mt-2" />
+            </div>
+            <div class="col-span-6 sm:col-span-4" v-if="form.team_id == 'other'">
+                <jet-label for="other_team_country" :value="__('Other team country')" />
+                <jet-input id="other_team_country" type="text" v-model="form.other_team_country" autocomplete="off" />
+                <jet-input-error :message="form.errors.other_team_country" class="mt-2" />
+            </div>
         </template>
 
         <template #actions>
@@ -86,7 +110,7 @@
             JetLabel,
         },
 
-        props: ['user'],
+        props: ['user', 'teams'],
 
         data() {
             return {
@@ -95,6 +119,9 @@
                     name: this.user.name,
                     email: this.user.email,
                     photo: null,
+                    team_id: this.user.team_id,
+                    other_team: this.user.other_team,
+                    other_team_country: this.user.other_team_country,
                 }),
 
                 photoPreview: null,

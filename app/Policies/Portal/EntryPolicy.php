@@ -19,7 +19,7 @@ class EntryPolicy
      */
     public function viewAny(User $user)
     {
-        return Gate::allows('team-leader');
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class EntryPolicy
      */
     public function view(User $user, Entry $entry)
     {
-        return Gate::allows('team-leader');
+        return true;
     }
 
     /**

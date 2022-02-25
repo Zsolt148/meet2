@@ -82,6 +82,10 @@
                         {{ __('Finalize') }}
                     </jet-button>
                 </div>
+
+                <div class="mt-2 text-xs" v-show="!isTeamLeader()">
+                    Ahhoz, hogy nevezéseket tudj leadni, a <Link class="link" :href="route('profile.show')">profilodban</Link> bekell állítanod egy egyesületet
+                </div>
             </div>
 
             <div class="text-lg font-bold mt-5">

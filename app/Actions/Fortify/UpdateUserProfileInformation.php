@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Team;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -22,6 +23,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => ['required', 'string', 'max:255'],
             //'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:2048'],
+
+            // senior team
+            'team_id' => ['nullable'],
+            'other_team' => ['nullable', 'required_if:team_id,other', 'string', 'max:190'],
+            'other_team_country' => ['nullable', 'required_if:team_id,other', 'string', 'max:190'],
+
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -34,9 +41,37 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
         */
 
+        // registering as senior
+        if($input['team_id']) {
+
+            // if he selected a team
+            if($input['team_id'] && $input['team_id'] !== 'other') {
+
+                $user->team_id = $input['team_id'];
+
+            }elseif($input['team_id'] == 'other') {
+
+                $team = Team::create([
+                    'name' => $input['other_team'],
+                    'type' => Team::TYPE_OTHER,
+                    'country' => $input['other_team_country'],
+                ]);
+
+                $user->team_id = $team->id;
+            }
+
+            $user->assignRole('senior_team_leader');
+        // team is is null
+        }else {
+            $user->team_id = null;
+            $user->removeRole('senior_team_leader');
+        }
+
         $user->forceFill([
             'name' => $input['name'],
-        ])->save();
+        ]);
+
+        $user->save();
     }
 
     /**
