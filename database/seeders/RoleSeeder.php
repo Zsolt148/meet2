@@ -41,11 +41,11 @@ class RoleSeeder extends Seeder
 
         activity()->disableLogging();
         foreach($roles as $key => $role) {
-            Role::create([
-                'name' => $role['name'],
-                'full_name' => $role['full_name'],
-                'hint' => $role['hint']
-            ]);
+//            Role::create([
+//                'name' => $role['name'],
+//                'full_name' => $role['full_name'],
+//                'hint' => $role['hint']
+//            ]);
         }
         activity()->enableLogging();
     }
