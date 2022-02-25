@@ -16,9 +16,12 @@ class MeetNewsSeeder extends Seeder
     public function run()
     {
         $path = database_path('seeders/meet_news.json');
-        if(file_exists($path)) {
-            $data = file_get_contents($path);
+
+        if(!file_exists($path)) {
+            return;
         }
+
+        $data = file_get_contents($path);
 
         activity()->disableLogging();
 
