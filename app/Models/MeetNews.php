@@ -24,6 +24,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|MeetNews whereMeetId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MeetNews whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class MeetNews extends Model
 {

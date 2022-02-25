@@ -39,6 +39,9 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $competitors_count
  * @method static \Illuminate\Database\Eloquent\Builder|Team senior()
  * @method static \Illuminate\Database\Eloquent\Builder|Team whereCountry($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Team other()
  */
 class Team extends Model
 {

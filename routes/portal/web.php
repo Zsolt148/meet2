@@ -26,6 +26,6 @@ Route::middleware(['auth:sanctum', 'verified'])
         Route::get('/meets/{meet}/entry/{entry}/edit', [EntryController::class, 'edit'])->name('meet.entry.edit');
         Route::put('/meets/{meet}/entry/{entry}/update', [EntryController::class, 'update'])->name('meet.entry.update');
         Route::put('/meets/{meet}/entry/{entry}/finalize', [EntryController::class, 'finalize'])->name('meet.entry.finalize');
-        Route::delete('/meets/{meet}/entry/{entry}/delete', [EntryController::class, 'destory'])->name('meet.entry.delete');
+        Route::delete('/meets/{meet}/entry/{entry}/delete', [EntryController::class, 'destroy'])->name('meet.entry.delete');
 
     });

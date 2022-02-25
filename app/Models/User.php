@@ -53,6 +53,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User whereTeamId($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
  * @property-read int|null $entries_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @method static Builder|User permission($permissions)
+ * @method static Builder|User role($roles, $guard = null)
  */
 class User extends Authenticatable
 {

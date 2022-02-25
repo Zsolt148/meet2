@@ -49,9 +49,15 @@
                             />
                         </div>
 
-                        <div class="w-full">
-                            <jet-label for="user_id" :value="__('Created at')"/>
-                            {{ timeFormat(entry.created_at) }}
+                        <div class="w-full flex">
+                            <div>
+                                <jet-label for="user_id" :value="__('Created at')"/>
+                                {{ timeFormat(entry.created_at) }}
+                            </div>
+                            <div class="ml-5">
+                                <jet-label for="user_id" :value="__('Updated at')"/>
+                                {{ timeFormat(entry.updated_at) }}
+                            </div>
                         </div>
                     </div>
 

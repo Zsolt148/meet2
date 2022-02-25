@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckMeetDeadlines;
 use App\Console\Commands\DeleteTmpFolder;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -30,6 +31,9 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping();
 
         $schedule->command(DeleteTmpFolder::class)
+            ->daily();
+
+        $schedule->command(CheckMeetDeadlines::class)
             ->daily();
     }
 

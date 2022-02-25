@@ -125,8 +125,10 @@
   "butterfly" : "pillangóúszás",
   "medley" : "vegyesúszás",
 
+  "Choosing a team is required to submit an entry": "Egyesület választása nevezés leadásához kötelező",
   "Entriable Meets" : "Nevezhető versenyek",
   "Deadline for entries": "Nevezési határidő",
+  "Price per entry": "Nevezés ára",
   "midnight": "éjfél",
   "New entry": "Új nevezés",
   "Entries submitted": "Leadott nevezések",
@@ -134,10 +136,16 @@
   "Event": "Versenyszám",
   "Time": "Nevezési idő",
   "Created at": "Létrehozva",
+  "Updated at": "Utoljára frisssítve",
   "No entries found": "Nem található nevezés",
   "Finalize": "Véglegesítés",
   "No competition can be found": "Nem található nevezhető verseny",
   "Empty": "Üres",
   "Create an entry": "Nevezés létrehozása",
-  "New Entry": "Új Nevezés"
+  "New Entry": "Új Nevezés",
+  "Finalize all my entries": "Összes nevezésem véglegesítése",
+  "Are you sure you want to finalize all your entries ?": "Biztosan véglegesíteni szeretnéd az összes nevezésed ?",
+  "It will not be possible to change it after it has been finalized.": "Véglegesítés után nem lehet majd módosítani.",
+  "Entries submitted": "Leadott nevezések",
+  "Altogether": "Összesen"
 }

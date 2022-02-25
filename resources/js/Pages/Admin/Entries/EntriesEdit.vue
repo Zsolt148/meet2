@@ -38,7 +38,12 @@
 
                         <div class="w-full">
                             <jet-label for="user_id" value="Nevezte"/>
-                            {{ entry.user.name }} ({{ entry.user.team ? entry.user.team.name : '-' }})
+                            {{ entry.user.name }}
+                        </div>
+
+                        <div class="w-full">
+                            <jet-label for="user_id" value="Egyesület"/>
+                            {{ entry.competitor.team ? entry.competitor.team.name : '-' }}
                         </div>
 
                         <div class="w-full">
@@ -67,9 +72,15 @@
                             <jet-input-error :message="form.errors.time" class="mt-2" />
                         </div>
 
-                        <div class="w-full">
-                            <jet-label for="user_id" value="Létrehozta"/>
-                            {{ timeFormat(entry.created_at) }}
+                        <div class="w-full flex">
+                            <div>
+                                <jet-label for="user_id" :value="__('Created at')"/>
+                                {{ timeFormat(entry.created_at) }}
+                            </div>
+                            <div class="ml-5">
+                                <jet-label for="user_id" :value="__('Updated at')"/>
+                                {{ timeFormat(entry.updated_at) }}
+                            </div>
                         </div>
                     </div>
 

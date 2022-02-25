@@ -59,7 +59,7 @@ class EntryController extends Controller
             ->whereMeetEventId($request->input('meet_event_id'))
             ->exists()
         ) {
-            throw ValidationException::withMessages(['competitor_id' => trans('validation.already_entered')]);
+            throw ValidationException::withMessages(['meet_event_id' => trans('validation.already_entered')]);
         }
 
         $meet->entries()->create([
@@ -101,9 +101,10 @@ class EntryController extends Controller
     {
         Gate::authorize('update', $entry);
 
-        // Ensure the deadline
+        // Ensure the deadline is ok
+        // and it is not final
         // redirect to show
-        if(!$meet->is_deadline_ok) {
+        if(!$meet->is_deadline_ok || $entry->isFinal()) {
             return redirect()->route('portal:meet.entry.show', [$meet, $entry]);
         }
 
@@ -125,6 +126,8 @@ class EntryController extends Controller
     public function update(EntryRequest $request, Meet $meet, Entry $entry)
     {
         Gate::authorize('update', $entry);
+
+        abort_if($entry->isFinal(), 503);
 
         $entry->update($request->only('time'));
 
@@ -174,12 +177,18 @@ class EntryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Models\Meet   $meet
      * @param  \App\Models\Entry  $entry
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Entry $entry)
+    public function destroy(meet $meet, Entry $entry)
     {
         Gate::authorize('delete', $entry);
 
+        abort_if($entry->isFinal(), 503);
+
+        $entry->delete();
+
+        return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 }

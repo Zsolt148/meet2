@@ -10,7 +10,7 @@
                 <bread-crumb :back-route="route('portal:meets.index')" :back-name="__('Entriable Meets')"
                              :current="meet.name"/>
                 <div>
-                    <jet-button size="sm" :href="route('admin:meets.edit', meet.id)" v-show="isAdmin()">
+                    <jet-button size="sm" :href="route('admin:entries.index', meet.id)" v-show="isAdmin()">
                         <CogIcon class="w-5 h-5 mr-2"/>
                         Szerkesztés
                     </jet-button>
@@ -70,15 +70,21 @@
                     </div>
                 </div>
 
-                <div class="my-5">
-                    {{ __('Deadline for entries') }}: {{ timeFormat(meet.deadline) }} {{ __('midnight') }}
+                <div class="my-5 text-lg">
+                    <div>
+                        {{ __('Deadline for entries') }}: {{ timeFormat(meet.deadline, 'YYYY.MM.DD') }} {{ __('midnight') }}
+                    </div>
+
+                    <div v-show="meet.entry_price">
+                        {{ __('Price per entry') }}: {{ meet.entry_price }} Ft
+                    </div>
                 </div>
 
                 <div class="mt-5">
                     <jet-button :disabled="!meet.is_deadline_ok || !isTeamLeader()" :href="route('portal:meet.entry.create', meet)">
                         {{ __('New entry') }}
                     </jet-button>
-                    <jet-button type="button" variant="info" v-show="hasEntries" :disabled="!meet.is_deadline_ok || !isTeamLeader()" @click="confirmFinalizeShow = true" class="ml-2">
+                    <jet-button type="button" variant="info" v-show="has_entries && !entries_are_final" :disabled="!meet.is_deadline_ok || !isTeamLeader()" @click="confirmFinalizeShow = true" class="ml-2">
                         {{ __('Finalize') }}
                     </jet-button>
                 </div>
@@ -89,7 +95,7 @@
             </div>
 
             <div class="text-lg font-bold mt-5">
-                {{ __('Entries submitted') }}
+                {{ __('Entries submitted') }}: {{ entries_count }} - {{ __('Altogether') }} {{ price }} Ft
             </div>
 
             <base-search @search="updateSearch" :search-term="params.search"></base-search>
@@ -174,12 +180,18 @@
         <ScrollTop/>
         <jet-confirmation-modal :show="confirmFinalizeShow" @close="confirmFinalizeShow = false">
             <template #title>
-                Nevezések véglegesítése
+                {{ __('Finalize all my entries') }}
             </template>
 
             <template #content>
-                Biztosan véglegesíteni szeretnéd az összes nevezésed ? <br>
-                Véglegesítés után nem lehet majd frissíteni.
+                <div>
+                    {{ __('Are you sure you want to finalize all your entries ?') }}<br>
+                    {{ __('It will not be possible to change it after it has been finalized.') }}
+                </div>
+                <div class="mt-5">
+                    {{ __('Entries submitted') }}: {{ entries_count }} <br>
+                    {{ __('Altogether') }}: {{ price }} Ft
+                </div>
             </template>
 
             <template #footer>
@@ -196,7 +208,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import JetLabel from '@/Jetstream/Label'
 import JetButton from '@/Jetstream/Button'
@@ -243,7 +255,7 @@ export default {
         XIcon,
         ScrollTop
     },
-    props: ['meet', 'entries', 'filters', 'hasEntries'],
+    props: ['meet', 'entries', 'filters', 'has_entries', 'entries_count', 'entries_are_final'],
     setup(props) {
         const confirmFinalizeShow = ref(false);
         const params = getParams(props);
@@ -263,6 +275,10 @@ export default {
             params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
         }
 
+        const price = computed(() => {
+            return props.meet.entry_price * props.entries_count
+        })
+
         function finalize() {
             Inertia.post(route('portal:meet.entry.finalize-all', props.meet))
             confirmFinalizeShow.value = false
@@ -273,6 +289,7 @@ export default {
         return {
             params,
             confirmFinalizeShow,
+            price,
             finalize,
             entryRoute,
             updateSearch,

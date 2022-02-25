@@ -78,6 +78,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
  * @property-read int|null $entries_count
  * @property-read bool $is_deadline_ok
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class Meet extends Model implements HasMedia
 {
@@ -126,7 +128,7 @@ class Meet extends Model implements HasMedia
         self::ENTRY_TYPE_SENIOR,
     ];
 
-    const ENTRY_APP_MEET_MANAGER_CSV = 'meetmanager - csv';
+    const ENTRY_APP_MEET_MANAGER_CSV = 'meetmanager-csv';
     const ENTRY_APP_SWIMMING = 'uszas';
 
     const ENTRY_APPS = [

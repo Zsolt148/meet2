@@ -63,7 +63,7 @@
                     <option value="other">{{ __('Other') }}</option>
                 </select>
                 <div class="mt-2 text-xs">
-                    {{ __('I would like to register as a senior team leader so I can submit entries for competitions') }}
+                    {{ __('Choosing a team is required to submit an entry') }}
                 </div>
                 <jet-input-error :message="form.errors.team_id" class="mt-2" />
             </div>

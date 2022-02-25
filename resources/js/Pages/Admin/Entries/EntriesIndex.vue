@@ -11,7 +11,7 @@
                 <div>
                     <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
                         <CogIcon class="w-5 h-5 mr-2" />
-                        Szerkesztés
+                        Nevezés Szerkesztése
                     </jet-button>
                 </div>
 
@@ -22,20 +22,20 @@
                 </div>
 
                 <div>
-                    <jet-button size="sm" variant="info" :href="route('admin:entries.meet.edit', meet)">
+                    <jet-button size="sm" variant="info" disabled>
                         Fizetések
                     </jet-button>
                 </div>
             </div>
         </div>
 
-        <div v-if="!isEntrySet" class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+        <div v-if="!isEntrySet" class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
             <div class="mr-2">
                 <ExclamationIcon class="w-5 h-5" />
             </div>
             <div>
                 <span class="font-bold">Figyelem!</span>
-                Nincs még minden nevezési beállítás megadva! Kattintson a szerkesztés gombra!
+                Nincs még minden nevezési beállítás megadva! Kattintson a <Link class="link" :href="route('admin:entries.meet.edit', meet)">nevezés szerkesztése</Link> gombra!
             </div>
         </div>
 

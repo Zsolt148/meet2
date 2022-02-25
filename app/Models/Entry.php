@@ -74,7 +74,8 @@ class Entry extends Model
      */
     public function competitor() 
     {
-        return $this->belongsTo(Competitor::class, 'competitor_id');     
+        return $this->belongsTo(Competitor::class, 'competitor_id')
+            ->with('team');
     }
 
     /**

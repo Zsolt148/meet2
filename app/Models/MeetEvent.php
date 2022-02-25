@@ -31,6 +31,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Entry[] $entries
  * @property-read int|null $entries_count
  * @property-read \App\Models\Event $event
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  */
 class MeetEvent extends Pivot
 {

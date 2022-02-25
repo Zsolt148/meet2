@@ -77,6 +77,9 @@ class MeetController extends Controller
             ->entries()
             ->whereMeetId($meet->id);
 
+        $entriesCount = $query->count();
+        $entriesAreFinal = (clone $query)->where('is_final', false)->get()->count() == 0;
+
         $query->when(
             $search = $request->get('search'),
             fn(Builder $query) => $query
@@ -90,9 +93,10 @@ class MeetController extends Controller
             $direction = $request->get('direction');
             switch($request->get('field')) {
                 case 'name': //TODO fix competitor orderBy
-                    $query->whereHas('competitor', function ($query) use (&$direction) {
+                    $query->whereHas('competitor', function (Builder $query) use ($direction) {
                         $query->orderBy('name', $direction);
                     });
+                    //dd($query->get()->pluck('competitor.name'));
                     break;
                 case 'is_final':
                     $query->orderBy('is_final', $direction);
@@ -104,6 +108,7 @@ class MeetController extends Controller
                     $query->orderBy('created_at', $direction);
                     break;
                 default:
+                    $query->latest();
                     break;
             }
         }else {
@@ -118,7 +123,9 @@ class MeetController extends Controller
             'filters' => request()->all(['search', 'field', 'direction']),
             'meet' => $meet,
             'entries' => $query->paginate()->withQueryString(),
-            'hasEntries' => auth()->user()->entries()->whereMeetId($meet->id)->get()->isNotEmpty()
+            'has_entries' => $entriesCount !== 0,
+            'entries_count' => $entriesCount,
+            'entries_are_final' => $entriesAreFinal,
         ]);
     }
 }
