@@ -962,6 +962,7 @@ class MeetNewsSeeder extends Seeder
         ];
 
 
+        activity()->disableLogging();
         foreach($data as $news) {
             MeetNews::firstOrCreate(
                 [
@@ -974,5 +975,6 @@ class MeetNewsSeeder extends Seeder
                 ]
             );
         }
+        activity()->enableLogging();
     }
 }

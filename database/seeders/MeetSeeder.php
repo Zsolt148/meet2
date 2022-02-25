@@ -873,6 +873,7 @@ class MeetSeeder extends Seeder
             ],
         ];
 
+        activity()->disableLogging();
         foreach($data as $meet) {
 
             // quietly so the folder wont create
@@ -905,6 +906,7 @@ class MeetSeeder extends Seeder
             }
 
         }
+        activity()->enableLogging();
     }
 
     private function getDate($date)

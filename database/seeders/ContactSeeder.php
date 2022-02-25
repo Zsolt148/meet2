@@ -35,6 +35,7 @@ class ContactSeeder extends Seeder
                 ),
         );
 
+        activity()->disableLogging();
         foreach($data as $contact) {
             Contact::firstOrCreate(
                 [
@@ -48,5 +49,6 @@ class ContactSeeder extends Seeder
                 ]
             );
         }
+        activity()->enableLogging();
     }
 }

@@ -58,6 +58,7 @@ class LocationSeeder extends Seeder
                 ),
         );
 
+        activity()->disableLogging();
         foreach($data as $contact) {
             Location::firstOrCreate(
                 [
@@ -72,5 +73,6 @@ class LocationSeeder extends Seeder
                 ]
             );
         }
+        activity()->enableLogging();
     }
 }

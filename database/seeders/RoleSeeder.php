@@ -39,6 +39,7 @@ class RoleSeeder extends Seeder
             ],
         ];
 
+        activity()->disableLogging();
         foreach($roles as $key => $role) {
             Role::create([
                 'name' => $role['name'],
@@ -46,5 +47,6 @@ class RoleSeeder extends Seeder
                 'hint' => $role['hint']
             ]);
         }
+        activity()->enableLogging();
     }
 }

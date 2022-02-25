@@ -37,6 +37,8 @@ class EventSeeder extends Seeder
      */
     public function run()
     {
+        activity()->disableLogging();
+
         foreach(self::sex as $sex) {
             foreach(self::lengths as $length) {
                 foreach(self::swims as $swim) {
@@ -82,5 +84,7 @@ class EventSeeder extends Seeder
                 }
             }
         }
+
+        activity()->enableLogging();
     }
 }
