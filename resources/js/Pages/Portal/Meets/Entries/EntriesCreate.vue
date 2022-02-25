@@ -15,6 +15,17 @@
                     / {{ __('New Entry') }}
                 </bread-crumb>
             </div>
+
+            <div v-show="!$page.props.user.team" class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+                <div class="mr-2">
+                    <ExclamationIcon class="w-5 h-5" />
+                </div>
+                <div>
+                    {{ __('Úgy tűnik nincs még egyesületed és azért nem tudsz versenyzők kiválasztani. Egyesületet a profil beállításodban tudsz választani.') }}
+                    <Link class="link" :href="route('profile.show')">{{ __('Profile settings') }}</Link>
+                </div>
+            </div>
+
         </template>
 
         <div class="mx-auto">
@@ -82,7 +93,7 @@ import JetInputError from '@/Jetstream/InputError'
 import Icon from "@/Shared/Icon"
 import ScrollTop from "@/Shared/ScrollTop"
 import PortalLayout from "@/Layouts/PortalLayout"
-import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon } from '@heroicons/vue/outline'
+import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon, ExclamationIcon } from '@heroicons/vue/outline'
 import BreadCrumb from "@/Shared/BreadCrumb";
 
 export default {
@@ -98,6 +109,7 @@ export default {
         CogIcon,
         LocationMarkerIcon,
         AtSymbolIcon,
+        ExclamationIcon,
         ScrollTop
     },
     props: ['meet', 'meet_events', 'competitors'],

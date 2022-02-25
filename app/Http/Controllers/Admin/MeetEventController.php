@@ -67,7 +67,7 @@ class MeetEventController extends BaseAdminController
             ]);
         });
 
-        return redirect()->route('admin:entries.meet.event.index', $meet)->with('success', 'Versenszámok sikeresn létrehozva');
+        return redirect()->route('admin:entries.meet.event.index', $meet)->with('success', 'Versenszámok sikeresen létrehozva');
     }
 
 //    /**

@@ -54,7 +54,7 @@ class EntryPolicy
      */
     public function update(User $user, Entry $entry)
     {
-        return Gate::allows('team-leader') && $user->id === $entry->user_id;
+        return Gate::allows('team-leader') && $user->id == $entry->user_id;
     }
 
     /**
@@ -66,7 +66,7 @@ class EntryPolicy
      */
     public function delete(User $user, Entry $entry)
     {
-        return Gate::allows('team-leader') && $user->id === $entry->user_id;
+        return Gate::allows('team-leader') && $user->id == $entry->user_id;
     }
 
     /**

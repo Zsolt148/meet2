@@ -14,7 +14,7 @@
             </bread-crumb>
         </div>
 
-        <div v-if="isEventsEmpty" class="flex flex-row items-center bg-yellow-100 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
+        <div v-if="isEventsEmpty" class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
             <div class="mr-2">
                 <ExclamationIcon class="w-5 h-5" />
             </div>
