@@ -3,11 +3,11 @@
 
     <portal-layout>
 
-        <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
+        <div class="flex flex-wrap justify-between mb-5 md:mb-0">
 
             <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-            <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0">
+            <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mb-5">
                 <div>
                     <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
                         <CogIcon class="w-5 h-5 mr-2" />
@@ -22,8 +22,8 @@
                 </div>
 
                 <div>
-                    <jet-button size="sm" variant="info" disabled>
-                        Fizetések
+                    <jet-button size="sm" variant="info" :href="route('admin:entries.exports.index', meet)">
+                        Exportok
                     </jet-button>
                 </div>
             </div>

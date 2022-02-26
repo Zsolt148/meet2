@@ -4,9 +4,11 @@
 use App\Http\Controllers\Admin\CompetitorController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\EntryController;
+use App\Http\Controllers\Admin\EntryExportController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
 use App\Http\Controllers\Admin\MeetEntryController;
+use App\Http\Controllers\Admin\MeetExportController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\EventController;
@@ -53,6 +55,12 @@ Route::prefix('admin')
             Route::post('meet/{meet}/events/store', [MeetEventController::class, 'store'])->name('meet.event.store');
             //Route::get('meet/{meet}/events/edit', [MeetEventController::class, 'edit'])->name('meet.event.edit');
             //Route::put('meet/{meet}/events/update', [MeetEventController::class, 'update'])->name('meet.event.update');
+
+            // Exports
+            Route::get('meet/{meet}/exports', [EntryExportController::class, 'index'])->name('exports.index');
+            Route::get('meet/{meet}/exports/competitors/download', [EntryExportController::class, 'competitors'])->name('exports.competitors');
+            Route::get('meet/{meet}/exports/teams/download', [EntryExportController::class, 'teams'])->name('exports.teams');
+            Route::get('meet/{meet}/exports/entries/download', [EntryExportController::class, 'entries'])->name('exports.entries');
         });
 
 

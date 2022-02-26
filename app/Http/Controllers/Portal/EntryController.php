@@ -23,8 +23,8 @@ class EntryController extends Controller
     {
         Gate::authorize('create', Entry::class);
 
-        // Ensure the deadline
-        abort_if(!$meet->is_deadline_ok, 404);
+        // Ensure the deadline is ok and if its entriable
+        abort_if(!$meet->is_deadline_ok || !$meet->is_entriable, 404);
 
         $meetEvents = MeetEvent::query()
             ->whereMeetId($meet->id)
@@ -50,9 +50,11 @@ class EntryController extends Controller
     {
         Gate::authorize('create', Entry::class);
 
-        // Ensure the deadline
-        abort_if(!$meet->getIsDeadlineOkAttribute(), 404);
+        // Ensure the deadline and if its entriable
+        abort_if(!$meet->is_deadline_ok || !$meet->is_entriable, 404);
 
+        // if the competitor already has the event
+        // show validation error
         if($meet
             ->entries()
             ->whereCompetitorId($request->input('competitor_id'))
@@ -102,7 +104,7 @@ class EntryController extends Controller
         Gate::authorize('update', $entry);
 
         // Ensure the deadline is ok
-        // and it is not final
+        // and if it is finalized entry
         // redirect to show
         if(!$meet->is_deadline_ok || $entry->isFinal()) {
             return redirect()->route('portal:meet.entry.show', [$meet, $entry]);
@@ -127,7 +129,9 @@ class EntryController extends Controller
     {
         Gate::authorize('update', $entry);
 
-        abort_if($entry->isFinal(), 503);
+        // Ensure the deadline is ok
+        // and if it is finalized entry abort
+        abort_if(!$meet->is_deadline_ok || $entry->isFinal(), 503);
 
         $entry->update($request->only('time'));
 
@@ -135,7 +139,7 @@ class EntryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Finalize the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
     *  @param  \App\Models\Meet   $meet
@@ -155,6 +159,8 @@ class EntryController extends Controller
     }
 
     /**
+     * Finalize all the entries by the user
+     *
      * @param Meet $meet
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -185,7 +191,9 @@ class EntryController extends Controller
     {
         Gate::authorize('delete', $entry);
 
-        abort_if($entry->isFinal(), 503);
+        // Ensure the deadline is ok
+        // and if it is finalized entry abort
+        abort_if(!$meet->is_deadline_ok || $entry->isFinal(), 503);
 
         $entry->delete();
 
