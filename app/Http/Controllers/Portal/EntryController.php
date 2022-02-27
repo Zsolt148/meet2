@@ -68,7 +68,9 @@ class EntryController extends Controller
             'user_id' => auth()->user()->id,
             'competitor_id' => $request->input('competitor_id'),
             'meet_event_id' => $request->input('meet_event_id'),
-            'time' => $request->input('time'),
+            'min' => $request->get('time')['min'],
+            'sec' => $request->get('time')['sec'],
+            'milli' => $request->get('time')['milli'],
         ]);
 
         return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezés sikeresen létrehozva');
@@ -133,7 +135,11 @@ class EntryController extends Controller
         // and if it is finalized entry abort
         abort_if(!$meet->is_deadline_ok || $entry->isFinal(), 503);
 
-        $entry->update($request->only('time'));
+        $entry->update([
+            'min' => $request->get('time')['min'],
+            'sec' => $request->get('time')['sec'],
+            'milli' => $request->get('time')['milli'],
+        ]);
 
         return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen frissítve');
     }

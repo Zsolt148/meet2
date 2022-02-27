@@ -14,7 +14,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int $competitor_id
  * @property int $meet_id
  * @property int $meet_event_id
- * @property string $time
  * @property bool $is_final
  * @property bool $is_paid
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -33,10 +32,18 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereIsPaid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereMeetEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereMeetId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Entry whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereUserId($value)
  * @mixin \Eloquent
+ * @property string $min
+ * @property string $sec
+ * @property string $milli
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read string $time
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereMilli($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereMin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereSec($value)
  */
 class Entry extends Model
 {
@@ -47,7 +54,9 @@ class Entry extends Model
         'competitor_id',
         'meet_id',
         'meet_event_id',
-        'time',
+        'min',
+        'sec',
+        'milli',
         'is_final',
         'is_paid',
     ];
@@ -55,6 +64,10 @@ class Entry extends Model
     protected $casts = [
         'is_final' => 'boolean',
         'is_paid' => 'boolean',
+    ];
+
+    protected $appends = [
+        'time'
     ];
 
     protected static $logOnlyDirty = true;
@@ -103,5 +116,13 @@ class Entry extends Model
     public function isPaid()
     {
         return $this->is_paid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeAttribute()
+    {
+        return "{$this->min}:{$this->sec}.{$this->milli}";
     }
 }

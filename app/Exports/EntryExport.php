@@ -63,17 +63,6 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
         ];
     }
 
-//    /**
-//     * @return array
-//     */
-//    public function columnFormats(): array
-//    {
-//        return [
-//            'D' => NumberFormat::FORMAT_TEXT,
-//            'F' => NumberFormat::FORMAT_TEXT,
-//        ];
-//    }
-
     /**
      * @return \Illuminate\Support\Collection
      */
@@ -197,10 +186,8 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
      */
     public function map($entry): array
     {
-        $min = explode(':', $entry->time)[0];
-        $secs = explode(':', explode('.', $entry->time)[0])[1]; // 00:28.32 - seconds from this format
-        $milli = str_pad(explode('.', $entry->time)[1], 7, '0');
-        $time = ($min * 60) + $secs . '.' . $milli; // Example: 276.0000000
+        // Example: 276.0000000
+        $time = ($entry->min * 60) + $entry->sec . '.' . str_pad($entry->milli, 7, '0');
 
         return [
             $entry->meet_event_id, //'Event_ptr', //TODO check if its the good id

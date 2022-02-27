@@ -66,8 +66,22 @@
                             </div>
 
                             <div class="w-full">
-                                <jet-label for="time" :value="__('Time')" />
-                                <jet-input id="time" type="text" v-model="form.time" autocomplete="off" placeholder="00:00.00" />
+                                <div class="w-full flex space-x-2">
+                                    <div class="">
+                                        <jet-label for="min" class="text-xs" :value="__('Min')" />
+                                        <jet-input id="min" type="text" v-model="form.time.min" autocomplete="off" placeholder="00" class="w-12" />
+                                    </div>
+                                    <span class="font-bold text-2xl mt-8">:</span>
+                                    <div class="">
+                                        <jet-label for="sec" class="text-xs" :value="__('Second')" />
+                                        <jet-input id="sec" type="text" v-model="form.time.sec" autocomplete="off" placeholder="00" class="w-12" />
+                                    </div>
+                                    <span class="font-bold text-2xl mt-8">.</span>
+                                    <div class="">
+                                        <jet-label for="milli" class="text-xs" :value="__('Millisecond')" />
+                                        <jet-input id="milli" type="text" v-model="form.time.milli" autocomplete="off" placeholder="00" class="w-12" />
+                                    </div>
+                                </div>
                                 <jet-input-error :message="form.errors.time" class="mt-2" />
                             </div>
                         </div>
@@ -119,7 +133,11 @@ export default {
                 method: '_POST',
                 competitor_id: null,
                 meet_event_id: null,
-                time: null,
+                time: {
+                    min: null,
+                    sec: null,
+                    milli: null,
+                },
             })
         }
     },

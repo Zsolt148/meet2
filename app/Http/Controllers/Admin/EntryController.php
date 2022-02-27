@@ -57,7 +57,9 @@ class EntryController extends BaseAdminController
                     $query->orderBy('is_final', $direction);
                     break;
                 case 'time':
-                    $query->orderBy('time', $direction);
+                    $query->orderBy('min', $direction)
+                        ->orderBy('sec', $direction)
+                        ->orderBy('milli', $direction);
                     break;
                 case 'created_at':
                     $query->orderBy('created_at', $direction);
@@ -103,11 +105,13 @@ class EntryController extends BaseAdminController
      */
     public function update(EntryRequest $request, Meet $meet, Entry $entry)
     {
-        $entry->update($request->only(
-            'is_final',
-            'is_paid',
-            'time'
-        ));
+        $entry->update([
+            'is_final' => $request->get('is_final'),
+            'is_paid' => $request->get('is_paid'),
+            'min' => $request->get('time')['min'],
+            'sec' => $request->get('time')['sec'],
+            'milli' => $request->get('time')['milli'],
+        ]);
 
         return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen frissítve');
     }

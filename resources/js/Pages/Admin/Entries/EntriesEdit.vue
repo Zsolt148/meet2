@@ -67,8 +67,22 @@
                         </div>
 
                         <div class="w-full">
-                            <jet-label for="time" value="Nevezési idő" />
-                            <jet-input id="time" type="text" v-model="form.time" autocomplete="off" placeholder="00:00.00" />
+                            <div class="w-full flex space-x-2">
+                                <div class="">
+                                    <jet-label for="min" class="text-xs" :value="__('Min')" />
+                                    <jet-input id="min" type="text" v-model="form.time.min" autocomplete="off" placeholder="00" class="w-12" :disabled="entry.is_final" />
+                                </div>
+                                <span class="font-bold text-2xl mt-8">:</span>
+                                <div class="">
+                                    <jet-label for="sec" class="text-xs" :value="__('Second')" />
+                                    <jet-input id="sec" type="text" v-model="form.time.sec" autocomplete="off" placeholder="00" class="w-12" :disabled="entry.is_final" />
+                                </div>
+                                <span class="font-bold text-2xl mt-8">.</span>
+                                <div class="">
+                                    <jet-label for="milli" class="text-xs" :value="__('Millisecond')" />
+                                    <jet-input id="milli" type="text" v-model="form.time.milli" autocomplete="off" placeholder="00" class="w-12" :disabled="entry.is_final" />
+                                </div>
+                            </div>
                             <jet-input-error :message="form.errors.time" class="mt-2" />
                         </div>
 
@@ -155,7 +169,11 @@ export default {
                 method: '_POST',
                 competitor_id: this.entry.competitor_id,
                 meet_event_id: this.entry.meet_event_id,
-                time: this.entry.time,
+                time: {
+                    min: this.entry.min,
+                    sec: this.entry.sec,
+                    milli: this.entry.milli,
+                },
                 is_final: this.entry.is_final,
                 is_paid: this.entry.is_paid,
             })

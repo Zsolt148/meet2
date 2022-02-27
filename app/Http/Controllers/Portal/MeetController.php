@@ -102,7 +102,9 @@ class MeetController extends Controller
                     $query->orderBy('is_final', $direction);
                     break;
                 case 'time':
-                    $query->orderBy('time', $direction);
+                    $query->orderBy('min', $direction)
+                        ->orderBy('sec', $direction)
+                        ->orderBy('milli', $direction);
                     break;
                 case 'created_at':
                     $query->orderBy('created_at', $direction);

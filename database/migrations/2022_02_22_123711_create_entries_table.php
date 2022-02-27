@@ -19,7 +19,9 @@ class CreateEntriesTable extends Migration
             $table->foreignId('competitor_id')->constrained()->cascadeOnDelete();
             $table->foreignId('meet_id')->constrained()->cascadeOnDelete();
             $table->foreignId('meet_event_id')->references('id')->on('meet_event')->cascadeOnDelete();
-            $table->string('time');
+            $table->string('min')->default(00);
+            $table->string('sec')->default(00);
+            $table->string('milli')->default(00);
             $table->boolean('is_final')->default(0);
             $table->boolean('is_paid')->default(0);
             $table->timestamps();

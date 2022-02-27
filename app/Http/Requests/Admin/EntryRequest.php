@@ -28,7 +28,7 @@ class EntryRequest extends FormRequest
         return [
             'is_final'  => ['nullable'],
             'is_paid'   => ['nullable'],
-            'time'      => ['required', new TimeRule],
+            'time'      => ['required', 'array', new TimeRule],
         ];
     }
 }

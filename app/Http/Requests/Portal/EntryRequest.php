@@ -28,7 +28,7 @@ class EntryRequest extends FormRequest
         return [
             'competitor_id' => ['required', Rule::exists('competitors', 'id')],
             'meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
-            'time' => ['required', new TimeRule],
+            'time' => ['required', 'array', new TimeRule],
         ];
     }
 }
