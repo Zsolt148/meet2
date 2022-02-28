@@ -190,7 +190,9 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
         $time = ($entry->min * 60) + $entry->sec . '.' . str_pad($entry->milli, 7, '0');
 
         return [
-            $entry->meet_event_id, //'Event_ptr', //TODO check if its the good id
+            //'Event_ptr' - order because of the events.xls
+            // which is created by hand outside of the app
+            $entry->meetEvent->order,
             $entry->competitor->id, //'Ath_no',
             'L', //'ActSeed_course',
             $time, //'ActualSeed_time',
