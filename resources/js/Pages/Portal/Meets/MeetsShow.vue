@@ -262,8 +262,8 @@ export default {
 
         function entryRoute(entry) {
             return props.meet.is_deadline_ok
-                ? route('portal:meet.entry.edit', {meet: props.meet.id, entry: entry})
-                : route('portal:meet.entry.show', {meet: props.meet.id, entry: entry})
+                ? route('portal:meet.entry.edit', {meet: props.meet.id, competitor: entry.competitor_id})
+                : route('portal:meet.entry.show', {meet: props.meet.id, competitor: entry.competitor_id})
         }
 
         function updateSearch(value) {

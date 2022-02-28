@@ -147,6 +147,8 @@
   "Finalize all my entries": "Összes nevezésem véglegesítése",
   "Are you sure you want to finalize all your entries ?": "Biztosan véglegesíteni szeretnéd az összes nevezésed ?",
   "It will not be possible to change it after it has been finalized.": "Véglegesítés után nem lehet majd módosítani.",
+  "Looks like you don't have a team yet and you can't select a competitor. You can select a team in your profile setting." : "Úgy tűnik nincs még egyesületed és azért nem tudsz versenyzőt kiválasztani. Egyesületet a profil beállításodban tudsz választani.",
   "Entries submitted": "Leadott nevezések",
-  "Altogether": "Összesen"
+  "Altogether": "Összesen",
+  "Add event": "Versenyszám hozzáadása"
 }

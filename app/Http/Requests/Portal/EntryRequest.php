@@ -27,8 +27,21 @@ class EntryRequest extends FormRequest
     {
         return [
             'competitor_id' => ['required', Rule::exists('competitors', 'id')],
-            'meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
-            'time' => ['required', 'array', new TimeRule],
+            'entries' => ['required', 'array'],
+            'entries.*.meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
+            'entries.*.time' => ['required', 'array', new TimeRule],
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'entries.*.meet_event_id' => trans('validation.meet_event_id'),
         ];
     }
 }

@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\EntryRequest;
+use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\Meet;
+use App\Traits\EntryTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class EntryController extends BaseAdminController
 {
+    use EntryTrait;
+
     /**
      * Display the listing resource.
      *
@@ -84,14 +89,27 @@ class EntryController extends BaseAdminController
      * Show the form for eiting the specified resource.
      *
      * @param  \App\Models\Meet  $meet
-     * @param  \App\Models\Entry  $entry
+     * @param  Competitor        $competitor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Meet $meet, Entry $entry)
+    public function edit(Meet $meet, Competitor $competitor)
     {
+        $entries = $meet
+            ->entries()
+            ->whereCompetitorId($competitor->id)
+            ->get();
+
+        if($entries->isEmpty()) {
+            return redirect()->route('admin:entries.index', $meet);
+        }
+
+        [$male, $female] = $this->getMeetEventsByGender($meet);
+
         return Inertia::render('Admin/Entries/EntriesEdit', [
             'meet' => $meet,
-            'entry' => $entry->load('competitor', 'user', 'meetEvent'),
+            'competitor' => $competitor->load('team'),
+            'competitor_form' => $this->getCompetitorForm($competitor, $entries),
+            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
         ]);
     }
 
@@ -100,20 +118,53 @@ class EntryController extends BaseAdminController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Meet  $meet
-     * @param  \App\Models\Entry  $entry
+     * @param  Competitor        $competitor
      * @return \Illuminate\Http\Response
      */
-    public function update(EntryRequest $request, Meet $meet, Entry $entry)
+    public function update(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
-        $entry->update([
-            'is_final' => $request->get('is_final'),
-            'is_paid' => $request->get('is_paid'),
-            'min' => $request->get('time')['min'],
-            'sec' => $request->get('time')['sec'],
-            'milli' => $request->get('time')['milli'],
-        ]);
+        $competitor_id = $request->input('competitor_id');
+
+        foreach($request->input('entries') as $key => $data) {
+            $meet->entries()->updateOrCreate(
+                [
+                    'id' => $data['id'],
+                ], [
+                    'competitor_id' => $competitor_id,
+                    'meet_event_id' => $data['meet_event_id'],
+                    'min' => $data['time']['min'],
+                    'sec' => $data['time']['sec'],
+                    'milli' => $data['time']['milli'],
+                    'is_final' => $data['is_final'] ?? false,
+                    'is_paid' => $data['is_paid'] ?? false,
+                ]
+            );
+        }
 
         return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen frissítve');
+    }
+
+    /**
+     * Finalize the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *  @param  \App\Models\Meet     $meet
+     * @param  Competitor           $competitor
+     * @return \Illuminate\Http\Response
+     */
+    public function finalize(EntryRequest $request, Meet $meet, Competitor $competitor)
+    {
+        Gate::authorize('update', $competitor);
+
+        $competitor
+            ->entries()
+            ->whereMeetId($meet->id)
+            ->whereIsFinal(false)
+            ->update([
+                'is_final' => true,
+            ]);
+
+        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
     /**
@@ -123,11 +174,25 @@ class EntryController extends BaseAdminController
      * @param  \App\Models\Meet  $meet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Meet $meet, Entry $entry)
+    public function destroy(Meet $meet, $entryId)
     {
+        /** @var Entry $entry */
+        $entry = Entry::findOrFail($entryId);
+
         $entry->delete();
+    }
 
-        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen törölve');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Meet   $meet
+     * @param  Competitor $competitor
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyAll(Meet $meet, Competitor $competitor)
+    {
+        $competitor->entries()->whereMeetId($meet->id)->delete();
 
+        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezések sikeresen törölve');
     }
 }

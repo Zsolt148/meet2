@@ -13,21 +13,21 @@
             </div>
             <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mt-5">
                 <div>
-                    <jet-button size="sm" external="true" :href="route('admin:entries.exports.competitors', meet)">
+                    <jet-button size="sm" external :href="route('admin:entries.exports.competitors', meet)">
                         <DownloadIcon class="w-5 h-5 mr-2" />
                         Athlete.csv letöltése
                     </jet-button>
                 </div>
 
                 <div>
-                    <jet-button size="sm" external="true" :href="route('admin:entries.exports.teams', meet)">
+                    <jet-button size="sm" external :href="route('admin:entries.exports.teams', meet)">
                         <DownloadIcon class="w-5 h-5 mr-2" />
                         Team.csv letöltése
                     </jet-button>
                 </div>
 
                 <div>
-                    <jet-button size="sm" external="true" :href="route('admin:entries.exports.entries', meet)">
+                    <jet-button size="sm" external :href="route('admin:entries.exports.entries', meet)">
                         <DownloadIcon class="w-5 h-5 mr-2" />
                         Entry.csv letöltése
                     </jet-button>

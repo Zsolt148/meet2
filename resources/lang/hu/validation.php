@@ -134,6 +134,7 @@ return [
     */
 
     'time' => 'Nevezési idő formátuma 00:00.00 kell hogy legyen',
+    'meet_event_id' => 'Versenyszám',
     'already_entered' => 'Ez a versenyző ebben a versenyszámban már nevezve lett',
 
     'custom' => [

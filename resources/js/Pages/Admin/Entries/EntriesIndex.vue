@@ -90,37 +90,37 @@
                 <template #body>
                     <tr v-for="entry in entries.data" :key="entry.id" class="tr-class">
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)">
                                 {{ entry.competitor.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 {{ entry.meet_event.event.length }}m {{ __(entry.meet_event.event.sex) }} {{ __(entry.meet_event.event.swim) }} {{ entry.meet_event.category }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 {{ entry.time }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 {{ entry.user.name }}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 <CheckIcon v-if="entry.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 {{ timeFormat(entry.created_at) }}
                             </Link>
                         </td>
                         <td class="td-class w-px">
-                            <Link class="td-content" :href="entryRoute(meet, entry)" tabindex="-1">
+                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
                                 <ChevronRightIcon class="w-5 h-5" />
                             </Link>
                         </td>
@@ -171,8 +171,8 @@ export default {
     setup(props) {
         const params = getParams(props);
 
-        function entryRoute(meet, entry) {
-            return route('admin:entries.edit', { meet: meet, entry: entry })
+        function entryRoute(meet, competitor) {
+            return route('admin:entries.edit', { meet: meet, competitor: competitor })
         }
 
         function updateSearch(value) {

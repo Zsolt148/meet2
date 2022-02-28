@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\User;
+use App\Policies\Portal\CompetitorPolicy;
 use App\Policies\Portal\EntryPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -16,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Entry::class => EntryPolicy::class,
+        Entry::class        => EntryPolicy::class,
+        Competitor::class   => CompetitorPolicy::class
     ];
 
     /**

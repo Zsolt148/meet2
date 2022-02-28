@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Portal\EntryRequest;
+use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\Meet;
-use App\Models\MeetEvent;
-use Illuminate\Http\Request;
+use App\Traits\EntryTrait;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class EntryController extends Controller
 {
+    use EntryTrait;
+
     /**
      * Show the form for creating a new resource.
      * @param Meet $meet
@@ -26,16 +27,20 @@ class EntryController extends Controller
         // Ensure the deadline is ok and if its entriable
         abort_if(!$meet->is_deadline_ok || !$meet->is_entriable, 404);
 
-        $meetEvents = MeetEvent::query()
-            ->whereMeetId($meet->id)
-            ->with('event')
-            ->orderBy('order')
-            ->get();
+        [$male, $female] = $this->getMeetEventsByGender($meet);
+
+        // get users's competitors
+        // where competitor doesnt have any entry
+        if($competitors = auth()->user()->competitors()) {
+            $entriedCompetitors = $meet->entries()->get()->pluck('competitor.id')->unique();
+            $competitors = $competitors->whereNotIn('id', $entriedCompetitors)->values();
+        }
 
         return Inertia::render('Portal/Meets/Entries/EntriesCreate', [
             'meet' => $meet,
-            'meet_events' => $meetEvents,
-            'competitors' => auth()->user()->competitors(),
+            'male_meet_events' => $male,
+            'female_meet_events' => $female,
+            'competitors' => $competitors,
         ]);
     }
 
@@ -48,30 +53,33 @@ class EntryController extends Controller
      */
     public function store(EntryRequest $request, Meet $meet)
     {
+        //dd($request->all());
         Gate::authorize('create', Entry::class);
 
         // Ensure the deadline and if its entriable
-        abort_if(!$meet->is_deadline_ok || !$meet->is_entriable, 404);
+        // and competitor doesnt have any entry yet
+        abort_if(
+            !$meet->is_deadline_ok ||
+            !$meet->is_entriable ||
+            $meet->entries()->whereCompetitorId($request->input('competitor_id'))->exists(),
+            403
+        );
 
-        // if the competitor already has the event
-        // show validation error
-        if($meet
-            ->entries()
-            ->whereCompetitorId($request->input('competitor_id'))
-            ->whereMeetEventId($request->input('meet_event_id'))
-            ->exists()
-        ) {
-            throw ValidationException::withMessages(['meet_event_id' => trans('validation.already_entered')]);
+        $this->validateDuplicateEvents($request);
+
+        $user_id = auth()->user()->id;
+        $competitor_id = $request->input('competitor_id');
+
+        foreach($request->input('entries') as $key => $data) {
+            $meet->entries()->create([
+                'user_id' => $user_id,
+                'competitor_id' => $competitor_id,
+                'meet_event_id' => $data['meet_event_id'],
+                'min' => $data['time']['min'],
+                'sec' => $data['time']['sec'],
+                'milli' => $data['time']['milli'],
+            ]);
         }
-
-        $meet->entries()->create([
-            'user_id' => auth()->user()->id,
-            'competitor_id' => $request->input('competitor_id'),
-            'meet_event_id' => $request->input('meet_event_id'),
-            'min' => $request->get('time')['min'],
-            'sec' => $request->get('time')['sec'],
-            'milli' => $request->get('time')['milli'],
-        ]);
 
         return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezés sikeresen létrehozva');
     }
@@ -80,17 +88,25 @@ class EntryController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Meet   $meet
-     * @param  \App\Models\Entry  $entry
+     * @param  $competitorId
      * @return \Illuminate\Http\Response
      */
-    public function show(Meet $meet, Entry $entry)
+    public function show(Meet $meet, Competitor $competitor)
     {
-        Gate::authorize('view', $entry);
+        Gate::authorize('view', $competitor);
+
+        $entries = $meet
+            ->entries()
+            ->whereCompetitorId($competitor->id)
+            ->get();
+
+        [$male, $female] = $this->getMeetEventsByGender($meet);
 
         return Inertia::render('Portal/Meets/Entries/EntriesShow', [
             'meet' => $meet,
-            'meet_event' => meetEvent($entry->meetEvent),
-            'entry' => $entry->load('competitor'),
+            'competitor' => $competitor,
+            'competitor_form' => $this->getCompetitorForm($competitor, $entries),
+            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
         ]);
     }
 
@@ -98,24 +114,36 @@ class EntryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Meet   $meet
-     * @param  \App\Models\Entry  $entry
+     * @param  Competitor $competitor
      * @return \Illuminate\Http\Response
      */
-    public function edit(Meet $meet, Entry $entry)
+    public function edit(Meet $meet, Competitor $competitor)
     {
-        Gate::authorize('update', $entry);
+        Gate::authorize('update', $competitor);
 
         // Ensure the deadline is ok
         // and if it is finalized entry
         // redirect to show
-        if(!$meet->is_deadline_ok || $entry->isFinal()) {
-            return redirect()->route('portal:meet.entry.show', [$meet, $entry]);
+        if(!$meet->is_deadline_ok) {
+            return redirect()->route('portal:meet.entry.show', [$meet, $competitor]);
         }
+
+        $entries = $meet
+            ->entries()
+            ->whereCompetitorId($competitor->id)
+            ->get();
+
+        if($entries->isEmpty()) {
+            return redirect()->route('portal:meets.show', $meet);
+        }
+
+        [$male, $female] = $this->getMeetEventsByGender($meet);
 
         return Inertia::render('Portal/Meets/Entries/EntriesEdit', [
             'meet' => $meet,
-            'meet_event' => meetEvent($entry->meetEvent),
-            'entry' => $entry->load('competitor'),
+            'competitor' => $competitor,
+            'competitor_form' => $this->getCompetitorForm($competitor, $entries),
+            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
         ]);
     }
 
@@ -124,22 +152,39 @@ class EntryController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Meet   $meet
-     * @param  \App\Models\Entry  $entry
+     * @param  Competitor $competitor
      * @return \Illuminate\Http\Response
      */
-    public function update(EntryRequest $request, Meet $meet, Entry $entry)
+    public function update(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
-        Gate::authorize('update', $entry);
+        Gate::authorize('update', $competitor);
 
-        // Ensure the deadline is ok
-        // and if it is finalized entry abort
-        abort_if(!$meet->is_deadline_ok || $entry->isFinal(), 503);
+        // Ensure the deadline and if its entriable
+        // and competitor doesnt have any entry yet
+        abort_if(
+            !$meet->is_deadline_ok ||
+            !$meet->is_entriable,
+            403
+        );
 
-        $entry->update([
-            'min' => $request->get('time')['min'],
-            'sec' => $request->get('time')['sec'],
-            'milli' => $request->get('time')['milli'],
-        ]);
+        $this->validateDuplicateEvents($request);
+
+        $user_id = auth()->user()->id;
+        $competitor_id = $request->input('competitor_id');
+
+        foreach($request->input('entries') as $key => $data) {
+            $meet->entries()->updateOrCreate(
+                [
+                    'user_id' => $user_id,
+                    'competitor_id' => $competitor_id,
+                    'meet_event_id' => $data['meet_event_id'],
+                ], [
+                    'min' => $data['time']['min'],
+                    'sec' => $data['time']['sec'],
+                    'milli' => $data['time']['milli'],
+                ]
+            );
+        }
 
         return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen frissítve');
     }
@@ -148,20 +193,23 @@ class EntryController extends Controller
      * Finalize the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-    *  @param  \App\Models\Meet   $meet
-     * @param  \App\Models\Entry  $entry
+    *  @param  \App\Models\Meet     $meet
+     * @param  Competitor           $competitor
      * @return \Illuminate\Http\Response
      */
-    public function finalize(EntryRequest $request, Meet $meet, Entry $entry)
+    public function finalize(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
-        Gate::authorize('update', $entry);
+        Gate::authorize('update', $competitor);
 
-        $entry->update([
-            $request->only('time'),
-            'is_final' => true,
-        ]);
+        $competitor
+            ->entries()
+            ->whereMeetId($meet->id)
+            ->whereIsFinal(false)
+            ->update([
+                'is_final' => true,
+            ]);
 
-        return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen véglegesítve');
+        return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
     /**
@@ -190,19 +238,39 @@ class EntryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Meet   $meet
-     * @param  \App\Models\Entry  $entry
-     * @return \Illuminate\Http\Response
+     * @param  Entry $entry
      */
-    public function destroy(meet $meet, Entry $entry)
+    public function destroy(Meet $meet, $entryId)
     {
+        /** @var Entry $entry */
+        $entry = Entry::findOrFail($entryId);
+
         Gate::authorize('delete', $entry);
 
         // Ensure the deadline is ok
         // and if it is finalized entry abort
-        abort_if(!$meet->is_deadline_ok || $entry->isFinal(), 503);
+        abort_if(!$meet->is_deadline_ok || $entry->is_final, 403);
 
         $entry->delete();
+    }
 
-        return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Meet   $meet
+     * @param  Competitor $competitor
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyAll(Meet $meet, Competitor $competitor)
+    {
+        Gate::authorize('delete', $competitor);
+
+        // Ensure the deadline is ok
+        // and if it is finalized entry abort
+        abort_if(!$meet->is_deadline_ok, 403);
+
+        $competitor->entries()->whereMeetId($meet->id)->delete();
+
+        return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezések sikeresen törölve');
     }
 }
