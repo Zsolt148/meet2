@@ -2,10 +2,13 @@
     <Head title="Nevezhető verseny" />
 
     <portal-layout>
-        <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
-            <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
-            <span class="font-medium pl-1">/</span> Exportok
-        </bread-crumb>
+
+        <template #header>
+            <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
+                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
+                <span class="font-medium pl-1">/</span> Exportok
+            </bread-crumb>
+        </template>
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto p-5">
             <div class="text-xl">

@@ -3,16 +3,18 @@
 
     <portal-layout>
 
-        <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
+        <template #header>
+            <div class="flex flex-col md:flex-row justify-between mb-5 md:mb-0">
 
-            <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
-                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
-                <span class="font-medium pl-1">/</span>
-                <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.event.index', meet.id)"> Versenyszámok </Link>
-                <span class="font-medium pl-1">/</span>
-                <span v-if="isEventsEmpty">Létrehozás</span><span v-else>Szerkesztés</span>
-            </bread-crumb>
-        </div>
+                <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
+                    <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.index', meet.id)">{{ meet.name }}</Link>
+                    <span class="font-medium pl-1">/</span>
+                    <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500" :href="route('admin:entries.meet.event.index', meet.id)"> Versenyszámok </Link>
+                    <span class="font-medium pl-1">/</span>
+                    <span v-if="isEventsEmpty">Létrehozás</span><span v-else>Szerkesztés</span>
+                </bread-crumb>
+            </div>
+        </template>
 
         <div v-if="isEventsEmpty" class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
             <div class="mr-2">

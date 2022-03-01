@@ -3,31 +3,33 @@
 
     <portal-layout>
 
-        <div class="flex flex-wrap justify-between mb-5 md:mb-0">
+        <template #header>
+            <div class="flex flex-wrap justify-between mb-5 md:mb-0">
 
-            <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
+                <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-            <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mb-5">
-                <div>
-                    <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
-                        <CogIcon class="w-5 h-5 mr-2" />
-                        Nevezés Szerkesztése
-                    </jet-button>
-                </div>
+                <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mb-5">
+                    <div>
+                        <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
+                            <CogIcon class="w-5 h-5 mr-2" />
+                            Nevezés Szerkesztése
+                        </jet-button>
+                    </div>
 
-                <div>
-                    <jet-button size="sm" variant="success" :href="route('admin:entries.meet.event.index', meet)">
-                        Versenyszámok
-                    </jet-button>
-                </div>
+                    <div>
+                        <jet-button size="sm" variant="success" :href="route('admin:entries.meet.event.index', meet)">
+                            Versenyszámok
+                        </jet-button>
+                    </div>
 
-                <div>
-                    <jet-button size="sm" variant="info" :href="route('admin:entries.exports.index', meet)">
-                        Exportok
-                    </jet-button>
+                    <div>
+                        <jet-button size="sm" variant="info" :href="route('admin:entries.exports.index', meet)">
+                            Exportok
+                        </jet-button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </template>
 
         <div v-if="!isEntrySet" class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5" role="alert">
             <div class="mr-2">

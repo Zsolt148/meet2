@@ -27,10 +27,13 @@ class EntryController extends BaseAdminController
     {
         $request->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,event,is_final,time,created_at'],
+            'field' => ['in:name,event,is_final,time,user_id,created_at'],
         ]);
 
-        $query = $meet->entries();
+        //$query = $meet->entries();
+        $query = Entry::query()
+            ->whereMeetId($meet->id)
+            ->with('competitor', 'meetEvent', 'user');
 
         $query->when(
             $search = $request->get('search'),
@@ -49,13 +52,13 @@ class EntryController extends BaseAdminController
             $direction = $request->get('direction');
             switch($request->get('field')) {
                 case 'name': //TODO fix competitor orderBy
-                    $query->whereHas('competitor', function ($query) use (&$direction) {
+                    $query->whereHas('competitor', function (Builder $query) use (&$direction) {
                         $query->orderBy('name', $direction);
                     });
                     break;
                 case 'event': //TODO fix event orderBy
-                    $query->whereHas('meetEvent.event', function ($query) use (&$direction) {
-                        $query->orderBy('length', $direction);
+                    $query->whereHas('meetEvent', function (Builder $query) use (&$direction) {
+                        $query->orderBy('meet_event.order', $direction);
                     });
                     break;
                 case 'is_final':
@@ -70,10 +73,11 @@ class EntryController extends BaseAdminController
                     $query->orderBy('created_at', $direction);
                     break;
                 default:
+                    $query->latest();
                     break;
             }
         }else {
-            $query->latest();
+            //$query->latest();
         }
 
         return Inertia::render('Admin/Entries/EntriesIndex', [

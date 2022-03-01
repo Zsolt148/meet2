@@ -57,7 +57,7 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <jet-label for="team_id" :value="__('Team')"/>
-                <select name="team_id" id="team_id" v-model="form.team_id">
+                <select name="team_id" id="team_id" v-model="form.team_id" :disabled="user.team_id">
                     <option value="">{{ __('Empty') }}</option>
                     <option v-for="team in teams" :key="team.id" :value="team.id" :selected="form.team_id === team.id">{{team.name}}</option>
                     <option value="other">{{ __('Other') }}</option>
