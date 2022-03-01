@@ -100,13 +100,11 @@ class EntryController extends Controller
             ->whereCompetitorId($competitor->id)
             ->get();
 
-        [$male, $female] = $this->getMeetEventsByGender($meet);
-
         return Inertia::render('Portal/Meets/Entries/EntriesShow', [
             'meet' => $meet,
             'competitor' => $competitor,
             'competitor_form' => $this->getCompetitorForm($competitor, $entries),
-            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
+            'meet_events_by_gender' => $this->getMeetEventsByCompetitor($meet, $competitor)
         ]);
     }
 
@@ -137,13 +135,11 @@ class EntryController extends Controller
             return redirect()->route('portal:meets.show', $meet);
         }
 
-        [$male, $female] = $this->getMeetEventsByGender($meet);
-
         return Inertia::render('Portal/Meets/Entries/EntriesEdit', [
             'meet' => $meet,
             'competitor' => $competitor,
             'competitor_form' => $this->getCompetitorForm($competitor, $entries),
-            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
+            'meet_events_by_gender' => $this->getMeetEventsByCompetitor($meet, $competitor)
         ]);
     }
 
@@ -175,10 +171,11 @@ class EntryController extends Controller
         foreach($request->input('entries') as $key => $data) {
             $meet->entries()->updateOrCreate(
                 [
-                    'user_id' => $user_id,
                     'competitor_id' => $competitor_id,
                     'meet_event_id' => $data['meet_event_id'],
+                    'meet_id' => $meet->id
                 ], [
+                    'user_id' => $user_id,
                     'min' => $data['time']['min'],
                     'sec' => $data['time']['sec'],
                     'milli' => $data['time']['milli'],
@@ -222,11 +219,25 @@ class EntryController extends Controller
     {
         Gate::authorize('viewAny', Entry::class);
 
+        /* users's entries
         auth()
             ->user()
             ->entries()
             ->whereMeetId($meet->id)
             ->whereIsFinal(false)
+            ->update([
+                'is_final' => true,
+            ])
+        */
+
+        // team's entries
+        Entry::query()
+            ->whereMeetId($meet->id)
+            ->whereIsFinal(false)
+            ->with('competitor', 'meetEvent')
+            ->whereHas('competitor', function ($query) {
+                $query->where('team_id', auth()->user()->team_id);
+            })
             ->update([
                 'is_final' => true,
             ]);

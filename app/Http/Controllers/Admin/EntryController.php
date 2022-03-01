@@ -103,13 +103,11 @@ class EntryController extends BaseAdminController
             return redirect()->route('admin:entries.index', $meet);
         }
 
-        [$male, $female] = $this->getMeetEventsByGender($meet);
-
         return Inertia::render('Admin/Entries/EntriesEdit', [
             'meet' => $meet,
             'competitor' => $competitor->load('team'),
             'competitor_form' => $this->getCompetitorForm($competitor, $entries),
-            'meet_events_by_gender' => $competitor->sex == 'F' ? $male : $female
+            'meet_events_by_gender' => $this->getMeetEventsByCompetitor($meet, $competitor)
         ]);
     }
 

@@ -7,14 +7,20 @@
                 <Link class="text-teal-500 dark:text-teal-400 hover:text-teal-500 dark:hover:text-teal-500"
                       :href="route('portal:meets.show', meet.slug)">{{meet.name}}
                 </Link>
-                <span class="font-medium pl-1">/</span> Nevezés szerkesztése
+                <span class="font-medium pl-1">/</span> {{ __('Edit Entries') }}
             </bread-crumb>
         </template>
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
 
+            <div class="px-8 pt-6">
+                <div class="text-2xl text-teal-500 dark:text-teal-400">
+                    {{ __('Edit Entries') }}
+                </div>
+            </div>
+
             <form @submit.prevent="submit">
-                <div class="p-8 flex flex-col max-w-3xl">
+                <div class="px-8 py-6 flex flex-col max-w-3xl">
                     <div class="w-full flex flex-col">
                         <div class="w-full">
                             <jet-label for="competitor_id" :value="__('Competitor')"/>

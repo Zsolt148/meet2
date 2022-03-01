@@ -124,7 +124,7 @@
                         </th>
                         <th class="th-class">
                         <span class="th-content" @click="updateSort('is_final')">
-                            Végleges
+                            {{ __('Final') }}
                             <table-chevron :params="params" value="is_final" />
                         </span>
                         </th>
@@ -144,8 +144,7 @@
                             </td>
                             <td class="td-class">
                                 <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    {{entry.meet_event.event.length}}m {{__(entry.meet_event.event.sex)}}
-                                    {{__(entry.meet_event.event.swim)}} {{entry.meet_event.category}}
+                                    {{ meetEvent(entry.meet_event) }}
                                 </Link>
                             </td>
                             <td class="td-class">

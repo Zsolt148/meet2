@@ -43,11 +43,11 @@
                     </div>
                 </div>
                 <div class="my-5">
-                    Nevezési határidő: {{ timeFormat(data.deadline, 'YYYY.MM.DD') }} éjfél
+                   {{ __('Deadline for entries') }}: {{ timeFormat(data.deadline, 'YYYY.MM.DD') }} {{ __('midnight') }}
                 </div>
                 <div>
                     <Link class="inline-flex items-center text-teal-500 hover:text-teal-400 dark:text-teal-400" :href="route('portal:meets.show', data.slug)">
-                        Tovább
+                        {{ __('Enter') }}
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
                     </Link>
                 </div>

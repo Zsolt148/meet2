@@ -72,10 +72,23 @@ class MeetController extends Controller
             'field' => ['in:name,is_final,time,created_at'],
         ]);
 
+        /* user's entries
         $query = auth()
             ->user()
             ->entries()
-            ->whereMeetId($meet->id);
+            ->whereMeetId($meet->id)
+            ->whereHas('competitor', function ($query) {
+                $query->where('team_id', auth()->user()->team_id);
+            });
+        */
+
+        // team's entries
+        $query = Entry::query()
+            ->whereMeetId($meet->id)
+            ->with('competitor', 'meetEvent')
+            ->whereHas('competitor', function ($query) {
+                $query->where('team_id', auth()->user()->team_id);
+            });
 
         $entriesCount = $query->count();
         $entriesAreFinal = (clone $query)->where('is_final', false)->get()->count() == 0;

@@ -12,7 +12,7 @@
                     <Link class="text-teal-500 dark:text-teal-400" :href="route('portal:meets.show', meet)">
                         {{ meet.name }}
                     </Link>
-                    / {{ __('New Entry') }}
+                    / {{ __('New Entries') }}
                 </bread-crumb>
             </div>
 
@@ -31,8 +31,18 @@
         <div class="mx-auto">
             <div class="bg-white dark:bg-gray-600 shadow rounded-md">
 
+                <div class="px-8 pt-6">
+                    <div class="text-2xl text-teal-500 dark:text-teal-400">
+                        {{ __('New Entries') }}
+                    </div>
+
+                    <div class="pt-4 text-gray-700 dark:text-gray-200">
+                        {{ __('Select a competitor from the list and select the event you want to enter and add the entry time') }}
+                    </div>
+                </div>
+
                 <form @submit.prevent="submit">
-                    <div class="p-8 flex flex-col max-w-3xl">
+                    <div class="px-8 py-6 flex flex-col max-w-3xl">
                         <div class="w-full flex flex-col">
                             <div class="w-full">
                                 <jet-label for="competitor_id" :value="__('Competitor')"/>
@@ -91,7 +101,7 @@
                                 </div>
 
                                 <div class="w-full mt-5">
-                                    <jet-button type="button" @click="addNewEntry">
+                                    <jet-button type="button" variant="secondary" @click="addNewEntry">
                                         <PlusIcon class="w-5 h-5 mr-2" />
                                         {{ __('Add event') }}
                                     </jet-button>

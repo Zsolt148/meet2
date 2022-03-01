@@ -31,7 +31,9 @@ class CompetitorPolicy
      */
     public function view(User $user, Competitor $competitor)
     {
-        return true;
+        return Gate::allows('team-leader') &&
+            $user->competitors() &&
+            $user->competitors()->find($competitor->id);
     }
 
     /**

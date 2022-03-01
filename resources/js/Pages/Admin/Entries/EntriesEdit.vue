@@ -15,10 +15,22 @@
 <!--                {{ competitor.user.name }}-->
 <!--            </div>-->
 
+            <div class="px-8 pt-6">
+                <div class="text-2xl text-teal-500 dark:text-teal-400">
+                    {{ __('Edit Entries') }}
+                </div>
+            </div>
+
             <form @submit.prevent="submit">
-                <div class="p-8 flex flex-col max-w-3xl">
+                <div class="px-8 py-6 flex flex-col max-w-3xl">
 
                     <div class="w-full flex flex-col">
+
+                        <div class="w-full mb-4">
+                            <jet-label for="user_id" value="Egyesület"/>
+                            {{ competitor.team.name }}
+                        </div>
+
                         <div class="w-full">
                             <jet-label for="competitor_id" :value="__('Competitor')"/>
                             <jet-input id="competitor_id"
@@ -28,11 +40,6 @@
                                        :disabled="true"
                                        :value="competitor.name"
                             />
-                        </div>
-
-                        <div class="w-full mt-4">
-                            <jet-label for="user_id" value="Egyesület"/>
-                            {{ competitor.team.name }}
                         </div>
 
                         <div v-if="competitor">

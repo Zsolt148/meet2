@@ -63,6 +63,18 @@ trait EntryTrait
         return [$male, $female];
     }
 
+    /**
+     * @param Meet $meet
+     * @param Competitor $competitor
+     * @return mixed
+     */
+    protected function getMeetEventsByCompetitor(Meet $meet, Competitor $competitor)
+    {
+        [$male, $female] = $this->getMeetEventsByGender($meet);
+
+        return $competitor->sex == 'F' ? $male : $female;
+    }
+
 
     /**
      * @param Request $request
