@@ -69,26 +69,32 @@
                                         <div class="">
                                             <jet-label for="min" class="text-xs" :value="__('Min')"/>
                                             <jet-input id="min" type="text" v-model="form.entries[index]['time']['min']"
-                                                       autocomplete="off" placeholder="00" class="w-12"
+                                                       autocomplete="off" placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                         <span class="font-bold text-2xl mt-8">:</span>
                                         <div class="">
                                             <jet-label for="sec" class="text-xs" :value="__('Second')"/>
                                             <jet-input id="sec" type="text" v-model="form.entries[index]['time']['sec']"
-                                                       autocomplete="off" placeholder="00" class="w-12"
+                                                       autocomplete="off" placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                         <span class="font-bold text-2xl mt-8">.</span>
                                         <div class="">
                                             <jet-label for="milli" class="text-xs" :value="__('Millisecond')"/>
                                             <jet-input id="milli" type="text"
                                                        v-model="form.entries[index]['time']['milli']" autocomplete="off"
-                                                       placeholder="00" class="w-12"
+                                                       placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                     </div>
                                     <jet-input-error
@@ -98,7 +104,7 @@
                             </div>
 
                             <div class="w-full mt-5" v-show="!form.is_final">
-                                <jet-button type="button" @click="addNewEntry" :disabled="form.is_final">
+                                <jet-button type="button" @click="addNewEntry" variant="secondary" :disabled="form.is_final">
                                     <PlusIcon class="w-5 h-5 mr-2"/>
                                     {{__('Add event')}}
                                 </jet-button>
@@ -109,7 +115,10 @@
                 <div
                     class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
                     <div class="flex">
-                        <jet-button type="submit" :disabled="form.is_final" :loading="form.processing" class="mr-2">
+                        <jet-button type="button" variant="secondary" :href="route('portal:meets.show', meet.slug)">
+                            {{ __('Back') }}
+                        </jet-button>
+                        <jet-button type="submit" :disabled="form.is_final" :loading="form.processing" class="mx-2">
                             {{__('Save')}}
                         </jet-button>
                         <jet-button variant="info" type="button" :disabled="form.is_final"

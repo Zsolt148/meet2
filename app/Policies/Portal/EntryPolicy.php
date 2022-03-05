@@ -42,7 +42,7 @@ class EntryPolicy
      */
     public function create(User $user)
     {
-        return Gate::allows('team-leader');
+        return Gate::allows('team-leader') && $user->hasTeam();
     }
 
     /**
@@ -54,7 +54,7 @@ class EntryPolicy
      */
     public function update(User $user, Entry $entry)
     {
-        return Gate::allows('team-leader') && $user->id == $entry->user_id;
+        return Gate::allows('team-leader') && $user->id == $entry->user_id && $user->hasTeam();
     }
 
     /**
@@ -66,7 +66,7 @@ class EntryPolicy
      */
     public function delete(User $user, Entry $entry)
     {
-        return Gate::allows('team-leader') && $user->id == $entry->user_id;
+        return Gate::allows('team-leader') && $user->id == $entry->user_id && $user->hasTeam();
     }
 
     /**

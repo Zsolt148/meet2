@@ -59,7 +59,7 @@ class CreateNewUser implements CreatesNewUsers
                 $user->team_id = $team->id;
             }
 
-            $user->assignRole('senior_team_leader');
+            //$user->assignRole('senior_team_leader');
         }
 
 

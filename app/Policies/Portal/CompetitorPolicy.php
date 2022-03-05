@@ -31,9 +31,7 @@ class CompetitorPolicy
      */
     public function view(User $user, Competitor $competitor)
     {
-        return Gate::allows('team-leader') &&
-            $user->competitors() &&
-            $user->competitors()->find($competitor->id);
+        return true;
     }
 
     /**
@@ -44,7 +42,7 @@ class CompetitorPolicy
      */
     public function create(User $user)
     {
-        return Gate::allows('team-leader');
+        return Gate::allows('team-leader') && $user->hasTeam();
     }
 
     /**
@@ -58,7 +56,8 @@ class CompetitorPolicy
     {
         return Gate::allows('team-leader') &&
             $user->competitors() &&
-            $user->competitors()->find($competitor->id);
+            $user->competitors()->find($competitor->id)
+			&& $user->hasTeam();
     }
 
     /**
@@ -72,7 +71,8 @@ class CompetitorPolicy
     {
         return Gate::allows('team-leader') &&
             $user->competitors() &&
-            $user->competitors()->find($competitor->id);
+            $user->competitors()->find($competitor->id)
+			&& $user->hasTeam();
     }
 
     /**

@@ -59,7 +59,7 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
         return [
             'delimiter' => ';',
             'use_bom' => false,
-            //'output_encoding' => 'ISO-8859-1',
+            'output_encoding' => 'ISO-8859-1',
         ];
     }
 

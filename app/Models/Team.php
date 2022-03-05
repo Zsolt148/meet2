@@ -42,6 +42,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
  * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|Team other()
+ * @property string|null $short
+ * @property string|null $meet_abbr
+ * @method static \Illuminate\Database\Eloquent\Builder|Team whereMeetAbbr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Team whereShort($value)
  */
 class Team extends Model
 {
@@ -52,6 +56,8 @@ class Team extends Model
         'type',
         'country',
         'SA',
+		'short',
+		'meet_abbr',
         'address',
     ];
 
@@ -71,7 +77,7 @@ class Team extends Model
      */
     public function competitors()
     {
-        return $this->hasMany(Competitor::class, 'team_id');
+        return $this->hasMany(Competitor::class, 'team_id')->orderBy('name');
     }
 
     /**

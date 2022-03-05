@@ -53,7 +53,6 @@ class EntryController extends Controller
      */
     public function store(EntryRequest $request, Meet $meet)
     {
-        //dd($request->all());
         Gate::authorize('create', Entry::class);
 
         // Ensure the deadline and if its entriable
@@ -119,10 +118,10 @@ class EntryController extends Controller
     {
         Gate::authorize('update', $competitor);
 
-        // Ensure the deadline is ok
+		// Ensure the deadline is ok
         // and if it is finalized entry
         // redirect to show
-        if(!$meet->is_deadline_ok) {
+        if(!$meet->is_deadline_ok || !auth()->user()->hasTeam()) {
             return redirect()->route('portal:meet.entry.show', [$meet, $competitor]);
         }
 

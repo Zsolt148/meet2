@@ -89,8 +89,12 @@
                     </jet-button>
                 </div>
 
-                <div class="mt-2 text-xs" v-show="!isTeamLeader()">
+                <div class="mt-2 text-xs" v-show="!hasTeam()">
                     Ahhoz, hogy nevezéseket tudj leadni, a <Link class="link" :href="route('profile.show')">profilodban</Link> bekell állítanod egy egyesületet
+                </div>
+
+                <div class="mt-2 text-xs" v-show="!isTeamLeader()">
+                    Még nincs jogosultságod nevezések leadni, kérjük vár egy kicsit míg egy admin elbírálja a regisztrációd!
                 </div>
             </div>
 
@@ -99,8 +103,6 @@
             </div>
 
             <base-search @search="updateSearch" :search-term="params.search"></base-search>
-
-            <pagination class="my-5" v-if="entries" :links="entries.links"/>
 
             <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
                 <base-table>
@@ -113,68 +115,56 @@
                         </th>
                         <th class="th-class">
                         <span class="th-content cursor-default">
-                            {{ __('Event') }}
+                            {{ __('Entries') }}
                         </span>
                         </th>
                         <th class="th-class">
-                        <span class="th-content" @click="updateSort('time')">
-                            {{ __('Time') }}
+                        <span class="th-content">
+                            {{ __('Price') }}
                             <table-chevron :params="params" value="time"/>
                         </span>
                         </th>
                         <th class="th-class">
-                        <span class="th-content" @click="updateSort('is_final')">
+                        <span class="th-content">
                             {{ __('Final') }}
                             <table-chevron :params="params" value="is_final" />
                         </span>
                         </th>
-                        <th class="th-class">
-                        <span class="th-content" @click="updateSort('created_at')">
-                            {{ __('Created at') }}
-                            <table-chevron :params="params" value="created_at"/>
-                        </span>
-                        </th>
                     </template>
                     <template #body>
-                        <tr v-for="entry in entries.data" :key="entry.id" class="tr-class">
+                        <tr v-for="competitor in competitors" :key="competitor.id" class="tr-class">
                             <td class="td-class">
-                                <Link class="td-content" :href="entryRoute(entry)">
-                                    {{entry.competitor.name}}
+                                <Link class="td-content" :href="entryRoute(competitor)">
+                                    {{competitor.name}}
                                 </Link>
                             </td>
                             <td class="td-class">
-                                <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    {{ meetEvent(entry.meet_event) }}
+                                <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                    {{ competitor.entries_count }} db
                                 </Link>
                             </td>
                             <td class="td-class">
-                                <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    {{entry.time}}
+                                <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                    {{ competitor.price }} Ft
                                 </Link>
                             </td>
                             <td class="td-class">
-                                <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    <CheckIcon v-if="entry.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
-                                </Link>
-                            </td>
-                            <td class="td-class">
-                                <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
-                                    {{ timeFormat(entry.created_at) }}
+                                <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                    <CheckIcon v-if="competitor.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
                                 </Link>
                             </td>
                             <td class="td-class w-px">
-                                <Link class="td-content" :href="entryRoute(entry)" tabindex="-1">
+                                <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
                                     <ChevronRightIcon class="w-5 h-5"/>
                                 </Link>
                             </td>
                         </tr>
-                        <tr v-if="entries.data.length === 0">
-                            <td class="border-t px-6 py-2" colspan="5">{{ __('No entries found') }}</td>
+                        <tr v-if="competitors.length === 0">
+                            <td class="border-t px-6 py-2" colspan="5">{{ __('No competitors found') }}</td>
                         </tr>
                     </template>
                 </base-table>
             </div>
-            <pagination class="my-5" :links="entries.links"/>
         </div>
         <ScrollTop/>
         <jet-confirmation-modal :show="confirmFinalizeShow" @close="confirmFinalizeShow = false">
@@ -254,15 +244,15 @@ export default {
         XIcon,
         ScrollTop
     },
-    props: ['meet', 'entries', 'filters', 'has_entries', 'entries_count', 'entries_are_final'],
+    props: ['meet', 'competitors', 'filters', 'has_entries', 'entries_count', 'entries_are_final'],
     setup(props) {
         const confirmFinalizeShow = ref(false);
         const params = getParams(props);
 
-        function entryRoute(entry) {
+        function entryRoute(competitor) {
             return props.meet.is_deadline_ok
-                ? route('portal:meet.entry.edit', {meet: props.meet.id, competitor: entry.competitor_id})
-                : route('portal:meet.entry.show', {meet: props.meet.id, competitor: entry.competitor_id})
+                ? route('portal:meet.entry.edit', {meet: props.meet.id, competitor: competitor.id})
+                : route('portal:meet.entry.show', {meet: props.meet.id, competitor: competitor.id})
         }
 
         function updateSearch(value) {

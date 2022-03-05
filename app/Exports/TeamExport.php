@@ -58,8 +58,8 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     {
         return [
             'delimiter' => ';',
-            'use_bom' => false,
-            //'output_encoding' => 'ISO-8859-1',
+//            'use_bom' => false,
+            'output_encoding' => 'ISO-8859-1',
         ];
     }
 
@@ -139,8 +139,8 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
         return [
             $team->id,
             $team->name,
-            '', // 'Team_short',
-            '', // 'Team_abbr', //TODO team_abbr required - max 5 chars
+            $team->short, // 'Team_short',
+			$team->meet_abbr, // 'Team_abbr',
             '', // 'Team_stat',
             '', // 'Team_lsc',
             '', // 'Team_div',

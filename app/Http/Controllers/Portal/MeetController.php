@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\Meet;
 use Illuminate\Database\Eloquent\Builder;
@@ -83,61 +84,66 @@ class MeetController extends Controller
         */
 
         // team's entries
-        $query = Entry::query()
-            ->whereMeetId($meet->id)
-            ->with('competitor', 'meetEvent')
-            ->whereHas('competitor', function ($query) {
-                $query->where('team_id', auth()->user()->team_id);
-            });
+//        $query = Entry::query()
+//            ->whereMeetId($meet->id)
+//            ->with('competitor', 'meetEvent')
+//            ->whereHas('competitor', function ($query) {
+//                $query->where('team_id', auth()->user()->team_id);
+//            })
+//			->groupBy('competitors.name');
 
-        $entriesCount = $query->count();
-        $entriesAreFinal = (clone $query)->where('is_final', false)->get()->count() == 0;
+		// team's entries by competitors
+		$query = Competitor::query()
+			->whereTeamId(auth()->user()->team_id)
+			->whereHas('entries', function ($query) use ($meet) {
+				$query->whereMeetId($meet->id);
+			})
+			->withCount('entries')
+			->with('entries');
+
+//		dd($query->get());
+
+        $entriesCount = $query->get()->sum('entries_count');
+        $entriesAreFinal = (clone $query)
+			->whereHas('entries', function ($query) {
+				$query->where('is_final', false);
+			})
+			->get()
+			->count() == 0;
 
         $query->when(
             $search = $request->get('search'),
             fn(Builder $query) => $query
-                // search competitor's name
-                ->whereHas('competitor', function ($query) use ($search){
-                    $query->where('name', 'like', '%' . $search . '%');
-                })
+				->where('name', 'like', '%' . $search . '%')
         );
 
         if($request->has(['field', 'direction'])) {
             $direction = $request->get('direction');
             switch($request->get('field')) {
-                case 'name': //TODO fix competitor orderBy
-                    $query->whereHas('competitor', function (Builder $query) use ($direction) {
-                        $query->orderBy('name', $direction);
-                    });
-                    //dd($query->get()->pluck('competitor.name'));
-                    break;
-                case 'is_final':
-                    $query->orderBy('is_final', $direction);
-                    break;
-                case 'time':
-                    $query->orderBy('min', $direction)
-                        ->orderBy('sec', $direction)
-                        ->orderBy('milli', $direction);
-                    break;
-                case 'created_at':
-                    $query->orderBy('created_at', $direction);
-                    break;
-                default:
-                    $query->latest();
+                case 'name':
+					$query->orderBy('name', $direction);
                     break;
             }
         }else {
-            $query->latest();
-        }
+			$query->orderByDesc('name');
+		}
 
         $meet->load('location', 'contact');
         $meet->loadMediaFiles();
         $meet->latestNews = $meet->latestNews();
 
+        $competitors = $query->get()->map(function (Competitor $competitor) use ($meet) {
+
+        	$competitor->price = $competitor->entries_count * $meet->entry_price;
+        	$competitor->is_final = $competitor->entries->where('is_final', false)->count() == 0;
+
+        	return $competitor;
+		});
+
         return Inertia::render('Portal/Meets/MeetsShow', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'meet' => $meet,
-            'entries' => $query->paginate()->withQueryString(),
+            'competitors' => $competitors,
             'has_entries' => $entriesCount !== 0,
             'entries_count' => $entriesCount,
             'entries_are_final' => $entriesAreFinal,

@@ -126,6 +126,14 @@ class User extends Authenticatable
         return $this->belongsTo(Team::class, 'team_id');
     }
 
+	/**
+	 * @return bool
+	 */
+	public function hasTeam()
+	{
+		return $this->team !== null;
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */

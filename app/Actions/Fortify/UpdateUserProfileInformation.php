@@ -60,11 +60,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 $user->team_id = $team->id;
             }
 
-            $user->assignRole('senior_team_leader');
+            //$user->assignRole('senior_team_leader');
         // team is is null
         }else {
             $user->team_id = null;
-            $user->removeRole('senior_team_leader');
+            //$user->removeRole('senior_team_leader');
         }
 
         $user->forceFill([

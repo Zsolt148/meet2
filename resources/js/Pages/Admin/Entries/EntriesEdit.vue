@@ -78,26 +78,32 @@
                                         <div class="">
                                             <jet-label :for="'min'+index" class="text-xs" :value="__('Min')"/>
                                             <jet-input :id="'min'+index" type="text" v-model="form.entries[index]['time']['min']"
-                                                       autocomplete="off" placeholder="00" class="w-12"
+                                                       autocomplete="off" placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                         <span class="font-bold text-2xl mt-8">:</span>
                                         <div class="">
                                             <jet-label :for="'sec'+index" class="text-xs" :value="__('Second')"/>
                                             <jet-input :id="'sec'+index" type="text" v-model="form.entries[index]['time']['sec']"
-                                                       autocomplete="off" placeholder="00" class="w-12"
+                                                       autocomplete="off" placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                         <span class="font-bold text-2xl mt-8">.</span>
                                         <div class="">
                                             <jet-label :for="'milli'+index" class="text-xs" :value="__('Millisecond')"/>
                                             <jet-input :id="'milli'+index" type="text"
                                                        v-model="form.entries[index]['time']['milli']" autocomplete="off"
-                                                       placeholder="00" class="w-12"
+                                                       placeholder="--" class="w-12"
                                                        :disabled="form.is_final || form.entries[index]['is_final']"
-                                                       :error="form.errors['entries.'+index+'.time']"/>
+                                                       :error="form.errors['entries.'+index+'.time']"
+                                                       :maxlength="2"
+                                            />
                                         </div>
                                     </div>
                                     <jet-input-error

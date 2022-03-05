@@ -105,6 +105,8 @@ class TeamController extends BaseAdminController
                 ], [
                     'name' => $team['name'],
                     'type' => Team::TYPE_SENIOR,
+                    'short' => $team['short'] ?? null,
+                    'meet_abbr' => $team['meet_abbr'] ?? null,
                     'address' => $team['address'],
                 ]
             );

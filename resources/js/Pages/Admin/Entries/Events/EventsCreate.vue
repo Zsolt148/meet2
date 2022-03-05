@@ -48,7 +48,7 @@
                 <div class="flex flex-col w-1/3">
                     <div class="text-xl">Összes versenyszám</div>
                     <draggable
-                        class="h-full w-full"
+                        class="h-80 w-full overflow-y-scroll"
                         v-model="allEvents"
                         :group="{ name: 'events', pull: 'clone', put: false }"
                         :clone="onClone"
@@ -66,7 +66,7 @@
                 <div class="flex flex-col w-2/3">
                     <div class="text-xl">Versenyszámok</div>
                     <draggable
-                        class="rounded border border-dotted border-gray-400 h-full w-full p-2"
+                        class="rounded border border-dotted border-gray-400 h-80 w-full overflow-y-scroll p-2"
                         handle=".handle"
                         :list="eventList"
                         group="events"

@@ -57,7 +57,7 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
         return [
             'delimiter' => ';',
             'use_bom' => false,
-            //'output_encoding' => 'ISO-8859-1',
+            'output_encoding' => 'ISO-8859-1',
         ];
     }
 
