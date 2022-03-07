@@ -205,7 +205,7 @@ export default {
         },
         eventSelected(index, meet_event_id) {
             // if its a relay set 00 to the time
-            if (index && this.isRelay(meet_event_id)) {
+            if (this.isRelay(meet_event_id)) {
                 this.form.entries[index]['time']['min'] = '00'
                 this.form.entries[index]['time']['sec'] = '00'
                 this.form.entries[index]['time']['milli'] = '00'
