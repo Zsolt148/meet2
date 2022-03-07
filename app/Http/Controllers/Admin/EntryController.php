@@ -142,7 +142,7 @@ class EntryController extends BaseAdminController
             );
         }
 
-        return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen frissítve');
+        return redirect()->back()->with('success', 'Nevezés sikeresen frissítve');
     }
 
     /**

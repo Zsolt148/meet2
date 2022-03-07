@@ -8,11 +8,10 @@
 
                 <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-                <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0 mb-5">
+                <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 sm:space-y-0">
                     <div>
                         <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
-                            <CogIcon class="w-5 h-5 mr-2" />
-                            Nevezés Szerkesztése
+                            Nevezési beállítások
                         </jet-button>
                     </div>
 
@@ -74,7 +73,7 @@
                     </th>
                     <th class="th-class">
                         <span class="th-content cursor-default">
-                            {{ __('Price') }}
+                            {{ __('Individual entries fee') }}
                             <table-chevron :params="params" value="time"/>
                         </span>
                     </th>

@@ -17,7 +17,7 @@
 
             <div class="px-8 pt-6">
                 <div class="text-2xl text-teal-500 dark:text-teal-400">
-                    {{ __('Edit Entries') }}
+                    {{ __('Edit entries') }}
                 </div>
             </div>
 
