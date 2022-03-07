@@ -31,11 +31,12 @@ class EntryController extends BaseAdminController
         ]);
 
 		$query = Competitor::query()
-			->whereHas('entries', function ($query) use ($meet) {
-				$query->whereMeetId($meet->id);
-			})
-			->withCount('entries')
-			->with('entries');
+			->with(['entries' => function ($q) use (&$meet) {
+				$q->where('meet_id', $meet->id);
+			}])
+			->whereHas('entries', function ($q) use (&$meet) {
+				$q->where('meet_id', $meet->id);
+			});
 
         $query->when(
             $search = $request->get('search'),

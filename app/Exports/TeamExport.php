@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Team;
 use App\Models\Entry;
+use App\Traits\EntryTrait;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
@@ -16,9 +17,10 @@ use Maatwebsite\Excel\Excel;
 
 class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithHeadings, WithMapping
 {
-    use Exportable;
+    use Exportable, EntryTrait;
 
-    /**
+
+	/**
      * It's required to define the fileName within
      * the export class when making use of Responsable.
      */
@@ -37,18 +39,22 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     ];
 
     /**
-     * @var array $teamIds
+     * @var int $meetId
      */
-    private $teamIds;
+    private $meetId;
+
+	/**
+	 * @var array
+	 */
+	private $teamIds;
 
     /**
      * TeamExport constructor.
-     *
-     * @param array|Collection $teamIds
      */
-    public function __construct($teamIds)
+    public function __construct($meetId)
     {
-        $this->teamIds = $teamIds;
+        $this->meetId = $meetId;
+        $this->teamIds = $this->getTeamIdsByMeet($meetId);
     }
 
     /**
@@ -58,8 +64,7 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     {
         return [
             'delimiter' => ';',
-//            'use_bom' => false,
-            'output_encoding' => 'ISO-8859-1',
+            'use_bom' => false,
         ];
     }
 
@@ -137,8 +142,8 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     public function map($team): array
     {
         return [
-            $team->id,
-            $team->name,
+            $this->getTeamIndex($this->teamIds, $team->id), // Team_no
+            $team->short, // Team_name - short name cuz max 30 chars
             $team->short, // 'Team_short',
 			$team->meet_abbr, // 'Team_abbr',
             '', // 'Team_stat',

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Competitor;
+use App\Models\Entry;
 use App\Models\Meet;
 use App\Models\MeetEvent;
 use Illuminate\Http\Request;
@@ -111,4 +112,57 @@ trait EntryTrait
     {
         return array_diff_key($array, array_unique($array));
     }
+
+	/**
+	 * @param $meetId
+	 * @return array
+	 */
+    protected function getCompetitorIdsByMeet($meetId)
+	{
+		return Competitor::query()
+			->whereHas('entries', function ($query) use ($meetId) {
+				$query->whereMeetId($meetId);
+			})
+			->get()
+			->pluck('id')
+			->toArray();
+	}
+
+	/**
+	 * @param $meetId
+	 * @param $competitorId
+	 * @return false|int|string
+	 */
+	protected function getCompetitorIndex($ids, $competitorId)
+	{
+		return array_search($competitorId, $ids) + 1;
+	}
+
+	/**
+	 * @param $meetId
+	 * @return array
+	 */
+	protected function getTeamIdsByMeet($meetId)
+	{
+		// unique team ids in the meet
+		$teamIds = Entry::query()
+				->whereMeetId($meetId)
+				->with('competitor')
+				->get()
+				->pluck('competitor.team_id')
+				->unique()
+				->toArray();
+
+		return array_values($teamIds);
+	}
+
+	/**
+	 * @param $meetId
+	 * @param $teamId
+	 * @return false|int|string
+	 */
+	protected function getTeamIndex($ids, $teamId)
+	{
+		return array_search($teamId, $ids) + 1;
+	}
 }

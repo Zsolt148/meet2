@@ -4,18 +4,22 @@ namespace App\Exports;
 
 use App\Models\Competitor;
 use App\Models\Entry;
+use App\Traits\EntryTrait;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 
-class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings, WithHeadings, WithMapping
+class CompetitorExport extends StringValueBinder implements FromQuery, Responsable, WithCustomCsvSettings, WithHeadings, WithMapping, WithCustomValueBinder
 {
-    use Exportable;
+    use Exportable, EntryTrait;
 
     /**
      * It's required to define the fileName within
@@ -40,6 +44,16 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
      */
     private $meetId;
 
+	/**
+	 * @var array
+	 */
+    private $competitorIds;
+
+	/**
+	 * @var array
+	 */
+	private $teamIds;
+
     /**
      * CompetitorExport constructor.
      * @param int $meetId
@@ -47,7 +61,9 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
     public function __construct(int $meetId)
     {
         $this->meetId = $meetId;
-    }
+		$this->competitorIds = $this->getCompetitorIdsByMeet($meetId);
+		$this->teamIds = $this->getTeamIdsByMeet($meetId);
+	}
 
     /**
      * @return array
@@ -57,7 +73,6 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
         return [
             'delimiter' => ';',
             'use_bom' => false,
-            'output_encoding' => 'ISO-8859-1',
         ];
     }
 
@@ -66,9 +81,10 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
     */
     public function query()
     {
-        return Entry::query()
-            ->whereMeetId($this->meetId)
-            ->with('competitor');
+        return Competitor::query()
+			->whereHas('entries', function ($query) {
+				$query->whereMeetId($this->meetId);
+			});
     }
 
     /**
@@ -118,33 +134,30 @@ class CompetitorExport implements FromQuery, Responsable, WithCustomCsvSettings,
     }
 
     /**
-     * @param mixed $entry
+     * @param Competitor $comp
      * @return array
      */
-    public function map($entry): array
+    public function map($comp): array
     {
-        /** @var Competitor $comp */
-        $comp = $entry->competitor;
-
         $name = explode(' ', $comp->name, 2);
         $last_name = isset($name[0]) ? $name[0] : '';
         $first_name = isset($name[1]) ? $name[1] : '';
 
         return [
-            $comp->id,
+			$this->getCompetitorIndex($this->competitorIds, $comp->id),
             $last_name,
             $first_name,
             '',
-            isset($comp->sex) ? $comp->sex : '',
+            isset($comp->sex) ? ($comp->sex == 'N' ? 'F' : 'M') : '', // Nő - férfi => Female - Male
             Carbon::createFromFormat('Y', $comp->birth)->startOfYear()->format('Y.m.d'),
-            $comp->team_id,
+			$this->getTeamIndex($this->teamIds, $comp->team_id),
             '', // Schl_yr
             Carbon::now()->format('Y') - $comp->birth,
             '', // Reg no
             '', // Ath_stat
             '', // Div no
-            $comp->id, // Comp_no
-            '', // pref name
+			$this->getCompetitorIndex($this->competitorIds, $comp->id), // Comp_no
+			'', // pref name
             '', // home addr1
             '', // home addr2
             '', // home city

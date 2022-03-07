@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Competitor;
 use App\Models\Entry;
+use App\Traits\EntryTrait;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -17,7 +18,7 @@ use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 
 class EntryExport extends StringValueBinder implements FromQuery, Responsable, WithCustomCsvSettings, WithHeadings, WithMapping, WithCustomValueBinder
 {
-    use Exportable;
+    use Exportable, EntryTrait;
 
     /**
      * It's required to define the fileName within
@@ -42,6 +43,11 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
      */
     private $meetId;
 
+	/**
+	 * @var array
+	 */
+	private $competitorIds;
+
     /**
      * CompetitorExport constructor.
      * @param int $meetId
@@ -49,7 +55,8 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
     public function __construct(int $meetId)
     {
         $this->meetId = $meetId;
-    }
+		$this->competitorIds = $this->getCompetitorIdsByMeet($meetId);
+	}
 
     /**
      * @return array
@@ -59,7 +66,6 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
         return [
             'delimiter' => ';',
             'use_bom' => false,
-            'output_encoding' => 'ISO-8859-1',
         ];
     }
 
@@ -193,8 +199,8 @@ class EntryExport extends StringValueBinder implements FromQuery, Responsable, W
             //'Event_ptr' - order because of the events.xls
             // which is created by hand outside of the app
             $entry->meetEvent->order,
-            $entry->competitor->id, //'Ath_no',
-            'L', //'ActSeed_course',
+			$this->getCompetitorIndex($this->competitorIds, $entry->competitor->id,), //'Ath_no',
+			'L', //'ActSeed_course',
             $time, //'ActualSeed_time',
             'L', //'ConvSeed_course',
             $time, //'ConvSeed_time',

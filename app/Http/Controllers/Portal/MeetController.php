@@ -95,11 +95,12 @@ class MeetController extends Controller
 		// team's entries by competitors
 		$query = Competitor::query()
 			->whereTeamId(auth()->user()->team_id)
-			->whereHas('entries', function ($query) use ($meet) {
-				$query->whereMeetId($meet->id);
-			})
-			->withCount('entries')
-			->with('entries');
+			->with(['entries' => function ($q) use (&$meet) {
+				$q->where('meet_id', $meet->id);
+			}])
+			->whereHas('entries', function ($q) use (&$meet) {
+				$q->where('meet_id', $meet->id);
+			});
 
 		$ids = (clone $query)->pluck('id');
 

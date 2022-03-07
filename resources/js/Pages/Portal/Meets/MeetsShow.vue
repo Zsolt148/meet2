@@ -155,7 +155,7 @@
                             </td>
                             <td class="td-class">
                                 <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
-                                    {{ competitor.entries_count }} db
+                                    {{ competitor.entries.length }} db
                                 </Link>
                             </td>
                             <td class="td-class">

@@ -5,10 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\CompetitorExport;
 use App\Exports\EntryExport;
 use App\Exports\TeamExport;
-use App\Http\Controllers\Controller;
-use App\Models\Entry;
 use App\Models\Meet;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class EntryExportController extends BaseAdminController
@@ -41,15 +38,7 @@ class EntryExportController extends BaseAdminController
      */
     public function teams(Meet $meet)
     {
-        // unique team ids in the meet
-        $teamIds = Entry::query()
-            ->whereMeetId($meet->id)
-            ->with('competitor')
-            ->get()
-            ->pluck('competitor.team_id')
-            ->unique();
-
-        return new TeamExport($teamIds);
+        return new TeamExport($meet->id);
     }
 
     /**
