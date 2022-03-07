@@ -146,7 +146,9 @@
   "Enter": "Tovább",
   "Final": "Végleges",
   "Create an entry": "Nevezés létrehozása",
-  "New Entries": "Új Nevezések",
+  "Entries": "Nevezések",
+  "New entries": "Új nevezések",
+  "Edit entries": "Nevezések szerkesztése",
   "Finalize all my entries": "Összes nevezésem véglegesítése",
   "Are you sure you want to finalize all your entries ?": "Biztosan véglegesíteni szeretnéd az összes nevezésed ?",
   "It will not be possible to change it after it has been finalized.": "Véglegesítés után nem lehet majd módosítani.",
@@ -154,5 +156,8 @@
   "Select a competitor from the list and select the event you want to enter and add the entry time": "Válassz egy versenyzőt a listából majd válaszd ki a nevezni kivánt versenyszámot és add meg hozzá a nevezési időt",
   "Entries submitted": "Leadott nevezések",
   "Altogether": "Összesen",
+  "Individual entries fee": "Egyéni nevezések díja",
+  "Individual entries": "Egyéni nevezések",
+  "Relay entries": "Váltó nevezések",
   "Add event": "Versenyszám hozzáadása"
 }

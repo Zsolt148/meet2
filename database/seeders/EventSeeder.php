@@ -79,6 +79,7 @@ class EventSeeder extends Seeder
                             'length' => $length,
                             'sex' => $sex,
                             'swim' => $swim,
+							'is_relay' => true,
                         ]);
                     }
                 }

@@ -17,6 +17,10 @@
                         <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
                         Nevezés
                     </jet-button>
+                    <jet-button size="sm" :href="route('portal:meets.entries.show', meet)" v-show="hasEntries">
+                        <ViewListIcon class="w-5 h-5 mr-2" />
+                        Nevezések
+                    </jet-button>
                     <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="isAdmin()" class="ml-2">
                         <CogIcon class="w-5 h-5 mr-2" />
                         Szerkesztés
@@ -148,7 +152,7 @@ import JetInput from '@/Jetstream/Input'
 import {ref, reactive, watch} from 'vue'
 import Icon from "@/Shared/Icon"
 import ScrollTop from "@/Shared/ScrollTop"
-import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon, StatusOnlineIcon } from '@heroicons/vue/outline'
+import { DocumentIcon, CogIcon, LocationMarkerIcon, AtSymbolIcon, StatusOnlineIcon, ViewListIcon } from '@heroicons/vue/outline'
 
 export default {
     components: {
@@ -158,13 +162,14 @@ export default {
         JetInput,
         Icon,
         DocumentIcon,
+        ViewListIcon,
         CogIcon,
         LocationMarkerIcon,
         AtSymbolIcon,
         StatusOnlineIcon,
         ScrollTop
     },
-    props: ['meet', 'isEntriable'],
+    props: ['meet', 'isEntriable', 'hasEntries'],
     setup(props) {
 
         const type = reactive({

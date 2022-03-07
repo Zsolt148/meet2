@@ -12,7 +12,7 @@
                     <Link class="text-teal-500 dark:text-teal-400" :href="route('portal:meets.show', meet)">
                         {{meet.name}}
                     </Link>
-                    / {{__('New Entries')}}
+                    / {{__('New entries')}}
                 </bread-crumb>
             </div>
 
@@ -37,7 +37,7 @@
 
                 <div class="px-8 pt-6">
                     <div class="text-2xl text-teal-500 dark:text-teal-400">
-                        {{__('New Entries')}}
+                        {{__('New entries')}}
                     </div>
 
                     <div class="pt-4 text-gray-700 dark:text-gray-200">
@@ -71,6 +71,7 @@
                                                     id="meet_event_id"
                                                     v-model="form.entries[index]['meet_event_id']"
                                                     :class="form.errors['entries.'+index+'.meet_event_id'] ? 'input-error' : ''"
+                                                    @change="eventSelected(index, form.entries[index]['meet_event_id'])"
                                             >
                                                 <option value="" selected>{{__('Empty')}}</option>
                                                 <option v-for="meet_event in meet_events_by_gender" :key="meet_event.id"
@@ -90,7 +91,7 @@
                                             class="mt-2"/>
                                     </div>
 
-                                    <div class="w-full mt-4">
+                                    <div class="w-full mt-4" v-show="!isRelay(form.entries[index]['meet_event_id'])">
                                         <div class="w-full flex space-x-2">
                                             <div class="">
                                                 <jet-label for="min" class="text-xs" :value="__('Min')"/>
@@ -198,6 +199,22 @@ export default {
         }
     },
     methods: {
+        isRelay(meet_event_id) {
+            if (!meet_event_id) return false
+            return this.meet_events_by_gender.find(x => x.id == meet_event_id).event.is_relay
+        },
+        eventSelected(index, meet_event_id) {
+            // if its a relay set 00 to the time
+            if (index && this.isRelay(meet_event_id)) {
+                this.form.entries[index]['time']['min'] = '00'
+                this.form.entries[index]['time']['sec'] = '00'
+                this.form.entries[index]['time']['milli'] = '00'
+            }else {
+                this.form.entries[index]['time']['min'] = null
+                this.form.entries[index]['time']['sec'] =  null
+                this.form.entries[index]['time']['milli'] = null
+            }
+        },
         addNewEntry() {
             this.form.entries.push({
                 meet_event_id: null,

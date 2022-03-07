@@ -1,10 +1,10 @@
 <template>
-    <Head title="Nevezhető verseny" />
+    <Head :title="meet.name + ' leadott nevezések'" />
 
     <portal-layout>
 
         <template #header>
-            <div class="flex flex-wrap justify-between mb-5 md:mb-0">
+            <div class="flex flex-wrap justify-between">
 
                 <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
@@ -41,99 +41,84 @@
             </div>
         </div>
 
-        <div class="text-lg font-bold ">
-            Leadott Nevezések - Összesen: {{ entries_count }} db
+        <div class="mb-2">
+            <div class="font-semibold">
+                Leadott Nevezések:
+            </div>
+            <div>
+                Egyéni nevezések: {{ individual_entries_count }} db
+            </div>
+            <div>
+                Váltó nevezések: {{ relay_entries_count }} db
+            </div>
+            <div>
+                Összesen: {{ individual_entries_count + relay_entries_count }} db
+            </div>
         </div>
 
         <base-search @search="updateSearch" :search-term="params.search"></base-search>
-
-        <pagination class="my-5" v-if="entries" :links="entries.links" />
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
             <base-table>
                 <template #head>
                     <th class="th-class">
                         <span class="th-content" @click="updateSort('name')">
-                            Versenyző
-                            <table-chevron :params="params" value="name" />
+                            {{ __('Competitor') }}
+                            <table-chevron :params="params" value="name"/>
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('event')">
-                            Versenyszám
-                            <table-chevron :params="params" value="event" />
+                        <span class="th-content cursor-default">
+                            {{ __('Entries') }}
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('time')">
-                            Idő
-                            <table-chevron :params="params" value="time" />
+                        <span class="th-content cursor-default">
+                            {{ __('Price') }}
+                            <table-chevron :params="params" value="time"/>
                         </span>
                     </th>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('user_id')">
-                            Nevezte
-                            <table-chevron :params="params" value="user_id" />
-                        </span>
-                    </th>
-                    <th class="th-class">
-                        <span class="th-content" @click="updateSort('is_final')">
-                            Végleges
+                        <span class="th-content cursor-default">
+                            {{ __('Final') }}
                             <table-chevron :params="params" value="is_final" />
-                        </span>
-                    </th>
-                    <th class="th-class">
-                        <span class="th-content" @click="updateSort('created_at')">
-                            Létrehozva
-                            <table-chevron :params="params" value="created_at" />
                         </span>
                     </th>
                 </template>
                 <template #body>
-                    <tr v-for="entry in entries.data" :key="entry.id" class="tr-class">
+                    <tr v-for="competitor in competitors" :key="competitor.id" class="tr-class">
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)">
-                                {{ entry.competitor.name }}
+                            <Link class="td-content" :href="entryRoute(competitor)">
+                                {{competitor.name}}
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                {{ meetEvent(entry.meet_event) }}
+                            <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                {{ competitor.entries_count }} db
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                {{ entry.time }}
+                            <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                {{ competitor.price }} Ft
                             </Link>
                         </td>
                         <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                {{ entry.user.name }}
-                            </Link>
-                        </td>
-                        <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                <CheckIcon v-if="entry.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
-                            </Link>
-                        </td>
-                        <td class="td-class">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                {{ timeFormat(entry.created_at) }}
+                            <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                <CheckIcon v-if="competitor.is_final" class="w-5 h-5" /><XIcon v-else class="w-5 h-5"/>
                             </Link>
                         </td>
                         <td class="td-class w-px">
-                            <Link class="td-content" :href="entryRoute(meet, entry.competitor)" tabindex="-1">
-                                <ChevronRightIcon class="w-5 h-5" />
+                            <Link class="td-content" :href="entryRoute(competitor)" tabindex="-1">
+                                <ChevronRightIcon class="w-5 h-5"/>
                             </Link>
                         </td>
                     </tr>
-                    <tr v-if="entries.data.length === 0">
-                        <td class="border-t px-6 py-2" colspan="7">Nem található nevezés</td>
+                    <tr v-if="competitors.length === 0">
+                        <td class="border-t px-6 py-2" colspan="5">{{ __('No competitors found') }}</td>
                     </tr>
                 </template>
             </base-table>
         </div>
-        <pagination class="my-5" :links="entries.links" />
     </portal-layout>
 </template>
 
@@ -142,7 +127,6 @@ import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
 import PortalLayout from "@/Layouts/PortalLayout";
 import JetButton from "@/Jetstream/Button";
 import { ChevronRightIcon, CogIcon, ExclamationIcon, CheckIcon, XIcon } from '@heroicons/vue/outline'
-import Pagination from '@/Shared/Pagination'
 import { getParams, getWatch } from '@/Use/useQuery';
 import TableChevron from '@/Shared/TableChevron'
 import BaseTable from "@/Shared/BaseTable";
@@ -157,7 +141,6 @@ export default {
         ExclamationIcon,
         JetButton,
         PortalLayout,
-        Pagination,
         BaseSearch,
         TableChevron,
         BaseTable,
@@ -165,16 +148,17 @@ export default {
     },
     props: {
         meet: Object,
-        entries: Object,
+        competitors: Object,
         filters: Object,
         isEntrySet: Boolean,
-        entries_count: Number,
+        individual_entries_count: Number,
+        relay_entries_count: Number,
     },
     setup(props) {
         const params = getParams(props);
 
-        function entryRoute(meet, competitor) {
-            return route('admin:entries.edit', { meet: meet, competitor: competitor })
+        function entryRoute(competitor) {
+            return route('admin:entries.edit', { meet: props.meet, competitor: competitor })
         }
 
         function updateSearch(value) {

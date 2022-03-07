@@ -38,8 +38,13 @@ class Event extends Model
     protected $fillable = [
         'length',
         'sex',
-        'swim'
+        'swim',
+		'is_relay',
     ];
+
+    protected $casts = [
+    	'is_relay' => 'boolean',
+	];
 
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['length', 'sex', 'swim'];
@@ -53,5 +58,10 @@ class Event extends Model
             ->using(MeetEvent::class)
             ->withTimestamps()
             ->withPivot('order', 'category');
+    }
+
+	public function isRelay()
+	{
+		return $this->is_relay;
     }
 }

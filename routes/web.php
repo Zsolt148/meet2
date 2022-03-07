@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('/meets/{meet:slug}', [MeetController::class, 'show'])->name('meets.show');
+Route::get('/meets/{meet:slug}/entries', [MeetController::class, 'show'])->name('meet	s.show');
 Route::get('/meets', [MeetController::class, 'index'])->name('meets.index');
 
 Route::get('language/{language}', function ($language) {

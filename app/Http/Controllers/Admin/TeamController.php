@@ -108,6 +108,7 @@ class TeamController extends BaseAdminController
                     'short' => $team['short'] ?? null,
                     'meet_abbr' => $team['meet_abbr'] ?? null,
                     'address' => $team['address'],
+					'deleted_at' => $team['deleted_at'],
                 ]
             );
         }

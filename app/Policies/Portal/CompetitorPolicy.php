@@ -42,7 +42,7 @@ class CompetitorPolicy
      */
     public function create(User $user)
     {
-        return Gate::allows('team-leader') && $user->hasTeam();
+        return Gate::allows('team-leader');
     }
 
     /**

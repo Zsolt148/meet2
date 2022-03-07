@@ -80,6 +80,21 @@
                     </div>
                 </div>
 
+                <div class="mb-2" v-show="entries_count !== 0">
+                    <div class="font-semibold">
+                        {{ __('Entries submitted') }}:
+                    </div>
+                    <div>
+                        {{ __('Individual entries') }}: {{ individual_entries_count }} db
+                    </div>
+                    <div>
+                        {{ __('Relay entries') }}: {{ relay_entries_count }} db
+                    </div>
+                    <div>
+                        {{ __('Altogether') }}: {{ price }} Ft
+                    </div>
+                </div>
+
                 <div class="mt-5">
                     <jet-button :disabled="!meet.is_deadline_ok || !isTeamLeader()" :href="route('portal:meet.entry.create', meet)">
                         {{ __('New entry') }}
@@ -99,7 +114,7 @@
             </div>
 
             <div class="text-lg font-bold mt-5">
-                {{ __('Entries submitted') }}: {{ entries_count }} - {{ __('Altogether') }} {{ price }} Ft
+                {{ __('Entries submitted') }}
             </div>
 
             <base-search @search="updateSearch" :search-term="params.search"></base-search>
@@ -119,13 +134,13 @@
                         </span>
                         </th>
                         <th class="th-class">
-                        <span class="th-content">
-                            {{ __('Price') }}
+                        <span class="th-content cursor-default">
+                            {{ __('Individual entries fee') }}
                             <table-chevron :params="params" value="time"/>
                         </span>
                         </th>
                         <th class="th-class">
-                        <span class="th-content">
+                        <span class="th-content cursor-default">
                             {{ __('Final') }}
                             <table-chevron :params="params" value="is_final" />
                         </span>
@@ -178,8 +193,8 @@
                     {{ __('It will not be possible to change it after it has been finalized.') }}
                 </div>
                 <div class="mt-5">
-                    {{ __('Entries submitted') }}: {{ entries_count }} <br>
-                    {{ __('Altogether') }}: {{ price }} Ft
+                    {{ __('Entries submitted') }}: {{ entries_count }} db <br>
+                    {{ __('Individual entries fee') }}: {{ price }} Ft
                 </div>
             </template>
 
@@ -244,7 +259,7 @@ export default {
         XIcon,
         ScrollTop
     },
-    props: ['meet', 'competitors', 'filters', 'has_entries', 'entries_count', 'entries_are_final'],
+    props: ['meet', 'competitors', 'filters', 'has_entries', 'entries_count', 'individual_entries_count', 'relay_entries_count', 'entries_are_final'],
     setup(props) {
         const confirmFinalizeShow = ref(false);
         const params = getParams(props);
@@ -265,7 +280,7 @@ export default {
         }
 
         const price = computed(() => {
-            return props.meet.entry_price * props.entries_count
+            return props.meet.entry_price * props.individual_entries_count
         })
 
         function finalize() {

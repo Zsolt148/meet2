@@ -81,16 +81,16 @@ class MeetController extends Controller
             ->whereHas('competitor', function ($query) {
                 $query->where('team_id', auth()->user()->team_id);
             });
-        */
 
         // team's entries
-//        $query = Entry::query()
-//            ->whereMeetId($meet->id)
-//            ->with('competitor', 'meetEvent')
-//            ->whereHas('competitor', function ($query) {
-//                $query->where('team_id', auth()->user()->team_id);
-//            })
-//			->groupBy('competitors.name');
+        $query = Entry::query()
+            ->whereMeetId($meet->id)
+            ->with('competitor', 'meetEvent')
+            ->whereHas('competitor', function ($query) {
+                $query->where('team_id', auth()->user()->team_id);
+            })
+			->groupBy('competitors.name');
+		*/
 
 		// team's entries by competitors
 		$query = Competitor::query()
@@ -101,16 +101,30 @@ class MeetController extends Controller
 			->withCount('entries')
 			->with('entries');
 
-//		dd($query->get());
+		$ids = (clone $query)->pluck('id');
 
-        $entriesCount = $query->get()->sum('entries_count');
-        $entriesAreFinal = (clone $query)
-			->whereHas('entries', function ($query) {
-				$query->where('is_final', false);
-			})
-			->get()
-			->count() == 0;
+		$individual_entries_count = $meet
+			->entries()
+			->whereHas('competitor', fn($query) => $query->whereIn('id', $ids))
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', false))
+			->count();
 
+		$relay_entries_count = $meet
+			->entries()
+			->whereHas('competitor', fn($query) => $query->whereIn('id', $ids))
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', true))
+			->count();
+
+		$entriesCount = $relay_entries_count + $individual_entries_count;
+
+		$entriesAreFinal = (clone $query)
+				->whereHas('entries', function ($query) {
+					$query->where('is_final', false);
+				})
+				->get()
+				->count() == 0;
+
+        // search and directions
         $query->when(
             $search = $request->get('search'),
             fn(Builder $query) => $query
@@ -125,16 +139,23 @@ class MeetController extends Controller
                     break;
             }
         }else {
-			$query->orderByDesc('name');
+			$query->orderBy('name');
 		}
 
+        // meet relations
         $meet->load('location', 'contact');
         $meet->loadMediaFiles();
         $meet->latestNews = $meet->latestNews();
 
+		// competitors mapping
         $competitors = $query->get()->map(function (Competitor $competitor) use ($meet) {
 
-        	$competitor->price = $competitor->entries_count * $meet->entry_price;
+        	$competitor->price = $competitor
+					->entries()
+					->whereMeetId($meet->id)
+					->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', false))
+					->count() * $meet->entry_price;
+
         	$competitor->is_final = $competitor->entries->where('is_final', false)->count() == 0;
 
         	return $competitor;
@@ -146,6 +167,8 @@ class MeetController extends Controller
             'competitors' => $competitors,
             'has_entries' => $entriesCount !== 0,
             'entries_count' => $entriesCount,
+            'individual_entries_count' => $individual_entries_count,
+            'relay_entries_count' => $relay_entries_count,
             'entries_are_final' => $entriesAreFinal,
         ]);
     }

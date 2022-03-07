@@ -30,62 +30,61 @@ class EntryController extends BaseAdminController
             'field' => ['in:name,event,is_final,time,user_id,created_at'],
         ]);
 
-        //$query = $meet->entries();
-        $query = Entry::query()
-            ->whereMeetId($meet->id)
-            ->with('competitor', 'meetEvent', 'user');
+		$query = Competitor::query()
+			->whereHas('entries', function ($query) use ($meet) {
+				$query->whereMeetId($meet->id);
+			})
+			->withCount('entries')
+			->with('entries');
 
         $query->when(
             $search = $request->get('search'),
             fn(Builder $query) => $query
                 // search competitor's name
-                ->whereHas('competitor', function ($query) use ($search){
-                    $query->where('name', 'like', '%' . $search . '%');
-                })
-                // search user's (nevezo) name
-                ->orWhereHas('user', function ($query) use ($search){
-                    $query->where('name', 'like', '%' . $search . '%');
-                })
+				->where('name', 'like', '%' . $search . '%')
         );
 
         if($request->has(['field', 'direction'])) {
             $direction = $request->get('direction');
             switch($request->get('field')) {
-                case 'name': //TODO fix competitor orderBy
-                    $query->whereHas('competitor', function (Builder $query) use (&$direction) {
-                        $query->orderBy('name', $direction);
-                    });
-                    break;
-                case 'event': //TODO fix event orderBy
-                    $query->whereHas('meetEvent', function (Builder $query) use (&$direction) {
-                        $query->orderBy('meet_event.order', $direction);
-                    });
-                    break;
-                case 'is_final':
-                    $query->orderBy('is_final', $direction);
-                    break;
-                case 'time':
-                    $query->orderBy('min', $direction)
-                        ->orderBy('sec', $direction)
-                        ->orderBy('milli', $direction);
-                    break;
-                case 'created_at':
-                    $query->orderBy('created_at', $direction);
-                    break;
-                default:
-                    $query->latest();
+				case 'name':
+					$query->orderBy('name', $direction);
                     break;
             }
         }else {
-            //$query->latest();
-        }
+			$query->orderBy('name');
+		}
+
+		$competitors = $query->get()->map(function (Competitor $competitor) use ($meet) {
+
+			$competitor->price = $competitor
+					->entries()
+					->whereMeetId($meet->id)
+					->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', false))
+					->count() * $meet->entry_price;
+
+			$competitor->is_final = $competitor->entries->where('is_final', false)->count() == 0;
+
+			return $competitor;
+		});
+
+        $individual_entries_count = $meet
+			->entries()
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', false))
+			->count();
+
+		$relay_entries_count = $meet
+			->entries()
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', true))
+			->count();
 
         return Inertia::render('Admin/Entries/EntriesIndex', [
             'meet' => $meet,
-            'entries' => $query->paginate()->withQueryString(),
+            'competitors' => $competitors,
             'filters' => request()->all(['search', 'field', 'direction', 'year']),
             'isEntrySet' => $meet->isEntryPriceSet() && $meet->entry_type !== null && $meet->entry_app !== null,
-            'entries_count' => $meet->entries()->count()
+            'individual_entries_count' => $individual_entries_count,
+            'relay_entries_count' => $relay_entries_count,
         ]);
     }
 

@@ -71,6 +71,7 @@ class MeetController extends Controller
             'filters' => request()->all(['search', 'field', 'direction']),
             'meet' => $meet,
             'isEntriable' => $meet->isEntriable() && $meet->is_deadline_ok,
+			'hasEntries' => $meet-entries()->isNotEmpty()
         ]);
     }
 }
