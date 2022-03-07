@@ -25,6 +25,7 @@
         "perfect-scrollbar": "^1.5.2",
         "postcss": "^8.4.5",
         "postcss-import": "^14.0.1",
+        "sass-loader": "^12.6.0",
         "tailwindcss": "^2.2.19",
         "vue": "^3.2.22",
         "vue-loader": "^16.8.3"

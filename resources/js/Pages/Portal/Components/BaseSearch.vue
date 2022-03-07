@@ -9,6 +9,7 @@
             <option value="">-</option>
             <option v-for="value in selectValues" :key="value" :value="value">{{value}}</option>
         </select>
+        <slot></slot>
         <jet-button variant="secondary" type="button" size="sm" @click="reset" class="mt-1">
             {{ __('Delete') }}
         </jet-button>

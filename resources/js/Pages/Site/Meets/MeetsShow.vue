@@ -6,18 +6,18 @@
         </Head>
 
         <template #header>
-            <div class="pb-8 flex flex-row flex-wrap sm:justify-between">
+            <div class="pb-8 flex flex-wrap justify-between">
                 <div>
                     <Link class="text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
                     /
                     {{ meet.name }}
                 </div>
-                <div class="">
+                <div class="flex flex-col sm:flex-row mt-4 space-x-0 space-y-4 sm:space-x-4 sm:space-y-0 md:mt-0">
                     <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable">
                         <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
                         Nevezés
                     </jet-button>
-                    <jet-button size="sm" :href="route('portal:meets.entries.show', meet)" v-show="hasEntries">
+                    <jet-button size="sm" :href="route('meets.entries.index', meet)" v-show="hasEntries">
                         <ViewListIcon class="w-5 h-5 mr-2" />
                         Nevezések
                     </jet-button>

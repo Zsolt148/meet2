@@ -18,7 +18,7 @@
 
             <pagination class="my-5" :links="meets.links" />
 
-            <div v-for="data in meets.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white dark:bg-gray-600 shadow hover:shadow-md transition-shadow duration-200 ease-in-out rounded-lg w-full'">
+            <div v-for="data in meets.data" :key="data.id" class="mx-auto mb-6 px-4 py-2 bg-white dark:bg-gray-600 shadow hover:shadow-md transition-shadow duration-200 ease-in-out rounded-lg w-full">
                 <div class="py-2 flex flex-col sm:flex-row justify-between">
                     <div class="flex flex-row items-center">
                         <Link class="text-2xl link" :href="route('meets.show', data.slug)">

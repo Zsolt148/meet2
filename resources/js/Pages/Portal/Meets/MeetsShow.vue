@@ -175,7 +175,7 @@
                             </td>
                         </tr>
                         <tr v-if="competitors.length === 0">
-                            <td class="border-t px-6 py-2" colspan="5">{{ __('No competitors found') }}</td>
+                            <td class="border-t px-6 py-2" colspan="5">{{ __('No entries found') }}</td>
                         </tr>
                     </template>
                 </base-table>
