@@ -4,7 +4,9 @@ namespace App\Actions\Fortify;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\TeamLeaderRegisteredNotification;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
@@ -62,8 +64,15 @@ class CreateNewUser implements CreatesNewUsers
             //$user->assignRole('senior_team_leader');
         }
 
-
         $user->save();
+
+        // send notification to admin about the new registration
+        if($input['isSenior']) {
+			Notification::send(
+				User::query()->firstWhere('email', 'kolonics@kvsc.info'),
+				new TeamLeaderRegisteredNotification($user)
+			);
+		}
 
         return $user;
     }

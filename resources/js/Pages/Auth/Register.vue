@@ -1,5 +1,7 @@
 <template>
     <app-layout>
+        <Head :title="__('Register')"/>
+
         <jet-authentication-card>
             <template #logo>
                 {{ __('Register') }}
@@ -58,6 +60,10 @@
                     <jet-label for="other_team_country" :value="__('Other team country')" />
                     <jet-input id="other_team_country" type="text" v-model="form.other_team_country" autocomplete="off" />
                     <jet-input-error :message="form.errors.other_team_country" class="mt-2" />
+                </div>
+
+                <div class="mt-4 text-sm text-gray-700 dark:text-gray-200" v-if="form.isSenior">
+                    {{ __('When you register as a senior team leader, then you will have to wait until an admin accepts your registration') }}
                 </div>
 
                 <div class="mt-4" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">

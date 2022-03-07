@@ -105,11 +105,11 @@
                 </div>
 
                 <div class="mt-2 text-xs" v-show="!hasTeam()">
-                    Ahhoz, hogy nevezéseket tudj leadni, a <Link class="link" :href="route('profile.show')">profilodban</Link> bekell állítanod egy egyesületet
+                    {{ __('In order to submit entries, you must set up an association in your profile.') }} <Link class="link" :href="route('profile.show')"> {{ __('Profile settings') }} </Link>
                 </div>
 
-                <div class="mt-2 text-xs" v-show="!isTeamLeader()">
-                    Még nincs jogosultságod nevezések leadni, kérjük vár egy kicsit míg egy admin elbírálja a regisztrációd!
+                <div class="mt-2 text-xs" v-show="!isTeamLeader() && hasTeam()">
+                    {{ __('You do not have permission to submit entries yet, please wait while an admin reviews your registration!') }}
                 </div>
             </div>
 

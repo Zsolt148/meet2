@@ -3,7 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\Team;
+use App\Models\User;
+use App\Notifications\TeamLeaderRegisteredNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -59,6 +62,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
                 $user->team_id = $team->id;
             }
+
+			Notification::send(
+				User::query()->firstWhere('email', 'kolonics@kvsc.info'),
+				new TeamLeaderRegisteredNotification($user)
+			);
 
             //$user->assignRole('senior_team_leader');
         // team is is null
