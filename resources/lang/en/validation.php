@@ -138,9 +138,25 @@ return [
     'already_entered' => 'This competitor has already been entered in this race',
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+		'team_id' => [
+			'required_if' => 'Az egyesület mező nem lehet üres, ha szenior csapatvezető szeretne lenni',
+		],
+		'other_team' => [
+			'required_if' => 'Az egyéb egyesület neve mező nem lehet üres, ha az egyesület egyéb',
+		],
+		'other_team_country' => [
+			'required_if' => 'Az egyéb egyesület országa mező nem lehet üres, ha az egyesület egyéb',
+		],
+		'competitor_name' => [
+			'required_if' => 'Competitor\'s name field is required, if you want to create a new competitor'
+		],
+		'competitor_birth' => [
+			'required_if' => 'Competitor\'s birth year field is required, if you want to create a new competitor',
+			'date_format' => 'Competitor\'s birth year must be a year'
+		],
+		'competitor_sex' => [
+			'required_if' => 'Competitor\'s gender field is required, if you want to create a new competitor'
+		],
     ],
 
     /*
@@ -158,6 +174,10 @@ return [
         'competitor_id' => 'Competitor',
         'meet_event_id' => 'Event',
         'time'          => 'Entry time',
+		'competitor_id' => 'Competitor',
+		'competitor_name' => 'Competitor\'s name',
+		'competitor_birth' => 'Competitor\'s birth year',
+		'competitor_sex' => 'Competitor\'s gender',
     ],
 
 ];

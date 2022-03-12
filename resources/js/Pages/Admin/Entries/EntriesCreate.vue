@@ -8,26 +8,12 @@
         <template #header>
 
             <div class="flex justify-between">
-                <bread-crumb :back-route="route('portal:meets.index')" :back-name="__('Entriable Meets')">
-                    <Link class="text-teal-500 dark:text-teal-400" :href="route('portal:meets.show', meet)">
+                <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek">
+                    <Link class="text-teal-500 dark:text-teal-400" :href="route('admin:entries.index', meet.id)">
                         {{meet.name}}
                     </Link>
                     / {{__('New entries')}}
                 </bread-crumb>
-            </div>
-
-            <div v-show="!$page.props.user.team"
-                 class="flex flex-row items-center bg-yellow-100 dark:bg-yellow-200 rounded-lg p-3 text-sm text-yellow-700 mb-5"
-                 role="alert">
-                <div class="mr-2">
-                    <ExclamationIcon class="w-5 h-5"/>
-                </div>
-                <div>
-                    {{
-                        __("Looks like you don't have a team yet and you can't select a competitor. You can select a team in your profile setting.")
-                    }}
-                    <Link class="link" :href="route('profile.show')">{{__('Profile settings')}}</Link>
-                </div>
             </div>
 
         </template>
@@ -39,27 +25,35 @@
                     <div class="text-2xl text-teal-500 dark:text-teal-400">
                         {{__('New entries')}}
                     </div>
-
-                    <div class="pt-4 text-gray-700 dark:text-gray-200">
-                        {{
-                            __('Select a competitor from the list and select the event you want to enter and add the entry time')
-                        }}
-                    </div>
                 </div>
 
                 <form @submit.prevent="submit">
                     <div class="px-8 py-6 flex flex-col max-w-3xl">
                         <div class="w-full flex flex-col">
+
                             <div class="w-full">
+                                <jet-label for="team_id" :value="__('Team')"/>
+                                <select name="team_id" id="team_id" v-model="form.team_id"
+                                        :class="form.errors.team_id ? 'input-error' : ''">
+                                    <option value="" selected>{{__('Empty')}}</option>
+                                    <option v-for="team in teams" :key="team.id" :value="team.id">
+                                        {{team.name}}
+                                    </option>
+                                </select>
+                                <jet-input-error :message="form.errors.team_id" class="mt-2"/>
+                            </div>
+
+                            <div class="w-full mt-2">
                                 <jet-label for="competitor_id" :value="__('Competitor')"/>
                                 <select name="competitor_id" id="competitor_id" v-model="form.competitor_id"
                                         :class="form.errors.competitor_id ? 'input-error' : ''">
                                     <option value="" selected>{{__('Empty')}}</option>
-                                    <option v-for="comp in competitors" :key="comp.id" :value="comp.id">
+                                    <option v-for="comp in competitors_by_team" :key="comp.id" :value="comp.id">
                                         {{comp.name}} ({{comp.birth}})
                                     </option>
                                     <option value="other">{{ __('Create new competitor') }}</option>
                                 </select>
+                                <span class="text-xs">Ha nincs a listában a keresett versenyző akkor lehetséges, hogy van már nevezése.</span>
                                 <jet-input-error :message="form.errors.competitor_id" class="mt-2"/>
                             </div>
 
@@ -214,12 +208,13 @@ export default {
         PlusIcon,
         ScrollTop
     },
-    props: ['meet', 'male_meet_events', 'female_meet_events', 'competitors'],
+    props: ['meet', 'male_meet_events', 'female_meet_events', 'teams', 'competitors'],
     data() {
         return {
             selected_competitor: null,
             form: this.$inertia.form({
                 method: '_POST',
+                team_id: null,
                 competitor_id: null,
                 competitor_name: null,
                 competitor_birth: null,
@@ -259,10 +254,15 @@ export default {
             this.form.entries.splice(index, 1)
         },
         submit() {
-            this.form.post(route('portal:meet.entry.store', this.meet))
+            this.form.post(route('admin:entries.store', this.meet))
         }
     },
     watch: {
+        'form.team_id'(value) {
+            this.competitor_id = null
+            this.form.entries = []
+            this.form.errors = []
+        } ,
         'form.competitor_id'(value) {
             if (value == 'other') {
                 this.selected_competitor = 'other';
@@ -282,6 +282,9 @@ export default {
         }
     },
     computed: {
+        competitors_by_team() {
+            return this.competitors.filter(x => x.team_id == this.form.team_id)
+        },
         meet_events_by_gender() {
             // if not other
             // else if it is other but the gender is selected
@@ -297,7 +300,7 @@ export default {
                     ? this.male_meet_events
                     : this.female_meet_events
             }
-        }
+        },
     }
 }
 </script>

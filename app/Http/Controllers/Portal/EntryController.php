@@ -8,6 +8,7 @@ use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\Meet;
 use App\Traits\EntryTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -66,12 +67,27 @@ class EntryController extends Controller
 
         $this->validateDuplicateEvents($request);
 
-        $user_id = auth()->user()->id;
+        $user = auth()->user();
         $competitor_id = $request->input('competitor_id');
+
+        // create new competitor
+        if($competitor_id == 'other') {
+
+        	/** @var Competitor $competitor */
+        	$competitor = Competitor::create([
+        		'team_id' => $user->team_id,
+        		'name' => $request->input('competitor_name'),
+        		'birth' => $request->input('competitor_birth'),
+        		'sex' => $request->input('competitor_sex'),
+				'type' => $meet->entry_type
+			]);
+
+			$competitor_id = $competitor->id;
+		}
 
         foreach($request->input('entries') as $key => $data) {
             $meet->entries()->create([
-                'user_id' => $user_id,
+                'user_id' => $user->id,
                 'competitor_id' => $competitor_id,
                 'meet_event_id' => $data['meet_event_id'],
                 'min' => $data['time']['min'],

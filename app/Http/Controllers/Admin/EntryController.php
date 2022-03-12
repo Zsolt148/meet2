@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\EntryRequest;
 use App\Models\Competitor;
 use App\Models\Entry;
 use App\Models\Meet;
+use App\Models\Team;
 use App\Traits\EntryTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -89,6 +90,80 @@ class EntryController extends BaseAdminController
         ]);
     }
 
+	/**
+	 * Show the form for creating a new resource.
+	 * @param Meet $meet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create(Meet $meet)
+	{
+		[$male, $female] = $this->getMeetEventsByGender($meet);
+
+		// get users's competitors
+		// where competitor doesnt have any entry
+		if($competitors = Competitor::all()) {
+			$entriedCompetitors = $meet->entries()->get()->pluck('competitor.id')->unique();
+			$competitors = $competitors->whereNotIn('id', $entriedCompetitors)->values();
+		}
+
+		return Inertia::render('Admin/Entries/EntriesCreate', [
+			'meet' => $meet,
+			'male_meet_events' => $male,
+			'female_meet_events' => $female,
+			'competitors' => $competitors,
+			'teams' => Team::all(),
+		]);
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\EntryRequest  $request
+	 * @param Meet $meet
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(EntryRequest $request, Meet $meet)
+	{
+		// ensure competitor doesnt have any entry yet
+		abort_if(
+			$meet->entries()->whereCompetitorId($request->input('competitor_id'))->exists(),
+			403
+		);
+
+		$this->validateDuplicateEvents($request);
+
+		$user = auth()->user();
+		$competitor_id = $request->input('competitor_id');
+
+		// create new competitor
+		if($competitor_id == 'other') {
+
+			/** @var Competitor $competitor */
+			$competitor = Competitor::create([
+				'team_id' => $request->input('team_id'),
+				'name' => $request->input('competitor_name'),
+				'birth' => $request->input('competitor_birth'),
+				'sex' => $request->input('competitor_sex'),
+				'type' => $meet->entry_type
+			]);
+
+			$competitor_id = $competitor->id;
+		}
+
+		foreach($request->input('entries') as $key => $data) {
+			$meet->entries()->create([
+				'user_id' => $user->id,
+				'competitor_id' => $competitor_id,
+				'meet_event_id' => $data['meet_event_id'],
+				'min' => $data['time']['min'],
+				'sec' => $data['time']['sec'],
+				'milli' => $data['time']['milli'],
+			]);
+		}
+
+		return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen létrehozva');
+	}
+
     /**
      * Show the form for eiting the specified resource.
      *
@@ -127,20 +202,37 @@ class EntryController extends BaseAdminController
     {
         $competitor_id = $request->input('competitor_id');
 
-        foreach($request->input('entries') as $key => $data) {
-            $meet->entries()->updateOrCreate(
-                [
-                    'id' => $data['id'],
-                ], [
-                    'competitor_id' => $competitor_id,
-                    'meet_event_id' => $data['meet_event_id'],
-                    'min' => $data['time']['min'],
-                    'sec' => $data['time']['sec'],
-                    'milli' => $data['time']['milli'],
-                    'is_final' => $data['is_final'] ?? false,
-                    'is_paid' => $data['is_paid'] ?? false,
-                ]
-            );
+		$this->validateDuplicateEvents($request);
+
+		foreach($request->input('entries') as $key => $data) {
+			// if entry already exists, update it
+			if($data && isset($data['id'])) {
+				// TODO fix me ?
+				$meet->entries()->updateOrCreate(
+					[
+						'id' => $data['id'],
+					], [
+						'competitor_id' => $competitor_id,
+						'meet_event_id' => $data['meet_event_id'],
+						'min' => $data['time']['min'],
+						'sec' => $data['time']['sec'],
+						'milli' => $data['time']['milli'],
+						'is_final' => $data['is_final'] ?? false,
+						'is_paid' => $data['is_paid'] ?? false,
+					]
+				);
+			}else {
+				$meet->entries()->create([
+					'user_id' => auth()->user()->id,
+					'competitor_id' => $competitor_id,
+					'meet_event_id' => $data['meet_event_id'],
+					'min' => $data['time']['min'],
+					'sec' => $data['time']['sec'],
+					'milli' => $data['time']['milli'],
+					'is_final' => $data['is_final'] ?? false,
+					'is_paid' => $data['is_paid'] ?? false,
+				]);
+			}
         }
 
         return redirect()->back()->with('success', 'Nevezés sikeresen frissítve');

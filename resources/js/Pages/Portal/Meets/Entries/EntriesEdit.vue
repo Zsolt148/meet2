@@ -34,7 +34,7 @@
                         </div>
 
                         <div v-if="competitor">
-                            <div v-for="(entry, index) in form.entries" :key="index" class="my-5">
+                            <div v-for="(entry, index) in form.entries" :key="index" class="my-6">
                                 <div class="w-full">
                                     <jet-label for="meet_event_id" :value="(index + 1) + '. ' + __('Event')"/>
                                     <div class="flex">

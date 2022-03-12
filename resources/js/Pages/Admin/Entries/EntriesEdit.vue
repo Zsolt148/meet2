@@ -10,11 +10,6 @@
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
 
-<!--            <div class="w-full">-->
-<!--                <jet-label for="user_id" value="Nevezte"/>-->
-<!--                {{ competitor.user.name }}-->
-<!--            </div>-->
-
             <div class="px-8 pt-6">
                 <div class="text-2xl text-teal-500 dark:text-teal-400">
                     {{ __('Edit entries') }}
@@ -43,7 +38,7 @@
                         </div>
 
                         <div v-if="competitor">
-                            <div v-for="(entry, index) in form.entries" :key="index" class="my-5">
+                            <div v-for="(entry, index) in form.entries" :key="index" class="my-6">
                                 <div class="w-full">
                                     <jet-label :for="'meet_event_id'+index" :value="(index + 1) + '. ' + __('Event')"/>
                                     <div class="flex">
@@ -51,7 +46,6 @@
                                                 :id="'meet_event_id'+index"
                                                 v-model="form.entries[index]['meet_event_id']"
                                                 :class="form.errors['entries.'+index+'.meet_event_id'] ? 'input-error' : ''"
-                                                :disabled="form.is_final || form.entries[index]['is_final']"
                                                 @change="eventSelected(index, form.entries[index]['meet_event_id'])"
                                         >
                                             <option value="" selected>{{__('Empty')}}</option>
@@ -63,7 +57,6 @@
                                         <div class="ml-2 mt-2">
                                             <jet-button size="sm" type="button" variant="danger" class="outline"
                                                         @click="confirmRemoveEntry(index)"
-                                                        :disabled="form.is_final || form.entries[index]['is_final']"
                                             >
                                                 <TrashIcon class="w-5 h-5"/>
                                             </jet-button>
@@ -80,7 +73,6 @@
                                             <jet-label :for="'min'+index" class="text-xs" :value="__('Min')"/>
                                             <jet-input :id="'min'+index" type="text" v-model="form.entries[index]['time']['min']"
                                                        autocomplete="off" placeholder="--" class="w-12"
-                                                       :disabled="form.is_final || form.entries[index]['is_final']"
                                                        :error="form.errors['entries.'+index+'.time']"
                                                        :maxlength="2"
                                             />
@@ -90,7 +82,6 @@
                                             <jet-label :for="'sec'+index" class="text-xs" :value="__('Second')"/>
                                             <jet-input :id="'sec'+index" type="text" v-model="form.entries[index]['time']['sec']"
                                                        autocomplete="off" placeholder="--" class="w-12"
-                                                       :disabled="form.is_final || form.entries[index]['is_final']"
                                                        :error="form.errors['entries.'+index+'.time']"
                                                        :maxlength="2"
                                             />
@@ -101,7 +92,6 @@
                                             <jet-input :id="'milli'+index" type="text"
                                                        v-model="form.entries[index]['time']['milli']" autocomplete="off"
                                                        placeholder="--" class="w-12"
-                                                       :disabled="form.is_final || form.entries[index]['is_final']"
                                                        :error="form.errors['entries.'+index+'.time']"
                                                        :maxlength="2"
                                             />
@@ -149,13 +139,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="w-full mt-5">
+                                <jet-button type="button" @click="addNewEntry" variant="secondary">
+                                    <PlusIcon class="w-5 h-5 mr-2"/>
+                                    {{__('Add event')}}
+                                </jet-button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="px-8 py-4 bg-gray-50 dark:bg-dark-eval-3 border-t border-gray-100 dark:border-gray-900 flex items-center justify-between">
                     <div class="flex">
-                        <jet-button type="submit" :loading="form.processing" class="mr-2">
+                        <jet-button type="button" variant="secondary" :href="route('admin:entries.index', meet)">
+                            {{ __('Back') }}
+                        </jet-button>
+                        <jet-button type="submit" :loading="form.processing" class="mx-2">
                             {{__('Save')}}
                         </jet-button>
                         <jet-button variant="info" type="button" @click="confirmFinalizeShow = true">
@@ -272,6 +271,7 @@ export default {
 
             form: this.$inertia.form({
                 method: '_POST',
+                team_id: this.competitor.team_id,
                 competitor_id: this.competitor_form.competitor_id,
                 is_final: this.competitor_form.is_final,
                 entries: this.competitor_form.entries,
@@ -285,7 +285,7 @@ export default {
         },
         eventSelected(index, meet_event_id) {
             // if its a relay set 00 to the time
-            if (index && this.isRelay(meet_event_id)) {
+            if (this.isRelay(meet_event_id)) {
                 this.form.entries[index]['time']['min'] = '00'
                 this.form.entries[index]['time']['sec'] = '00'
                 this.form.entries[index]['time']['milli'] = '00'
@@ -294,6 +294,18 @@ export default {
                 this.form.entries[index]['time']['sec'] =  null
                 this.form.entries[index]['time']['milli'] = null
             }
+        },
+        addNewEntry() {
+            this.form.entries.push({
+                meet_event_id: null,
+                time: {
+                    min: null,
+                    sec: null,
+                    milli: null,
+                },
+                is_final: false,
+                is_paid: false,
+            })
         },
         submit() {
             this.form.put(route('admin:entries.update', { meet: this.meet, competitor: this.competitor }))

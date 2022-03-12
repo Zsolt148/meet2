@@ -156,6 +156,16 @@ return [
         'entry_app' => [
             'required_if' => 'A nevezés exportálása nem lehet üres, ha nevezhető a verseny',
         ],
+		'competitor_name' => [
+			'required_if' => 'Versenyző neve mező nem lehet üres, ha új versenyzőt szeretne hozzáadni'
+		],
+		'competitor_birth' => [
+			'required_if' => 'Versenyző születési éve mező nem lehet üres, ha új versenyzőt szeretne hozzáadni',
+			'date_format' => 'Versenyző születési éve év kell hogy legyen, pl.: 1990'
+		],
+		'competitor_sex' => [
+			'required_if' => 'Versenyző neme mező nem lehet üres, ha új versenyzőt szeretne hozzáadni'
+		],
     ],
 
     /*
@@ -199,6 +209,9 @@ return [
         'report' => 'Jegyzőkönyv',
         'terms' => 'Szolgáltatási feltételek és Adatvédelmi irányelvek',
         'competitor_id' => 'Versenyző',
+        'competitor_name' => 'Versenyző neve',
+        'competitor_birth' => 'Versenyző születési éve',
+        'competitor_sex' => 'Versenyző neme',
         'meet_event_id' => 'Versenyszám',
         'time'          => 'Nevezési idő',
     ],

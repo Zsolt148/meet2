@@ -143,7 +143,7 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     {
         return [
             $this->getTeamIndex($this->teamIds, $team->id), // Team_no
-            $team->short, // Team_name - short name cuz max 30 chars
+            $team->name, // Team_name - max 30
             $team->short, // 'Team_short',
 			$team->meet_abbr, // 'Team_abbr',
             '', // 'Team_stat',
@@ -173,7 +173,7 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
             '', // 'Team_c10',
             '', // 'Team_altabbr',
             'HAMIS', // 'Team_NoPoints',
-            'HAMIS', // 'Team_Selected',
+            $team->short, // 'Team_Selected', // TODO max 16 chars
             '', // 'Team_altname',
             '', // 'InvitedTeam_AgencyID',
             '', // 'InvitedTeam_Email',

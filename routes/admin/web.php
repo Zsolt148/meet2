@@ -45,6 +45,8 @@ Route::prefix('admin')
 
             // Entries
             Route::get('meet/{meet}/entries', [EntryController::class, 'index'])->name('index');
+            Route::get('meet/{meet}/entries/competitor/create', [EntryController::class, 'create'])->name('create');
+            Route::post('meet/{meet}/entries/competitor/store', [EntryController::class, 'store'])->name('store');
             Route::get('meet/{meet}/entries/competitor/{competitor}/edit', [EntryController::class, 'edit'])->name('edit');
             Route::put('meet/{meet}/entries/competitor/{competitor}/update', [EntryController::class, 'update'])->name('update');
             Route::put('/meet/{meet}/entry/competitor/{competitor}/finalize', [EntryController::class, 'finalize'])->name('finalize');

@@ -10,6 +10,12 @@
 
                 <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 sm:space-y-0">
                     <div>
+                        <jet-button size="sm" :href="route('admin:entries.create', meet)">
+                            Új nevezés
+                        </jet-button>
+                    </div>
+
+                    <div>
                         <jet-button size="sm" :href="route('admin:entries.meet.edit', meet)">
                             Nevezési beállítások
                         </jet-button>

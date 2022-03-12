@@ -25,14 +25,27 @@ class EntryRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'competitor_id' => ['required', Rule::exists('competitors', 'id')],
-            'entries' => ['required', 'array'],
-            'entries.*.meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
-            'entries.*.time' => ['required', 'array', new TimeRule],
-            'entries.*.is_final' => ['nullable'],
-            'entries.*.is_paid' => ['nullable'],
-        ];
+		$rules = [];
+
+		if($this->input('competitor_id') !== 'other') {
+			$rules['competitor_id'] = ['required', Rule::exists('competitors', 'id')];
+		}else {
+			$rules['competitor_id'] = ['required'];
+		}
+
+		$default = [
+			'team_id' => ['required', Rule::exists('teams', 'id')],
+			'competitor_name' => ['nullable', 'required_if:competitor_id,other', 'string', 'max:191'],
+			'competitor_birth' => ['nullable', 'required_if:competitor_id,other', 'date_format:Y', 'max:191'],
+			'competitor_sex' => ['nullable', 'required_if:competitor_id,other', Rule::in(['F', 'N'])],
+			'entries' => ['required', 'array'],
+			'entries.*.meet_event_id' => ['required', Rule::exists('meet_event', 'id')],
+			'entries.*.time' => ['required', 'array', new TimeRule],
+			'entries.*.is_final' => ['nullable'],
+			'entries.*.is_paid' => ['nullable'],
+		];
+
+		return array_merge($rules, $default);
     }
 
     /**

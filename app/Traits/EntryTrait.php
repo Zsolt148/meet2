@@ -61,6 +61,15 @@ trait EntryTrait
             })
             ->get();
 
+        $mix = (clone $query)
+			->whereHas('event', function ($query) {
+				$query->where('sex', 'mix');
+			})
+			->get();
+
+        $male = $male->merge($mix);
+		$female = $female->merge($mix);
+
         return [$male, $female];
     }
 
