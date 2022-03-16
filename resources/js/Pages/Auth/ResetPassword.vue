@@ -1,34 +1,37 @@
 <template>
-    <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+    <app-layout>
+        <Head :title="__('Reset password')"/>
+        <jet-authentication-card>
+            <template #logo>
+                {{ __('Reset password') }}
+            </template>
 
-        <jet-validation-errors class="mb-4" />
+            <jet-validation-errors class="mb-4" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
-            </div>
+            <form @submit.prevent="submit">
+                <div>
+                    <jet-label for="email" value="Email" />
+                    <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus aria-readonly="true" disabled="disabled"/>
+                </div>
 
-            <div class="mt-4">
-                <jet-label for="password" value="Password" />
-                <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-            </div>
+                <div class="mt-4">
+                    <jet-label for="password" value="Password" />
+                    <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
+                </div>
 
-            <div class="mt-4">
-                <jet-label for="password_confirmation" value="Confirm Password" />
-                <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-            </div>
+                <div class="mt-4">
+                    <jet-label for="password_confirmation" value="Confirm Password" />
+                    <jet-input id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
+                </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Reset Password
-                </jet-button>
-            </div>
-        </form>
-    </jet-authentication-card>
+                <div class="flex items-center justify-end mt-4">
+                    <jet-button :loading="form.processing">
+                        {{ __('Reset Password') }}
+                    </jet-button>
+                </div>
+            </form>
+        </jet-authentication-card>
+    </app-layout>
 </template>
 
 <script>
@@ -38,6 +41,7 @@
     import JetInput from '@/Jetstream/Input'
     import JetLabel from '@/Jetstream/Label'
     import JetValidationErrors from '@/Jetstream/ValidationErrors'
+    import AppLayout from "@/Layouts/AppLayout";
 
     export default {
         components: {
@@ -46,7 +50,8 @@
             JetButton,
             JetInput,
             JetLabel,
-            JetValidationErrors
+            JetValidationErrors,
+            AppLayout
         },
 
         props: {
