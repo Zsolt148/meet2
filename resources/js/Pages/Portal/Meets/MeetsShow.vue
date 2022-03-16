@@ -7,12 +7,18 @@
 
         <template #header>
             <div class="flex justify-between">
-                <bread-crumb :back-route="route('portal:meets.index')" :back-name="__('Entriable Meets')"
-                             :current="meet.name"/>
+                <bread-crumb :back-route="route('portal:meets.index')"
+                             :back-name="__('Entriable Meets')"
+                             :current="meet.name"
+                />
                 <div>
-                    <jet-button size="sm" :href="route('admin:entries.index', meet.id)" v-show="isAdmin()">
+                    <jet-button size="sm" class="mr-2" :href="route('admin:entries.index', meet.id)" v-show="isAdmin()">
                         <CogIcon class="w-5 h-5 mr-2"/>
                         Szerkesztés
+                    </jet-button>
+                    <jet-button size="sm" :href="route('meets.show', meet)">
+                        <EyeIcon class="w-5 h-5 mr-2" />
+                        {{ __('View') }}
                     </jet-button>
                 </div>
             </div>
@@ -99,9 +105,9 @@
                     <jet-button :disabled="!meet.is_deadline_ok || !isTeamLeader()" :href="route('portal:meet.entry.create', meet)">
                         {{ __('New entry') }}
                     </jet-button>
-                    <jet-button type="button" variant="info" v-show="has_entries && !entries_are_final" :disabled="!meet.is_deadline_ok || !isTeamLeader()" @click="confirmFinalizeShow = true" class="ml-2">
-                        {{ __('Finalize') }}
-                    </jet-button>
+<!--                    <jet-button type="button" variant="info" v-show="has_entries && !entries_are_final" :disabled="!meet.is_deadline_ok || !isTeamLeader()" @click="confirmFinalizeShow = true" class="ml-2">-->
+<!--                        {{ __('Finalize') }}-->
+<!--                    </jet-button>-->
                 </div>
 
                 <div class="mt-2 text-xs" v-show="!hasTeam()">
@@ -232,7 +238,8 @@ import {
     AtSymbolIcon,
     ChevronRightIcon,
     CheckIcon,
-    XIcon
+    XIcon,
+    EyeIcon
 } from '@heroicons/vue/outline'
 import {getParams, getWatch} from "@/Use/useQuery";
 import JetConfirmationModal from "@/Jetstream/ConfirmationModal";
@@ -257,6 +264,7 @@ export default {
         ChevronRightIcon,
         CheckIcon,
         XIcon,
+        EyeIcon,
         ScrollTop
     },
     props: ['meet', 'competitors', 'filters', 'has_entries', 'entries_count', 'individual_entries_count', 'relay_entries_count', 'entries_are_final'],

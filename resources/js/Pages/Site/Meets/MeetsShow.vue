@@ -15,11 +15,14 @@
                 <div class="flex flex-col sm:flex-row mt-4 space-x-0 space-y-4 sm:space-x-4 sm:space-y-0 md:mt-0">
                     <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable">
                         <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
-                        Nevezés
+<!--                        <span class="animate-ping block h-3 w-3 rounded-full opacity-75 ring-green-400 bg-green-600 mr-2"></span>-->
+                        <span>
+                             {{ __('Entry') }}
+                        </span>
                     </jet-button>
                     <jet-button size="sm" :href="route('meets.entries.index', meet)" v-show="hasEntries">
                         <ViewListIcon class="w-5 h-5 mr-2" />
-                        Nevezések
+                        {{ __('Entries') }}
                     </jet-button>
                     <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="isAdmin()" class="ml-2">
                         <CogIcon class="w-5 h-5 mr-2" />

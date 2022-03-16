@@ -32,6 +32,12 @@
                         </span>
                     </th>
                     <th class="th-class">
+                        <span class="th-content" @click="updateSort('country')">
+                            Ország
+                            <table-chevron :params="params" value="country" />
+                        </span>
+                    </th>
+                    <th class="th-class">
                         <span class="th-content" @click="updateSort('SA')">
                             SA
                             <table-chevron :params="params" value="SA" />
@@ -52,29 +58,34 @@
                 </tr>
                 <tr v-for="team in teams.data" :key="team.id" class="tr-class">
                     <td class="td-class">
-                        <span class="td-content">
+                        <Link class="td-content" :href="route('admin:teams.edit', team.id)">
                             {{ team.name }}
-                        </span>
+                        </Link>
                     </td>
                     <td class="td-class">
-                        <span class="td-content">
+                        <Link class="td-content" :href="route('admin:teams.edit', team.id)">
                             {{ __(team.type) }}
-                        </span>
+                        </Link>
                     </td>
                     <td class="td-class">
-                        <span class="td-content" tabindex="-1">
+                        <Link class="td-content" :href="route('admin:teams.edit', team.id)">
+                            {{ team.country }}
+                        </Link>
+                    </td>
+                    <td class="td-class">
+                        <Link class="td-content" tabindex="-1" :href="route('admin:teams.edit', team.id)">
                             {{ team.SA }}
-                        </span>
+                        </Link>
                     </td>
                     <td class="td-class">
-                        <span class="td-content" tabindex="-1">
+                        <Link class="td-content" tabindex="-1" :href="route('admin:teams.edit', team.id)">
                             {{ team.address }}
-                        </span>
+                        </Link>
                     </td>
                     <td class="td-class">
-                        <span class="td-content" tabindex="-1">
+                        <Link class="td-content" tabindex="-1" :href="route('admin:teams.edit', team.id)">
                             {{ timeFormat(team.created_at) }}
-                        </span>
+                        </Link>
                     </td>
                 </tr>
                 <tr v-if="teams.data.length === 0">

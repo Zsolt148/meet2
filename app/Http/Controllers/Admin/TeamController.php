@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\TeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,44 +17,12 @@ class TeamController extends BaseAdminController
      */
     public function index()
     {
-        $query = $this->getQuery(Team::class, request(), ['name', 'type', 'SA', 'address']);
+        $query = $this->getQuery(Team::class, request(), ['name', 'type', 'country', 'SA', 'address']);
 
         return Inertia::render('Admin/Teams/TeamsIndex', [
             'filters' => request()->all(['search', 'field', 'direction']),
             'teams' => $query->paginate()->withQueryString()
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Team $team)
-    {
-        //
     }
 
     /**
@@ -64,7 +33,9 @@ class TeamController extends BaseAdminController
      */
     public function edit(Team $team)
     {
-        //
+		return Inertia::render('Admin/Teams/TeamsEdit', [
+			'team' => $team
+		]);
     }
 
     /**
@@ -74,9 +45,18 @@ class TeamController extends BaseAdminController
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Team $team)
+    public function update(TeamRequest $request, Team $team)
     {
-        //
+        $team->update($request->only(
+        	'name',
+			'short',
+			'meet_abbr',
+			'SA',
+			'country',
+			'address'
+		));
+
+        return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen frissítve');
     }
 
     /**
@@ -87,8 +67,10 @@ class TeamController extends BaseAdminController
      */
     public function destroy(Team $team)
     {
-        //
-    }
+        $team->delete();
+
+		return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen törölve');
+	}
 
     public function sync()
     {
@@ -107,6 +89,7 @@ class TeamController extends BaseAdminController
                     'type' => Team::TYPE_SENIOR,
                     'short' => $team['short'] ?? null,
                     'meet_abbr' => $team['meet_abbr'] ?? null,
+                    'country' => $team['country'] ?? 'HU',
                     'address' => $team['address'],
 					'deleted_at' => $team['deleted_at'],
                 ]

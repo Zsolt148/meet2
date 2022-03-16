@@ -25,7 +25,7 @@
 
                     <div class="w-full flex flex-row space-x-4">
                         <div class="w-full sm:w-1/3">
-                            <jet-label for="entry_price" value="Nevezés ára - Ft" />
+                            <jet-label for="entry_price" value="Egyéni nevezés ára - Ft" />
                             <jet-input id="entry_price" type="number" v-model="form.entry_price" autocomplete="off" />
                             <jet-input-error :message="form.errors.entry_price" class="mt-2" />
                         </div>

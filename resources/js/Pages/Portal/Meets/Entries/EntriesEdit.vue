@@ -122,10 +122,10 @@
                         <jet-button type="submit" :disabled="form.is_final" :loading="form.processing" class="mx-2">
                             {{__('Save')}}
                         </jet-button>
-                        <jet-button variant="info" type="button" :disabled="form.is_final"
-                                    @click="confirmFinalizeShow = true">
-                            {{__('Finalize')}}
-                        </jet-button>
+<!--                        <jet-button variant="info" type="button" :disabled="form.is_final"-->
+<!--                                    @click="confirmFinalizeShow = true">-->
+<!--                            {{__('Finalize')}}-->
+<!--                        </jet-button>-->
                     </div>
                     <jet-button variant="danger" type="button" :disabled="form.is_final"
                                 @click="confirmDeleteShow = true">

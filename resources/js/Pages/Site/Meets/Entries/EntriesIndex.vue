@@ -33,7 +33,7 @@
                     </div>
                     <ol class="list-decimal list-inside ml-5">
                         <li v-for="entry in entries[event.id]" :key="entry.id" class="text-black dark:text-white">
-                            {{ entry.competitor.name }} ({{ entry.user.team.name }})
+                            {{ entry.competitor.name }} - {{ entry.competitor.birth }} ({{ entry.user.team.name }})
                         </li>
                     </ol>
                 </div>

@@ -65,7 +65,7 @@
 
                             <div class="w-full mt-2" v-if="form.competitor_id == 'other'">
                                 <jet-label for="birth" :value="__('Competitor\'s birth year')" />
-                                <jet-input id="birth" type="text" v-model="form.competitor_birth" autocomplete="off" />
+                                <jet-input id="birth" type="text" v-model="form.competitor_birth" autocomplete="off" :maxlength="4" />
                                 <jet-input-error :message="form.errors.competitor_birth" class="mt-2" />
                             </div>
 

@@ -21,6 +21,8 @@
   "news": "hírek",
   "results": "eredmények",
   "entries": "nevezés",
+  "There is an invalid field": "Hibás mező található",
+  "fields are invalid": "hibás mező található",
 
   "Login": "Bejelentkezés",
   "Register": "Regisztráció",
@@ -119,6 +121,7 @@
   "" : "",
 
   "senior" : "szenior",
+  "other" : "egyéb",
   "male" : "férfi",
   "female" : "női",
   "freestyle" : "gyorsúszás",
@@ -168,5 +171,6 @@
   "Add event": "Versenyszám hozzáadása",
   "When you register as a senior team leader, then you will have to wait until an admin accepts your registration": "Amikor szenior csapat vezetőként regisztrálsz, várni kell míg egy admin el nem fogadja a regisztrációd",
   "You do not have permission to submit entries yet, please wait while an admin reviews your registration!": "Még nincs jogosultságod nevezések leadni, kérjük vár egy kicsit míg egy admin elbírálja a regisztrációd!",
-  "In order to submit entries, you must set up an association in your profile.": "Ahhoz, hogy nevezéseket tudj leadni, a profilodban bekell állítanod egy egyesületet."
+  "In order to submit entries, you must set up an association in your profile.": "Ahhoz, hogy nevezéseket tudj leadni, a profilodban bekell állítanod egy egyesületet.",
+  "View": "Megtekintés"
 }
