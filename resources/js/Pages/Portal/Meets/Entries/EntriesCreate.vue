@@ -53,6 +53,7 @@
                             <div class="w-full">
                                 <jet-label for="competitor_id" :value="__('Competitor')"/>
                                 <select name="competitor_id" id="competitor_id" v-model="form.competitor_id"
+                                        :disabled="!$page.props.user.team"
                                         :class="form.errors.competitor_id ? 'input-error' : ''">
                                     <option value="" selected>{{__('Empty')}}</option>
                                     <option v-for="comp in competitors" :key="comp.id" :value="comp.id">
