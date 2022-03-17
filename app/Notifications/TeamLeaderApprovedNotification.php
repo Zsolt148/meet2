@@ -2,30 +2,24 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class TeamLeaderRegisteredNotification extends Notification implements ShouldQueue
+class TeamLeaderApprovedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-	/**
-	 * @var User $user
-	 */
-    public $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -48,15 +42,11 @@ class TeamLeaderRegisteredNotification extends Notification implements ShouldQue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-			->subject('Új csapatvezető regisztráció | meet.kvsc.info')
-			->greeting('Szia!')
-			->line('Egy új csapatvezető regisztrált a meet.kvsc.info oldalra vagy pedig egy meglévő felhasználó beállította az egyesületét annak érdekében, hogy nevezni tudjon, így lehet, hogy nevezési jogosultságot kell adni neki.')
-			->line('Név: ' . $this->user->name)
-			->line('Email: ' . $this->user->email)
-			->line('Egyesület: ' . $this->user->team->name)
-			->line('Regisztrált: ' . $this->user->created_at->format('Y.m.d H:i'))
-			->action('Megnézem', route('admin:users.edit', $this->user))
-			->salutation(new HtmlString("Üdv,<br>meet.kvsc.info"));
+			->subject(__('mail.approved.subject'))
+			->greeting(__('mail.greeting', ['name' => $notifiable->name]))
+			->line(__('mail.approved.body'))
+			->action(__('mail.login'), route('login'))
+			->salutation(new HtmlString(__('mail.regards') . ",<br>meet.kvsc.info"));
     }
 
     /**

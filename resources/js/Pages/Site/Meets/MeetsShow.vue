@@ -12,8 +12,8 @@
                     /
                     {{ meet.name }}
                 </div>
-                <div class="flex flex-col sm:flex-row mt-4 space-x-0 space-y-4 sm:space-x-4 sm:space-y-0 md:mt-0">
-                    <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable">
+                <div class="flex flex-wrap mt-4 md:mt-0">
+                    <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable" class="mr-2">
                         <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
 <!--                        <span class="animate-ping block h-3 w-3 rounded-full opacity-75 ring-green-400 bg-green-600 mr-2"></span>-->
                         <span>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\MeetController;
 use App\Http\Controllers\Site\MeetEntryController;
@@ -11,10 +12,7 @@ Route::get('/meets/{meet:slug}', [MeetController::class, 'show'])->name('meets.s
 Route::get('/meets/{meet:slug}/entries', [MeetEntryController::class, 'index'])->name('meets.entries.index');
 Route::get('/meets', [MeetController::class, 'index'])->name('meets.index');
 
-Route::get('language/{language}', function ($language) {
-    Session()->put('locale', $language);
-    return redirect()->back();
-})->name('language');
+Route::get('language/{language}', LocaleController::class)->name('language');
 
 //todo
 Route::post('fileupload/store/{name}', [\App\Http\Controllers\FileUploadController::class, 'store']);

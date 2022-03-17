@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -62,7 +63,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static Builder|User permission($permissions)
  * @method static Builder|User role($roles, $guard = null)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use HasFactory;
     use HasProfilePhoto;
@@ -81,6 +82,7 @@ class User extends Authenticatable
         'email',
         'password',
         'team_id',
+		'locale',
     ];
 
     /**
@@ -117,6 +119,16 @@ class User extends Authenticatable
     protected static $logAttributes = ['name', 'email', 'team_id'];
 
     protected static $ignoreChangedAttributes = ['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'profile_photo_path'];
+
+	/**
+	 * Get the user's preferred locale.
+	 *
+	 * @return string
+	 */
+	public function preferredLocale()
+	{
+		return $this->locale ?? 'hu';
+	}
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

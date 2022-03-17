@@ -25,6 +25,7 @@ class HomeController extends Controller
                 ];
             });
 
+
         return Inertia::render('Site/SiteHome', [
             'meets' => $meets
         ]);

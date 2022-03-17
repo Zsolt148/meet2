@@ -39,7 +39,7 @@ class MeetEntryController extends Controller
 
 		$teams = (clone $query)
 			->get()
-			->pluck('user.team')
+			->pluck('competitor.team')
 			->unique();
 
 		$query->when(

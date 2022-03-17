@@ -22,7 +22,7 @@ class UserProfileController extends Controller
     public function show(Request $request) {
         return Jetstream::inertia()->render($request, 'Profile/Show', [
             'sessions' => $this->sessions($request)->all(),
-            'teams' => Team::query()->senior()->other()->get(),
+            'teams' => Team::query()->senior()->other()->orderBy('name')->get(),
         ]);
     }
 

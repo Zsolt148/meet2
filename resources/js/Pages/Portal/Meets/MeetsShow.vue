@@ -97,7 +97,7 @@
                         {{ __('Relay entries') }}: {{ relay_entries_count }} db
                     </div>
                     <div>
-                        {{ __('Altogether') }}: {{ price }} Ft
+                        {{ __('Individual entries altogether') }}: {{ price }} Ft
                     </div>
                 </div>
 

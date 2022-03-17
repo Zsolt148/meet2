@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\UsersRequest;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\TeamLeaderApprovedNotification;
 use Inertia\Inertia;
 use App\Models\Role;
 
@@ -72,6 +73,8 @@ class UsersController extends BaseAdminController
      */
     public function update(UsersRequest $request, User $user)
     {
+    	$oldUserHasRole = $user->hasRole('senior_team_leader');
+
         $user->fill($request->only(
             'name',
             'email',
@@ -85,6 +88,10 @@ class UsersController extends BaseAdminController
         })->pluck('name');
 
         $user->syncRoles($roles);
+
+        if(!$oldUserHasRole && $user->hasRole('senior_team_leader')) {
+        	$user->notify(new TeamLeaderApprovedNotification());
+		}
 
         return redirect()->route('admin:users.index')->with('success', 'Felhasználó sikeresen frissítve');
     }
