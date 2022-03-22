@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Http\Controllers\Admin\TeamController;
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 
 class TeamSeeder extends Seeder
@@ -15,5 +16,17 @@ class TeamSeeder extends Seeder
     public function run()
     {
         (new TeamController())->sync();
+
+        Team::updateOrCreate(
+        	[
+				'type' => 'individual',
+			], [
+//        		'name' => 'Egyéni induló',
+        		'name' => 'Individual competitor',
+				'short' => 'Egyéni induló',
+				'meet_abbr' => 'EGYEN',
+				'country' => 'HU',
+			]
+		);
     }
 }

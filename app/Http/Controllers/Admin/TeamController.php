@@ -80,20 +80,31 @@ class TeamController extends BaseAdminController
 
         $teams = $response->json();
 
-        foreach($teams as $team) {
-            Team::updateOrCreate(
-                [
-                    'SA' => $team['SA'],
-                ], [
-                    'name' => $team['name'],
-                    'type' => Team::TYPE_SENIOR,
-                    'short' => $team['short'] ?? null,
-                    'meet_abbr' => $team['meet_abbr'] ?? null,
-                    'country' => $team['country'] ?? 'HU',
-                    'address' => $team['address'],
-					'deleted_at' => $team['deleted_at'],
-                ]
-            );
+        foreach($teams as $data) {
+
+        	if(!$data['SA']) {
+        		continue;
+			}
+
+        	/** @var Team $team */
+			$team = Team::query()
+				->withTrashed()
+				->where('SA', $data['SA'])
+				->first();
+
+			if(!$team) {
+				$team = new Team(['SA' => $data['SA']]);
+			}
+
+        	$team->name = $data['name'];
+        	$team->type = Team::TYPE_SENIOR;
+        	$team->short = $data['short'];
+        	$team->meet_abbr = $data['meet_abbr'];
+        	$team->country = $data['country'] ?? 'HU';
+        	$team->address = $data['address'];
+        	$team->deleted_at = $data['deleted_at'];
+
+        	$team->save();
         }
 
         return back()->with('success', 'Sikeres szinkronizálás');

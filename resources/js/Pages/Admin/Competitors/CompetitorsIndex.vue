@@ -78,7 +78,7 @@
                     </td>
                     <td class="td-class">
                         <span class="td-content" tabindex="-1">
-                            {{ competitor.team ? competitor.team.name : '-' }}
+                            {{ competitor.team ? __(competitor.team.name) : '-' }}
                         </span>
                     </td>
                     <td class="td-class">

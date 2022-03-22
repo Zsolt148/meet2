@@ -59,6 +59,7 @@ class Team extends Model
 		'short',
 		'meet_abbr',
         'address',
+		'deleted_at',
     ];
 
     protected static $logOnlyDirty = true;
@@ -66,10 +67,12 @@ class Team extends Model
 
     const TYPE_SENIOR = 'senior';
     const TYPE_OTHER = 'other';
+    const TYPE_INDIVIDUAL = 'individual';
 
     CONST TYPES = [
         self::TYPE_SENIOR,
         self::TYPE_OTHER,
+		self::TYPE_INDIVIDUAL
     ];
 
     /**
@@ -79,6 +82,11 @@ class Team extends Model
     {
         return $this->hasMany(Competitor::class, 'team_id')->orderBy('name');
     }
+
+    public static function individual()
+	{
+		return Team::firstWhere('type', self::TYPE_INDIVIDUAL);
+	}
 
     /**
      * @param $query
@@ -96,5 +104,14 @@ class Team extends Model
     public function scopeOther($query)
     {
         return $query->orWhere('type', self::TYPE_OTHER);
+    }
+
+	/**
+	 * @param $query
+	 * @return mixed
+	 */
+	public function scopeIndividual($query)
+	{
+		return $query->orWhere('type', self::TYPE_INDIVIDUAL);
     }
 }

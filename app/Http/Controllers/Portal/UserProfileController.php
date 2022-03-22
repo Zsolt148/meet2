@@ -20,9 +20,13 @@ class UserProfileController extends Controller
      * @return \Inertia\Response
      */
     public function show(Request $request) {
+
+    	$teams = Team::query()->senior()->other()->orderBy('name')->get();
+		$teams->push(Team::individual());
+
         return Jetstream::inertia()->render($request, 'Profile/Show', [
             'sessions' => $this->sessions($request)->all(),
-            'teams' => Team::query()->senior()->other()->orderBy('name')->get(),
+            'teams' => $teams,
         ]);
     }
 

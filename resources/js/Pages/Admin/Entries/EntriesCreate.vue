@@ -37,7 +37,7 @@
                                         :class="form.errors.team_id ? 'input-error' : ''">
                                     <option value="" selected>{{__('Empty')}}</option>
                                     <option v-for="team in teams" :key="team.id" :value="team.id">
-                                        {{team.name}}
+                                        {{ __(team.name) }}
                                     </option>
                                 </select>
                                 <jet-input-error :message="form.errors.team_id" class="mt-2"/>

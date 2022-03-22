@@ -23,7 +23,7 @@
 
                         <div class="w-full mb-4">
                             <jet-label for="user_id" value="Egyesület"/>
-                            {{ competitor.team.name }}
+                            {{ __(competitor.team.name) }}
                         </div>
 
                         <div class="w-full">

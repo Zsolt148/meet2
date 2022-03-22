@@ -22,7 +22,7 @@
             >
                 <select name="team" id="team" v-model="selectedTeam" @change="updateTeam(selectedTeam)" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
                     <option value="">-</option>
-                    <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
+                    <option v-for="team in teams" :key="team.id" :value="team.id">{{__(team.name)}}</option>
                 </select>
             </base-search>
 
@@ -33,7 +33,7 @@
                     </div>
                     <ol class="list-decimal list-inside ml-5">
                         <li v-for="entry in entries[event.id]" :key="entry.id" class="text-black dark:text-white">
-                            {{ entry.competitor.name }} - {{ entry.competitor.birth }} ({{ entry.competitor.team.name }})
+                            {{ entry.competitor.name }} - {{ entry.competitor.birth }} ({{ __(entry.competitor.team.name) }})
                         </li>
                     </ol>
                 </div>

@@ -59,7 +59,7 @@
                 <tr v-for="team in teams.data" :key="team.id" class="tr-class">
                     <td class="td-class">
                         <Link class="td-content" :href="route('admin:teams.edit', team.id)">
-                            {{ team.name }}
+                            {{ __(team.name) }}
                         </Link>
                     </td>
                     <td class="td-class">

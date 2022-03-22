@@ -39,8 +39,11 @@ class RegisterController extends Controller
      */
     public function create(Request $request)
     {
-        return Inertia::render('Auth/Register', [
-            'teams' => Team::query()->senior()->orderBy('name')->get(),
+    	$teams = Team::query()->senior()->orderBy('name')->get();
+    	$teams->push(Team::individual());
+
+    	return Inertia::render('Auth/Register', [
+            'teams' => $teams,
         ]);
     }
 

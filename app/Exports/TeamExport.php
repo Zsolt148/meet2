@@ -143,7 +143,7 @@ class TeamExport implements FromQuery, Responsable, WithCustomCsvSettings, WithH
     {
         return [
             $this->getTeamIndex($this->teamIds, $team->id), // Team_no
-            substr($team->name, 0, 30), // Team_name - max 30
+            trans(substr($team->name, 0, 30)), // Team_name - max 30
             substr($team->short, 0, 16), // 'Team_short',
 			$team->meet_abbr, // 'Team_abbr',
             '', // 'Team_stat',

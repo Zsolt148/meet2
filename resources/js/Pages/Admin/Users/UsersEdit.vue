@@ -27,7 +27,7 @@
                             <jet-label for="team_id" value="Egyesület"/>
                             <select name="team_id" id="team_id" v-model="form.team_id">
                                 <option value="null">{{ __('Empty') }}</option>
-                                <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
+                                <option v-for="team in teams" :key="team.id" :value="team.id">{{__(team.name)}}</option>
                             </select>
                             <jet-input-error :message="form.errors.team_id" class="mt-2" />
                         </div>
