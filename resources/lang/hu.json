@@ -130,6 +130,9 @@
   "breaststroke" : "mellúszás",
   "butterfly" : "pillangóúszás",
   "medley" : "vegyesúszás",
+  "Min" : "Perc",
+  "Second": "Másodp.",
+  "Millisecond": "Tized.",
 
   "Choosing a team is required to submit an entry": "Egyesület választása nevezés leadásához kötelező",
   "Entriable Meets" : "Nevezhető versenyek",
