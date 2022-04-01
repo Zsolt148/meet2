@@ -28,6 +28,12 @@
                     </div>
 
                     <div>
+                        <jet-button size="sm" variant="warning" :href="route('admin:entries.meet.teams.index', meet)">
+                            Egyesületek
+                        </jet-button>
+                    </div>
+
+                    <div>
                         <jet-button size="sm" variant="info" :href="route('admin:entries.exports.index', meet)">
                             Exportok
                         </jet-button>
@@ -57,7 +63,10 @@
                 Váltó nevezések: {{ relay_entries_count }} db
             </div>
             <div>
-                Összesen: {{ individual_entries_count + relay_entries_count }} db
+                Összes nevezés: {{ individual_entries_count + relay_entries_count }} db
+            </div>
+            <div>
+                Összesen: {{ individual_entries_count * meet.entry_price }} Ft
             </div>
         </div>
 
@@ -70,6 +79,12 @@
                         <span class="th-content" @click="updateSort('name')">
                             {{ __('Competitor') }}
                             <table-chevron :params="params" value="name"/>
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content" @click="updateSort('team')">
+                            {{ __('Team') }}
+                            <table-chevron :params="params" value="team"/>
                         </span>
                     </th>
                     <th class="th-class">
@@ -95,6 +110,11 @@
                         <td class="td-class">
                             <Link class="td-content" :href="entryRoute(competitor)">
                                 {{competitor.name}}
+                            </Link>
+                        </td>
+                        <td class="td-class">
+                            <Link class="td-content" :href="entryRoute(competitor)">
+                                {{ competitor.team.name }}
                             </Link>
                         </td>
                         <td class="td-class">

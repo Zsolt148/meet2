@@ -25,12 +25,11 @@ class EntryTeamController extends Controller
 
 		$query = Team::query()
 			->whereHas('entries')
-			->withCount('entries');
+			->with('entries.meetEvent');
 
 		$query->when(
 			$search = $request->get('search'),
 			fn(Builder $query) => $query
-				// search competitor's name
 				->where('name', 'like', '%' . $search . '%')
 		);
 

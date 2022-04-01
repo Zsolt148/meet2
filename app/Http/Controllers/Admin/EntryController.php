@@ -66,6 +66,7 @@ class EntryController extends BaseAdminController
 
 		$competitors = $query->get()->map(function (Competitor $competitor) use ($meet) {
 
+			// TODO do the same in EntryTeamController.php
 			$competitor->price = $competitor
 					->entries()
 					->whereMeetId($meet->id)

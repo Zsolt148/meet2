@@ -45,13 +45,17 @@
                     </th>
                     <th class="th-class">
                         <span class="th-content cursor-default">
-                            {{ __('Entries') }}
+                            Egyéni nevezések
                         </span>
                     </th>
                     <th class="th-class">
                         <span class="th-content cursor-default">
-                            {{ __('Individual entries fee') }}
-                            <table-chevron :params="params" value="time"/>
+                            Egyéni nevezések díja
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content cursor-default">
+                            Váltó nevezések
                         </span>
                     </th>
                 </template>
@@ -64,12 +68,17 @@
                         </td>
                         <td class="td-class">
                             <span class="td-content">
-                                {{ team.entries_count }} db
+                                {{ individualEntries(team.entries) }} db
                             </span>
                         </td>
                         <td class="td-class">
                             <span class="td-content">
-                                {{ team.entries_count * meet.entry_price }} Ft
+                                {{ individualEntries(team.entries) * meet.entry_price }} Ft
+                            </span>
+                        </td>
+                        <td class="td-class">
+                            <span class="td-content">
+                                {{ teamEntries(team.entries) }} db
                             </span>
                         </td>
                     </tr>
@@ -127,10 +136,20 @@ export default {
 
         getWatch(params, route('admin:entries.meet.teams.index', props.meet.id));
 
+        function individualEntries(entries) {
+            return entries.filter(x => x.meet_event.event.is_relay == 0).length
+        }
+
+        function teamEntries(entries) {
+            return entries.filter(x => x.meet_event.event.is_relay == 1).length
+        }
+
         return {
             params,
             updateSearch,
             updateSort,
+            individualEntries,
+            teamEntries,
         }
     },
 };
