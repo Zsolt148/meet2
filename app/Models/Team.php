@@ -83,6 +83,14 @@ class Team extends Model
         return $this->hasMany(Competitor::class, 'team_id')->orderBy('name');
     }
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+	 */
+	public function entries()
+	{
+		return $this->hasManyThrough(Entry::class, Competitor::class);
+    }
+
     public static function individual()
 	{
 		return Team::firstWhere('type', self::TYPE_INDIVIDUAL);

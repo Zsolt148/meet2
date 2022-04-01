@@ -28,7 +28,7 @@ class EntryController extends BaseAdminController
     {
         $request->validate([
             'direction' => ['in:asc,desc'],
-            'field' => ['in:name,event,is_final,time,user_id,created_at'],
+            'field' => ['in:name,team,is_final,created_at'],
         ]);
 
 		$query = Competitor::query()
@@ -37,13 +37,17 @@ class EntryController extends BaseAdminController
 			}])
 			->whereHas('entries', function ($q) use (&$meet) {
 				$q->where('meet_id', $meet->id);
-			});
+			})
+			->with('team');
 
         $query->when(
             $search = $request->get('search'),
             fn(Builder $query) => $query
                 // search competitor's name
 				->where('name', 'like', '%' . $search . '%')
+//				->orWhereHas('team', function ($q) use (&$search) {
+//					$q->where('name', 'like', '%' . $search . '%');
+//				})
         );
 
         if($request->has(['field', 'direction'])) {
@@ -52,6 +56,9 @@ class EntryController extends BaseAdminController
 				case 'name':
 					$query->orderBy('name', $direction);
                     break;
+				case 'team':
+					$query->orderBy('team_id', $direction);
+					break;
             }
         }else {
 			$query->orderBy('name');

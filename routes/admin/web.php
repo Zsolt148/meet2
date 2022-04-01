@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CompetitorController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\EntryController;
 use App\Http\Controllers\Admin\EntryExportController;
+use App\Http\Controllers\Admin\EntryTeamController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\MeetController;
 use App\Http\Controllers\Admin\MeetEntryController;
@@ -52,6 +53,9 @@ Route::prefix('admin')
             Route::put('/meet/{meet}/entry/competitor/{competitor}/finalize', [EntryController::class, 'finalize'])->name('finalize');
             Route::delete('meet/{meet}/entries/{entryId}/delete', [EntryController::class, 'destroy'])->name('delete');
             Route::delete('meet/{meet}/entries/competitor/{competitor}/delete/all', [EntryController::class, 'destroyAll'])->name('delete-all');
+
+            // By teams
+			Route::get('meet/{meet}/entries/team', [EntryTeamController::class, 'index'])->name('meet.teams.index');
 
             // Events
             Route::get('meet/{meet}/events', [MeetEventController::class, 'index'])->name('meet.event.index');
