@@ -38,9 +38,13 @@
             <base-table>
                 <template #head>
                     <th class="th-class">
-                        <span class="th-content" @click="updateSort('name')">
+                        <span class="th-content cursor-default">
                             {{ __('Team') }}
-                            <table-chevron :params="params" value="name"/>
+                        </span>
+                    </th>
+                    <th class="th-class">
+                        <span class="th-content cursor-default">
+                            Versenyzők száma
                         </span>
                     </th>
                     <th class="th-class">
@@ -60,25 +64,30 @@
                     </th>
                 </template>
                 <template #body>
-                    <tr v-for="team in teams" :key="team.id" class="tr-class">
+                    <tr v-for="(data, name) in teams" :key="name" class="tr-class">
                         <td class="td-class">
                             <span class="td-content">
-                                {{team.name}}
+                                {{name}}
                             </span>
                         </td>
                         <td class="td-class">
                             <span class="td-content">
-                                {{ individualEntries(team.entries) }} db
+                                {{ data.competitors_count }} db
                             </span>
                         </td>
                         <td class="td-class">
                             <span class="td-content">
-                                {{ individualEntries(team.entries) * meet.entry_price }} Ft
+                                {{ data.individual_entries_count }} db
                             </span>
                         </td>
                         <td class="td-class">
                             <span class="td-content">
-                                {{ teamEntries(team.entries) }} db
+                                {{ data.individual_entries_price }} Ft
+                            </span>
+                        </td>
+                        <td class="td-class">
+                            <span class="td-content">
+                                {{ data.team_entries_count }} db
                             </span>
                         </td>
                     </tr>
@@ -129,27 +138,11 @@ export default {
             params.search.value = value;
         }
 
-        function updateSort(field) {
-            params.field.value = field;
-            params.direction.value = params.direction.value === 'asc' ? 'desc' : 'asc';
-        }
-
         getWatch(params, route('admin:entries.meet.teams.index', props.meet.id));
-
-        function individualEntries(entries) {
-            return entries.filter(x => x.meet_event.event.is_relay == 0).length
-        }
-
-        function teamEntries(entries) {
-            return entries.filter(x => x.meet_event.event.is_relay == 1).length
-        }
 
         return {
             params,
             updateSearch,
-            updateSort,
-            individualEntries,
-            teamEntries,
         }
     },
 };

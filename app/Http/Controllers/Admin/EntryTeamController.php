@@ -18,30 +18,30 @@ class EntryTeamController extends Controller
 	 */
 	public function index(Request $request, Meet $meet)
 	{
-		$request->validate([
-			'direction' => ['in:asc,desc'],
-			'field' => ['in:name,team,is_final,created_at'],
-		]);
+		$collection = $meet
+			->entries()
+			->get()
+			->groupBy('competitor.team.name');
 
-		$query = Team::query()
-			->whereHas('entries')
-			->with('entries.meetEvent');
+		$collection = $collection
+			->transform(function ($data, $key) use (&$meet) {
 
-		$query->when(
-			$search = $request->get('search'),
-			fn(Builder $query) => $query
-				->where('name', 'like', '%' . $search . '%')
-		);
+				$array['name'] = $key;
+				$count = $data->where('meetEvent.event.is_relay', 0)->count();
+				$array['individual_entries_count'] = $count;
+				$array['individual_entries_price'] = $count * $meet->entry_price;
+				$array['team_entries_count'] = $data->where('meetEvent.event.is_relay', 1)->count();
+				$array['competitors_count'] = $data->pluck('competitor_id')->unique()->count();
 
-		if($request->has(['field', 'direction'])) {
-			$direction = $request->get('direction');
-			switch($request->get('field')) {
-				case 'name':
-					$query->orderBy('name', $direction);
-					break;
-			}
-		}else {
-			$query->orderBy('name');
+				return $array;
+			})
+			->sortBy('name');
+
+
+		if($search = $request->get('search')) {
+			$collection = $collection->filter(function ($data) use ($search) {
+				return false !== stripos($data['name'], $search);
+			});
 		}
 
 		$individual_entries_count = $meet
@@ -56,8 +56,8 @@ class EntryTeamController extends Controller
 
 		return Inertia::render('Admin/Entries/Teams/TeamsIndex', [
 			'meet' => $meet,
-			'filters' => request()->all(['search', 'field', 'direction', 'year']),
-			'teams' => $query->get(),
+			'filters' => request()->all(['search']),
+			'teams' => $collection,
 			'individual_entries_count' => $individual_entries_count,
 			'relay_entries_count' => $relay_entries_count,
 		]);

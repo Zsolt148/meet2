@@ -35,6 +35,15 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(CheckMeetDeadlines::class)
             ->daily();
+
+		//backups
+		$schedule->command('backup:clean')
+			->daily()
+			->at('01:00');
+
+		$schedule->command('backup:run --only-db')
+			->daily()
+			->at('02:00');
     }
 
     /**
