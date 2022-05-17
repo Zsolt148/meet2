@@ -37,7 +37,8 @@
                             <div class="w-full sm:w-1/2">
                                 <jet-label for="date" value="Dátum" />
                                 <Datepicker class="mt-1" :dark="isDark"
-                                            locale="hu" format="yyyy.MM.dd"
+                                            locale="hu"
+                                            format="yyyy.MM.dd"
                                             selectText="Mentés" cancelText="Mégse"
                                             id="date" name="date"
                                             v-model="form.date"
@@ -157,8 +158,8 @@ import JetLabel from "@/Jetstream/Label";
 import BreadCrumb from "@/Shared/BreadCrumb";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import Editor from '@tinymce/tinymce-vue';
-import Datepicker from 'vue3-date-time-picker';
-import 'vue3-date-time-picker/dist/main.css';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import { isDark } from '@/Composables'
 
 // Filepond

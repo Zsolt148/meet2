@@ -343,8 +343,8 @@ import JetDialogModal from "@/Jetstream/DialogModal";
 import BreadCrumb from "@/Shared/BreadCrumb";
 import JetCheckbox from "@/Jetstream/Checkbox";
 import Editor from '@tinymce/tinymce-vue';
-import Datepicker from 'vue3-date-time-picker';
-import 'vue3-date-time-picker/dist/main.css';
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import { isDark } from '@/Composables'
 import { EyeIcon } from '@heroicons/vue/outline'
 
