@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\MeetManager;
 
 use App\Models\Team;
-use App\Models\Entry;
 use App\Traits\EntryTrait;
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;

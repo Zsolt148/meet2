@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\MeetManager;
 
-use App\Models\Competitor;
 use App\Models\Entry;
 use App\Traits\EntryTrait;
-use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;

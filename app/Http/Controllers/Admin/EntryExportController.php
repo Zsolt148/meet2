@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\CompetitorExport;
-use App\Exports\EntryExport;
-use App\Exports\TeamExport;
+use App\Exports\MeetManager\CompetitorExport;
+use App\Exports\MeetManager\EntryExport;
+use App\Exports\MeetManager\TeamExport;
+use App\Exports\Uszas\EntryExport as UszasEntryExport;
+use App\Exports\Uszas\TeamExport as UszasTeamExport;
 use App\Models\Meet;
 use Inertia\Inertia;
 
@@ -29,7 +31,13 @@ class EntryExportController extends BaseAdminController
      */
     public function competitors(Meet $meet)
     {
-        return new CompetitorExport($meet->id);
+		switch($meet->entry_app) {
+			case Meet::ENTRY_APP_MEET_MANAGER_CSV:
+				return new CompetitorExport($meet->id);
+
+			default:
+				return back();
+		}
     }
 
     /**
@@ -38,7 +46,16 @@ class EntryExportController extends BaseAdminController
      */
     public function teams(Meet $meet)
     {
-        return new TeamExport($meet->id);
+		switch($meet->entry_app) {
+			case Meet::ENTRY_APP_MEET_MANAGER_CSV:
+				return new TeamExport($meet->id);
+
+			case Meet::ENTRY_APP_SWIMMING_CSV:
+				return new UszasTeamExport($meet->id);
+
+			default:
+				return back();
+		}
     }
 
     /**
@@ -47,6 +64,15 @@ class EntryExportController extends BaseAdminController
      */
     public function entries(Meet $meet)
     {
-        return new EntryExport($meet->id);
+		switch($meet->entry_app) {
+			case Meet::ENTRY_APP_MEET_MANAGER_CSV:
+				return new EntryExport($meet->id);
+
+			case Meet::ENTRY_APP_SWIMMING_CSV:
+				return new UszasEntryExport($meet->id);
+
+			default:
+				return back();
+		}
     }
 }

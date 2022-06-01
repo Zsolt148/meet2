@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\MeetManager;
 
 use App\Models\Competitor;
-use App\Models\Entry;
 use App\Traits\EntryTrait;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
@@ -14,7 +13,6 @@ use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Excel;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 
 class CompetitorExport extends StringValueBinder implements FromQuery, Responsable, WithCustomCsvSettings, WithHeadings, WithMapping, WithCustomValueBinder

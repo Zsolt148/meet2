@@ -123,17 +123,19 @@ class Meet extends Model implements HasMedia
     ];
 
     const ENTRY_TYPE_SENIOR = 'senior';
+    const ENTRY_TYPE_SWIMMING = 'uszas';
 
     const ENTRY_TYPES = [
         self::ENTRY_TYPE_SENIOR,
+		self::ENTRY_TYPE_SWIMMING,
     ];
 
     const ENTRY_APP_MEET_MANAGER_CSV = 'meetmanager-csv';
-    const ENTRY_APP_SWIMMING = 'uszas';
+    const ENTRY_APP_SWIMMING_CSV = 'uszas-csv';
 
     const ENTRY_APPS = [
         self::ENTRY_APP_MEET_MANAGER_CSV,
-        //self::ENTRY_APP_SWIMMING,
+        self::ENTRY_APP_SWIMMING_CSV,
     ];
 
     /**

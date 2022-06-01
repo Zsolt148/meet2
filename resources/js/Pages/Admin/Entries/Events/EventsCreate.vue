@@ -22,7 +22,7 @@
             </div>
             <div>
                 <span class="font-bold">Figyelem!</span>
-                Ezt a listát egyszer lehet létrehozni, szerkesztésre nincs mód, csupán teljes törlésre amely a nevezések törlésével is járhat!
+                Ezt a listát egyszer lehet létrehozni, szerkesztésre nincs mód, csupán teljes törlésre amely a leadott nevezések törlésével is járhat!
             </div>
         </div>
         <div v-else class="flex flex-row items-center bg-red-100 rounded-lg p-3 text-sm text-red-700 mb-5" role="alert">
