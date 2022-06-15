@@ -240,11 +240,47 @@ export default {
                 this.form.entries[index]['time']['min'] = '00'
                 this.form.entries[index]['time']['sec'] = '00'
                 this.form.entries[index]['time']['milli'] = '00'
+
             }else {
-                this.form.entries[index]['time']['min'] = null
-                this.form.entries[index]['time']['sec'] =  null
-                this.form.entries[index]['time']['milli'] = null
+
+                // if the selected competitor is a new (other) then it is null
+                // else takes the id
+                let competitorId = this.selected_competitor == 'other' ? null : this.selected_competitor.id
+
+                if (competitorId) {
+
+                    axios
+                        .get(route('api:meet.entry.time', {
+                            meetId: this.meet.id,
+                            competitorId: competitorId,
+                            meetEventId: meet_event_id,
+                        }))
+                        .then(resp => {
+                            var data = resp.data
+                            var time = data.time
+                            console.log(data)
+
+                            if(time && time.min && time.sec && time.milli) {
+                                this.form.entries[index]['time']['min'] = time.min
+                                this.form.entries[index]['time']['sec'] =  time.sec
+                                this.form.entries[index]['time']['milli'] = time.milli
+                            }else {
+                                this.nullEntryTimes(index)
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error)
+                        })
+
+                }else {
+                    this.nullEntryTimes(index)
+                }
             }
+        },
+        nullEntryTimes(index) {
+            this.form.entries[index]['time']['min'] = null
+            this.form.entries[index]['time']['sec'] =  null
+            this.form.entries[index]['time']['milli'] = null
         },
         addNewEntry() {
             this.form.entries.push({

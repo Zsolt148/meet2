@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/meet/contents/{meetId}/{method?}/{param?}', MeetController::class)->name('meet.contents');
 
+Route::get('/meet/{meetId}/competitor/{competitorId}/entry/time/{meetEventId}', \App\Http\Controllers\Api\EntryTimeController::class)->name('meet.entry.time');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 })->name('user');

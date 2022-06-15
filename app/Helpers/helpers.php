@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Event;
 use App\Models\Meet;
 use App\Models\MeetEvent;
 use Illuminate\Support\Carbon;
@@ -51,4 +52,30 @@ function meetDate(array $dates) {
  */
 function meetEvent(MeetEvent $meetEvent) {
     return $meetEvent->event->length . 'm ' . __($meetEvent->event->sex) . ' ' . __($meetEvent->event->swim) . ' ' . $meetEvent->category;
+}
+
+/**
+ * @param Event $event
+ * @return string
+ */
+function eventShortener(Event $event) {
+	$sex = $event->sex == 'male' ? 'f' : 'n';
+	switch($event->swim) {
+		case 'butterfly':
+			$swim = 'p';
+			break;
+		case 'backstroke':
+			$swim = 'h';
+			break;
+		case 'freestyle':
+			$swim = 'g';
+			break;
+		case 'breaststroke':
+			$swim = 'm';
+			break;
+		case 'medley':
+			$swim = 'v';
+	}
+
+	return $event->length . $sex . $swim;
 }

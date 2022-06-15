@@ -64,4 +64,12 @@ class Event extends Model
 	{
 		return $this->is_relay;
     }
+
+	/**
+	 * @return string
+	 */
+	public function getNameAttribute()
+	{
+		return "{$this->length}m " . __($this->sex) . " " . __($this->swim);
+	}
 }
