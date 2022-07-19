@@ -214,5 +214,6 @@ return [
         'competitor_sex' => 'Versenyző neme',
         'meet_event_id' => 'Versenyszám',
         'time'          => 'Nevezési idő',
+		'other_team' => 'Egyéb egyesület neve'
     ],
 ];

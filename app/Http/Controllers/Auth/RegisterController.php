@@ -56,6 +56,10 @@ class RegisterController extends Controller
      */
     public function store(Request $request, CreatesNewUsers $creator): RegisterResponse
     {
+		$request->validate([
+			'other_team' => ['required', 'unique:teams,name'],
+		]);
+
         event(new Registered($user = $creator->create($request->all())));
 
         $this->guard->login($user);

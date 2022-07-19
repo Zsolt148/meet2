@@ -178,6 +178,7 @@ return [
 		'competitor_name' => 'Competitor\'s name',
 		'competitor_birth' => 'Competitor\'s birth year',
 		'competitor_sex' => 'Competitor\'s gender',
+		'other_team' => 'Other team name',
     ],
 
 ];
