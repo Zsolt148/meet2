@@ -1,18 +1,20 @@
 <template>
     <div class="mb-6 flex w-full justify-between items-center">
-        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2"
-               autocomplete="off" type="text" name="search" :placeholder="__('Search')"
+        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2" :class="inputClass"
+               autocomplete="off" type="text" name="search" :placeholder="__(searchPlaceholder)"
                @input="search"
                v-model="searchTerm"
                />
-        <select v-show="selectValues" name="year" id="year" v-model="selectValue" @change="select" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
+        <select v-show="selectValues" name="year" id="year" v-model="selectValue" @change="select" class="block rounded-md border-gray-300 dark:border-gray-600 py-1 w-1/5 focus:outline-none mr-2">
             <option value="">-</option>
             <option v-for="value in selectValues" :key="value" :value="value">{{value}}</option>
         </select>
         <slot></slot>
-        <jet-button variant="secondary" type="button" size="sm" @click="reset" class="mt-1">
-            {{ __('Delete') }}
-        </jet-button>
+        <div :class="inputClass ?? 'mt-1'">
+            <jet-button variant="secondary" type="button" size="sm" @click="reset">
+                {{ __('Delete') }}
+            </jet-button>
+        </div>
     </div>
 </template>
 
@@ -28,6 +30,10 @@ export default {
         searchTerm: {
             default: null
         },
+        searchPlaceholder: {
+            type: String,
+            default: 'Search',
+        },
         selectValue: {
             type: String,
             default: null
@@ -35,7 +41,11 @@ export default {
         selectValues: {
             type: Array,
             default: null
-        }
+        },
+        inputClass: {
+            type: String,
+            default: null
+        },
     },
     emits: ['search', 'select'],
     setup(props, { emit }) {

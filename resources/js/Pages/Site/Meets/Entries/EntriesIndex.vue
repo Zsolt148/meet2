@@ -18,12 +18,15 @@
 
         <div class="max-w-7xl mx-auto py-8 px-0 xl:px-2">
 
-            <base-search @search="updateSearch" :search-term="params.search"
+            <base-search @search="updateSearch" :search-term="params.search" search-placeholder="Search in competitors" input-class="mt-6"
             >
-                <select name="team" id="team" v-model="selectedTeam" @change="updateTeam(selectedTeam)" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
-                    <option value="">-</option>
-                    <option v-for="team in teams" :key="team.id" :value="team.id">{{__(team.name)}}</option>
-                </select>
+                <div class="flex flex-col w-1/5 mr-2">
+                    <jet-label :value="__('Team')" />
+                    <select name="team" id="team" v-model="selectedTeam" @change="updateTeam(selectedTeam)" class="block rounded-md border-gray-300 py-1 w-full focus:outline-none">
+                        <option value="">-</option>
+                        <option v-for="team in teams" :key="team.id" :value="team.id">{{__(team.name)}}</option>
+                    </select>
+                </div>
             </base-search>
 
             <div class="bg-white dark:bg-gray-600 shadow p-5 rounded-md mt-5">
@@ -53,12 +56,14 @@ import {ref} from 'vue'
 import ScrollTop from "@/Shared/ScrollTop"
 import {getParams, getWatch} from "@/Use/useQuery";
 import BaseSearch from "@/Pages/Portal/Components/BaseSearch";
+import JetLabel from "@/Jetstream/Label";
 
 export default {
     components: {
         AppLayout,
         ScrollTop,
         BaseSearch,
+        JetLabel,
     },
     props: ['meet', 'teams', 'filters', 'entries', 'events'],
     setup(props) {
