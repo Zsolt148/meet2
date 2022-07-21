@@ -1,11 +1,11 @@
 <template>
     <div class="mb-6 flex w-full justify-between items-center">
-        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 dark:border-gray-600 mr-2" :class="inputClass"
+        <input class="relative w-full px-4 py-1 rounded-md border-gray-300 mr-2" :class="inputClass"
                autocomplete="off" type="text" name="search" :placeholder="__(searchPlaceholder)"
                @input="search"
                v-model="searchTerm"
                />
-        <select v-show="selectValues" name="year" id="year" v-model="selectValue" @change="select" class="block rounded-md border-gray-300 dark:border-gray-600 py-1 w-1/5 focus:outline-none mr-2">
+        <select v-show="selectValues" name="year" id="year" v-model="selectValue" @change="select" class="block rounded-md border-gray-300 py-1 w-1/5 focus:outline-none mr-2">
             <option value="">-</option>
             <option v-for="value in selectValues" :key="value" :value="value">{{value}}</option>
         </select>
@@ -47,7 +47,7 @@ export default {
             default: null
         },
     },
-    emits: ['search', 'select'],
+    emits: ['search', 'select', 'reset'],
     setup(props, { emit }) {
 
         const searchTerm = ref(props.searchTerm);
@@ -62,6 +62,7 @@ export default {
         }
 
         function reset() {
+            emit('reset');
             searchTerm.value = '';
             selectValue.value = null;
         }

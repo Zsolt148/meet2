@@ -33,9 +33,7 @@ class MeetEntryController extends Controller
 
 		$query = $meet
 			->entries()
-			->whereHas('competitor', function ($query) {
-				$query->orderBy('name');
-		});
+			->with('competitor');
 
 		$teams = (clone $query)
 			->get()
@@ -52,6 +50,12 @@ class MeetEntryController extends Controller
 		);
 
 		$query->when(
+			$event = $request->get('event'),
+			fn(Builder $query) => $query
+				->where('meet_event_id', $event)
+		);
+
+		$query->when(
 			$team = $request->get('team'),
 			fn(Builder $query) => $query
 				->whereHas('user', function ($query) use ($team) {
@@ -59,14 +63,68 @@ class MeetEntryController extends Controller
 				})
 		);
 
-		$entries = $query->get()->groupBy('meet_event_id');
+		$entries = $query
+			->get()
+			->sortBy('competitor.name')
+			->groupBy('meet_event_id');
 
 		return Inertia::render('Site/Meets/Entries/EntriesIndex', [
-			'filters' => request()->all(['search', 'team', 'field', 'direction']),
+			'filters' => request()->all(['search', 'event', 'team', 'field', 'direction']),
 			'meet' => $meet,
+			'all_events' => $events,
 			'events' => $events->intersectByKeys($entries),
 			'entries' => $entries,
 			'teams' => $teams,
 		]);
     }
+
+	public function statistics(Request $request, Meet $meet)
+	{
+		$query = $meet
+			->entries()
+			->with('competitor');
+
+		$collection = (clone $query)
+			->get()
+			->groupBy('competitor.team.name');
+
+		$collection = $collection
+			->transform(function ($data, $key) use (&$meet) {
+
+				$array['name'] = $key;
+
+				$array['competitors_count'] = $data->pluck('competitor_id')->unique()->count();
+				$array['man_count'] = $data->where('competitor.sex', 'F')->unique('competitor_id')->count();
+				$array['woman_count'] = $data->where('competitor.sex', 'N')->unique('competitor_id')->count();
+
+				$array['individual_entries_count'] = $data->where('meetEvent.event.is_relay', 0)->count();
+				$array['relay_entries_count'] = $data->where('meetEvent.event.is_relay', 1)->count();
+
+				return $array;
+			})
+			->sortBy('name');
+
+		$competitors = (clone $query)
+			->get()
+			->groupBy('competitor.name')
+			->count();
+
+		$individual_entries_count = $meet
+			->entries()
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', false))
+			->count();
+
+		$relay_entries_count = $meet
+			->entries()
+			->whereHas('meetEvent.event', fn($query) => $query->where('is_relay', true))
+			->count();
+
+		return Inertia::render('Site/Meets/Entries/StatisticsIndex', [
+			'meet' => $meet,
+			'competitors_count' => $competitors,
+			'teams' => $collection,
+			'individual_entries_count' => $individual_entries_count,
+			'relay_entries_count' => $relay_entries_count,
+		]);
+	}
 }

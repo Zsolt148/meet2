@@ -7,27 +7,33 @@
 
         <template #header>
             <div class="pb-8 flex flex-wrap justify-between">
-                <div>
+                <div class="mb-2">
                     <Link class="text-teal-400" :href="route('meets.index')">{{__('Meets')}}</Link>
                     /
                     {{ meet.name }}
                 </div>
-                <div class="flex flex-wrap mt-4 md:mt-0">
-                    <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable" class="mr-2">
-                        <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
-<!--                        <span class="animate-ping block h-3 w-3 rounded-full opacity-75 ring-green-400 bg-green-600 mr-2"></span>-->
-                        <span>
+                <div class="flex flex-col md:flex-row space-x-0 space-y-2 md:space-x-2 md:space-y-0" v-show="isEntriable || hasEntries || isAdmin()">
+                    <div>
+                        <jet-button size="sm" :href="route('portal:meets.show', meet)" v-show="isEntriable">
+                            <StatusOnlineIcon class="w-5 h-5 mr-2 animate-pulse" />
+                            <!--                        <span class="animate-ping block h-3 w-3 rounded-full opacity-75 ring-green-400 bg-green-600 mr-2"></span>-->
+                            <span>
                              {{ __('Entry') }}
                         </span>
-                    </jet-button>
-                    <jet-button size="sm" :href="route('meets.entries.index', meet)" v-show="hasEntries">
-                        <ViewListIcon class="w-5 h-5 mr-2" />
-                        {{ __('Entries') }}
-                    </jet-button>
-                    <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="isAdmin()" class="ml-2">
-                        <CogIcon class="w-5 h-5 mr-2" />
-                        Szerkesztés
-                    </jet-button>
+                        </jet-button>
+                    </div>
+                    <div>
+                        <jet-button size="sm" :href="route('meets.entries.index', meet)" v-show="hasEntries">
+                            <ViewListIcon class="w-5 h-5 mr-2" />
+                            {{ __('Entries') }}
+                        </jet-button>
+                    </div>
+                    <div>
+                        <jet-button size="sm" :href="route('admin:meets.edit', meet)" v-show="isAdmin()">
+                            <CogIcon class="w-5 h-5 mr-2" />
+                            Szerkesztés
+                        </jet-button>
+                    </div>
                 </div>
             </div>
         </template>

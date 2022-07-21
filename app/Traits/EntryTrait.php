@@ -67,10 +67,16 @@ trait EntryTrait
 			})
 			->get();
 
-        $male = $male->merge($mix);
-		$female = $female->merge($mix);
-
-        return [$male, $female];
+        return [
+			$male
+				->merge($mix)
+				->sortBy('order')
+				->values(),
+			$female
+				->merge($mix)
+				->sortBy('order')
+				->values()
+		];
     }
 
     /**

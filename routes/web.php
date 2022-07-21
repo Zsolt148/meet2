@@ -10,6 +10,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('/meets/{meet:slug}', [MeetController::class, 'show'])->name('meets.show');
 Route::get('/meets/{meet:slug}/entries', [MeetEntryController::class, 'index'])->name('meets.entries.index');
+Route::get('/meets/{meet:slug}/entries/statistics', [MeetEntryController::class, 'statistics'])->name('meets.entries.statistics');
 Route::get('/meets', [MeetController::class, 'index'])->name('meets.index');
 
 Route::get('language/{language}', LocaleController::class)->name('language');

@@ -8,7 +8,7 @@
 
                 <bread-crumb :back-route="route('admin:entries.meet.index')" back-name="Nevezhető versenyek" :current="meet.name" />
 
-                <div class="flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 sm:space-y-0">
+                <div class="flex flex-col md:flex-row space-x-0 space-y-2 md:space-x-2 sm:space-y-0">
                     <div>
                         <jet-button size="sm" :href="route('admin:entries.create', meet)">
                             Új nevezés
