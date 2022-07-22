@@ -190,8 +190,16 @@ class EntryController extends BaseAdminController
             return redirect()->route('admin:entries.index', $meet);
         }
 
+		$teams = Team::query()
+			->senior()
+			->other()
+			->orderBy('name')
+			->get()
+			->push(Team::individual());
+
         return Inertia::render('Admin/Entries/EntriesEdit', [
             'meet' => $meet,
+			'teams' => $teams,
             'competitor' => $competitor->load('team'),
             'competitor_form' => $this->getCompetitorForm($competitor, $entries),
             'meet_events_by_gender' => $this->getMeetEventsByCompetitor($meet, $competitor)
@@ -211,6 +219,11 @@ class EntryController extends BaseAdminController
         $competitor_id = $request->input('competitor_id');
 
 		$this->validateDuplicateEvents($request);
+
+		$competitor->update([
+			'name' => $request->input('competitor_name'),
+			'team_id' => $request->input('team_id')
+		]);
 
 		foreach($request->input('entries') as $key => $data) {
 			// if entry already exists, update it

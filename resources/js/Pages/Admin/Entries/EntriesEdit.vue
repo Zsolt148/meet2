@@ -22,18 +22,27 @@
                     <div class="w-full flex flex-col">
 
                         <div class="w-full mb-4">
-                            <jet-label for="user_id" value="Egyesület"/>
-                            {{ __(competitor.team.name) }}
+                            <jet-label for="" value="Versenyző azon."/>
+                            #{{ __(competitor.id) }}
+                        </div>
+
+                        <div class="w-full mb-4">
+                            <label for="team_id" class="block font-medium text-sm text-gray-700 dark:text-gray-200">
+                                <span>Egyesület</span> - <Link class="text-teal-500 dark:text-teal-400" :href="route('admin:teams.edit', form.team_id)">szerkesztés</Link>
+                            </label>
+                            <select name="team_id" id="team_id" v-model="form.team_id">
+                                <option v-for="team in teams" :key="team.id" :value="team.id" :selected="form.team_id === team.id">{{ __(team.name) }}</option>
+                            </select>
+                            <jet-input-error :message="form.errors.team_id" class="mt-2" />
                         </div>
 
                         <div class="w-full">
-                            <jet-label for="competitor_id" :value="__('Competitor')"/>
-                            <jet-input id="competitor_id"
-                                       name="competitor_id"
+                            <jet-label for="competitor_name" :value="__('Competitor')"/>
+                            <jet-input id="competitor_name"
+                                       name="competitor_name"
                                        type="text"
-                                       aria-readonly="true" disabled="disabled"
-                                       :disabled="true"
-                                       :value="competitor.name"
+                                       required
+                                       v-model="form.competitor_name"
                             />
                         </div>
 
@@ -260,7 +269,7 @@ export default {
         PlusIcon,
         isDark,
     },
-    props: ['meet', 'competitor_form', 'meet_events_by_gender', 'competitor'],
+    props: ['meet', 'teams', 'competitor_form', 'meet_events_by_gender', 'competitor'],
 
     data() {
         return {
@@ -272,7 +281,9 @@ export default {
             form: this.$inertia.form({
                 method: '_POST',
                 team_id: this.competitor.team_id,
+                team: this.competitor.team,
                 competitor_id: this.competitor_form.competitor_id,
+                competitor_name: this.competitor.name,
                 is_final: this.competitor_form.is_final,
                 entries: this.competitor_form.entries,
             })

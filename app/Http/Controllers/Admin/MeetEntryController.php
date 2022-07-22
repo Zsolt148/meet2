@@ -26,18 +26,6 @@ class MeetEntryController extends BaseAdminController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Request $request
-     * @param  Meet $meet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, Meet $meet)
-    {
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  Meet $meet

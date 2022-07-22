@@ -93,15 +93,15 @@ trait EntryTrait
 
 
     /**
+	 * If the competitor already has the event
+	 * show validation error where the event is duplicated
+	 *
      * @param Request $request
      * @return bool
      * @throws ValidationException
      */
     protected function validateDuplicateEvents(Request $request)
     {
-        // if the competitor already has the event
-        // show validation error where the event is duplicated
-
         $array = array_column($request->input('entries'), 'meet_event_id');
 
         if(count(array_unique($array)) > count($array)) {

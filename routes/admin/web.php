@@ -40,7 +40,6 @@ Route::prefix('admin')
 
             // Meets
             Route::get('meet', [MeetEntryController::class, 'index'])->name('meet.index');
-            Route::get('meet/{meet}', [MeetEntryController::class, 'show'])->name('meet.show');
             Route::get('meet/{meet}/edit', [MeetEntryController::class, 'edit'])->name('meet.edit');
             Route::put('meet/{meet}/update', [MeetEntryController::class, 'update'])->name('meet.update');
 
