@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\MeetManager\CompetitorExport;
 use App\Exports\MeetManager\EntryExport;
 use App\Exports\MeetManager\TeamExport;
+use App\Exports\RegularExport;
 use App\Exports\Uszas\EntryExport as UszasEntryExport;
 use App\Exports\Uszas\TeamExport as UszasTeamExport;
 use App\Models\Meet;
@@ -24,6 +25,15 @@ class EntryExportController extends BaseAdminController
             'meet' => $meet,
         ]);
     }
+
+	/**
+	 * @param Meet $meet
+	 * @return RegularExport
+	 */
+	public function regular(Meet $meet)
+	{
+		return new RegularExport($meet->id);
+	}
 
     /**
      * @param Meet $meet

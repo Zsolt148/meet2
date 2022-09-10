@@ -65,6 +65,7 @@ Route::prefix('admin')
 
             // Exports
             Route::get('meet/{meet}/exports', [EntryExportController::class, 'index'])->name('exports.index');
+            Route::get('meet/{meet}/exports/regular/download', [EntryExportController::class, 'regular'])->name('exports.regular');
             Route::get('meet/{meet}/exports/competitors/download', [EntryExportController::class, 'competitors'])->name('exports.competitors');
             Route::get('meet/{meet}/exports/teams/download', [EntryExportController::class, 'teams'])->name('exports.teams');
             Route::get('meet/{meet}/exports/entries/download', [EntryExportController::class, 'entries'])->name('exports.entries');

@@ -12,10 +12,23 @@
 
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-x-auto">
             <div class="text-xl px-8 py-6">
-                Exportok letöltése ({{ meet.entry_app }})
-            </div><s></s>
+                Általános export
+            </div>
 
-            <div v-if="meet.entry_app == 'meetmanager-csv'" class="px-8 py-6 flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0">
+            <div class="px-8 flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0">
+                <div>
+                    <jet-button size="sm" external :href="route('admin:entries.exports.regular', meet)">
+                        <DownloadIcon class="w-5 h-5 mr-2" />
+                        nevezesek.csv
+                    </jet-button>
+                </div>
+            </div>
+
+            <div class="text-xl px-8 py-6">
+                {{ meet.entry_app }} exportok
+            </div>
+
+            <div v-if="meet.entry_app == 'meetmanager-csv'" class="px-8 flex flex-col md:flex-row space-x-0 space-y-4 md:space-x-4 md:space-y-0">
                 <div>
                     <jet-button size="sm" external :href="route('admin:entries.exports.competitors', meet)">
                         <DownloadIcon class="w-5 h-5 mr-2" />
