@@ -3,46 +3,48 @@
 
     <portal-layout>
         <template #header>
-            <bread-crumb :back-route="route('admin:teams.index')" back-name="Egyesületek" :current="form.name" />
+            <bread-crumb :back-route="route('admin:teams.index')" back-name="Egyesületek" current="Új egyesület" />
         </template>
         <div class="bg-white dark:bg-gray-700 rounded-md shadow overflow-hidden">
-            <form @submit.prevent="update">
+            <form @submit.prevent="store">
                 <div class="p-8">
-                    <div v-show="team.type == 'senior'" class="mb-5">
-                        Ez egy hivatalos szenior egyesület, módosítani az mszuosz.hu oldalon lehet.
-                    </div>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
 
+                    <small>
+                        Szenior típusú egyesületet a mszuosz.hu oldalon lehet létrehozni.
+                    </small>
+
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div class="w-full sm:w-1/2">
                             <jet-label for="name" value="Engedélyrendszer név" />
-                            <jet-input id="name" type="text" v-model="form.name" autocomplete="off" :disabled="team.type == 'senior'" />
+                            <jet-input id="name" type="text" v-model="form.name" autocomplete="off"/>
                             <jet-input-error :message="form.errors.name" class="mt-2" />
                         </div>
 
                         <div class="w-full sm:w-1/2">
                             <jet-label for="type" value="Típus" />
-                            <select name="type" id="type" v-model="form.type" :disabled="team.type == 'senior'">
+                            <select name="type" id="type" v-model="form.type">
                                 <option :value="value" v-for="(type, value) in types">{{ type }}</option>
                             </select>
                             <jet-input-error :message="form.errors.type" class="mt-2" />
                         </div>
                     </div>
+
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-5">
                         <div class="w-full sm:w-1/3">
                             <jet-label for="sa" value="SA" />
-                            <jet-input id="sa" type="text" v-model="form.SA" autocomplete="off" :disabled="team.type == 'senior'" />
+                            <jet-input id="sa" type="text" v-model="form.SA" autocomplete="off" />
                             <jet-input-error :message="form.errors.SA" class="mt-2" />
                         </div>
 
                         <div class="w-full sm:w-1/3">
                             <jet-label for="short" value="Rövidítés (max 20 karakter)" />
-                            <jet-input id="short" type="text" v-model="form.short" autocomplete="off" :maxlength="20" :disabled="team.type == 'senior'" />
+                            <jet-input id="short" type="text" v-model="form.short" autocomplete="off" :maxlength="20" />
                             <jet-input-error :message="form.errors.short" class="mt-2" />
                         </div>
 
                         <div class="w-full sm:w-1/3">
                             <jet-label for="meet_abbr" value="Meet abbr (max 5 karakter)" />
-                            <jet-input id="meet_abbr" type="text" v-model="form.meet_abbr" autocomplete="off" :maxlength="5" :disabled="team.type == 'senior'" />
+                            <jet-input id="meet_abbr" type="text" v-model="form.meet_abbr" autocomplete="off" :maxlength="5" />
                             <jet-input-error :message="form.errors.meet_abbr" class="mt-2" />
                         </div>
                     </div>
@@ -51,7 +53,7 @@
 
                         <div class="w-full sm:w-1/2">
                             <jet-label for="country" value="Ország" />
-                            <select name="country" id="country" v-model="form.country" :disabled="team.type == 'senior'">
+                            <select name="country" id="country" v-model="form.country">
                                 <option value="AF">Afganisztán</option>
                                 <option value="AX">Aland-szigetek</option>
                                 <option value="AL">Albánia</option>
@@ -310,7 +312,7 @@
 
                         <div class="w-full sm:w-1/2">
                             <jet-label for="address" value="Cím" />
-                            <jet-input id="address" type="text" v-model="form.address" autocomplete="off" :disabled="team.type == 'senior'" />
+                            <jet-input id="address" type="text" v-model="form.address" autocomplete="off"/>
                             <jet-input-error :message="form.errors.address" class="mt-2" />
                         </div>
                     </div>
@@ -320,31 +322,9 @@
                     <jet-button :loading="form.processing">
                         Mentés
                     </jet-button>
-                    <jet-button variant="danger" type="button" @click="confirmModalShow = true">
-                        Törlés
-                    </jet-button>
                 </div>
             </form>
         </div>
-        <jet-confirmation-modal :show="confirmModalShow" @close="confirmModalShow = false">
-            <template #title>
-                Egyesület törlése
-            </template>
-
-            <template #content>
-                Biztosan törölni szeretnéd az Egyesületet ?
-            </template>
-
-            <template #footer>
-                <jet-button variant="secondary" @click.native="confirmModalShow = false">
-                    Mégse
-                </jet-button>
-
-                <jet-button variant="danger" class="ml-2" @click.native="deleteTeam">
-                    Törlés
-                </jet-button>
-            </template>
-        </jet-confirmation-modal>
     </portal-layout>
 </template>
 
@@ -367,38 +347,24 @@ export default {
         JetConfirmationModal,
         BreadCrumb,
     },
-    props: {
-        types: Array,
-        team: Object,
-    },
+    props: ['types'],
     data() {
         return {
-            confirmModalShow: false,
             form: this.$inertia.form({
-                _method: 'PUT',
-                name: this.team.name,
-                type: this.team.type,
-                short: this.team.short,
-                meet_abbr: this.team.meet_abbr,
-                SA: this.team.SA,
-                country: this.team.country,
-                address: this.team.address,
+                _method: 'POST',
+                name: null,
+                type: null,
+                short: null,
+                meet_abbr: null,
+                SA: null,
+                country: 'HU',
+                address: null,
             }),
         };
     },
     methods: {
-        update() {
-            this.form.put(this.route('admin:teams.update', this.team.id))
-        },
-        deleteTeam() {
-            this.$inertia.delete(this.route('admin:teams.destroy', this.team.id))
-        },
-    },
-    watch: {
-        '$page.props.flash': {
-            handler() {
-                this.confirmModalShow = false;
-            },
+        store() {
+            this.form.post(this.route('admin:teams.store'))
         },
     },
 }

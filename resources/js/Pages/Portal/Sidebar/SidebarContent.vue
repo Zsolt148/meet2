@@ -69,13 +69,14 @@
             :active="isUrl('admin/entries*')"
         />
 
-        <SidebarLink
+        <SidebarCollapsible
             title="Egyesületek"
-            :href="route('admin:teams.index')"
             :active="isUrl('admin/teams*')"
             v-show="isAdmin()"
         >
-        </SidebarLink>
+            <SidebarCollapsibleItem :href="route('admin:teams.create')" title="Új egyesület" :active="route().current('admin:teams.create')" />
+            <SidebarCollapsibleItem :href="route('admin:teams.index')" title="Összes" :active="route().current('admin:teams.index') || route().current('admin:teams.edit')" />
+        </SidebarCollapsible>
 
         <SidebarLink
             title="Versenyzők"

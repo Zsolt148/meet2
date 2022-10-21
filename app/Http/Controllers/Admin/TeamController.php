@@ -25,16 +25,44 @@ class TeamController extends BaseAdminController
         ]);
     }
 
+	/**
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		return Inertia::render('Admin/Teams/TeamsCreate', [
+			'types' => Team::CREATE_TYPES,
+		]);
+	}
+
+	public function store(TeamRequest $request)
+	{
+		$team = new Team();
+
+		$team->fill($request->only(
+			'name',
+			'type',
+			'short',
+			'meet_abbr',
+			'SA',
+			'country',
+			'address'
+		));
+
+		$team->save();
+
+		return redirect()->route('admin:teams.index')->with('success', 'Egyesület sikeresen létrehozva');
+	}
+
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
     public function edit(Team $team)
     {
 		return Inertia::render('Admin/Teams/TeamsEdit', [
-			'team' => $team
+			'team' => $team,
+			'types' => Team::TYPES,
 		]);
     }
 

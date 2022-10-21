@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Team;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,6 +27,7 @@ class TeamRequest extends FormRequest
     {
 		return [
 			'name' => ['required', 'string', 'max:191'],
+			'type' => ['required', 'string', Rule::in(array_keys(Team::TYPES))],
 			'short' => ['nullable', 'string', 'max:20'],
 			'meet_abbr' => ['nullable', 'string', 'max:5'],
 			'SA' => ['nullable', 'integer', Rule::unique('teams', 'SA')->ignore($this->team['id'] ?? null)],

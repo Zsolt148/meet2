@@ -65,15 +65,23 @@ class Team extends Model
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['*'];
 
-    const TYPE_SENIOR = 'senior';
+    const TYPE_SENIOR = 'senior'; // Synced from mszuosz.hu
     const TYPE_OTHER = 'other';
+    const TYPE_BM = 'bm';
     const TYPE_INDIVIDUAL = 'individual';
 
     CONST TYPES = [
-        self::TYPE_SENIOR,
-        self::TYPE_OTHER,
-		self::TYPE_INDIVIDUAL
+        self::TYPE_SENIOR => 'Szenior',
+        self::TYPE_BM => 'BM',
+        self::TYPE_OTHER => 'Egyéb',
+		self::TYPE_INDIVIDUAL => 'Egyéni'
     ];
+
+	CONST CREATE_TYPES = [
+		self::TYPE_BM => 'BM',
+		self::TYPE_OTHER => 'Egyéb',
+		self::TYPE_INDIVIDUAL => 'Egyéni'
+	];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -122,4 +130,13 @@ class Team extends Model
 	{
 		return $query->orWhere('type', self::TYPE_INDIVIDUAL);
     }
+
+	/**
+	 * @param $query
+	 * @return mixed
+	 */
+	public function scopeBm($query)
+	{
+		return $query->orWhere('type', self::TYPE_BM);
+	}
 }

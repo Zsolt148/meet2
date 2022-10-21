@@ -60,7 +60,7 @@ class UsersController extends BaseAdminController
         return Inertia::render('Admin/Users/UsersEdit', [
             'editUser' => $user,
             'allRoles' => $roles,
-            'teams' => Team::all(),
+            'teams' => Team::query()->orderBy('name')->get(),
         ]);
     }
 

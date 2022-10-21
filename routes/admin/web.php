@@ -23,7 +23,7 @@ Route::prefix('admin')
         Route::resource('users', UsersController::class)->only('index', 'edit', 'update', 'destroy');
 
         Route::post('teams/sync', [TeamController::class, 'sync'])->name('teams.sync');
-        Route::resource('teams', TeamController::class)->only('index', 'edit', 'update', 'destroy');
+        Route::resource('teams', TeamController::class);
 
         Route::post('competitors/sync', [CompetitorController::class, 'sync'])->name('competitors.sync');
         Route::resource('competitors', CompetitorController::class);
