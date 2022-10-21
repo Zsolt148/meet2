@@ -8,20 +8,20 @@
                     <div class="p-4 md:p-8">
                         <div class="space-x-0 space-y-4 md:space-x-4 md:space-y-0 flex flex-col md:flex-row">
                             <div class="w-full md:w-1/2">
-                                <jet-label for="name" value="Város" />
+                                <jet-label for="name" value="Név" />
                                 <jet-input id="name" type="text" v-model="form.name" autocomplete="off" :error="form.errors.name" />
                                 <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div class="w-full md:w-1/2">
-                                <jet-label for="phone" value="Cím" />
+                                <jet-label for="phone" value="Telefon" />
                                 <jet-input id="phone" type="text" v-model="form.phone" autocomplete="off" :error="form.errors.phone" />
                                 <jet-input-error :message="form.errors.phone" class="mt-2" />
                             </div>
 
                             <div class="w-full md:w-1/2">
-                                <jet-label for="email" value="Medence" />
-                                <jet-input id="email" type="number" v-model="form.email" autocomplete="off" :error="form.errors.email" />
+                                <jet-label for="email" value="Email" />
+                                <jet-input id="email" type="text" v-model="form.email" autocomplete="off" :error="form.errors.email" />
                                 <jet-input-error :message="form.errors.email" class="mt-2" />
                             </div>
 
