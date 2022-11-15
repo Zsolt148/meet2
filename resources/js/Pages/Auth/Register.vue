@@ -36,7 +36,7 @@
                             <jet-checkbox name="isSenior" id="isSenior" v-model:checked="form.isSenior" />
 
                             <div class="ml-2">
-                                {{ __('I would like to register as a senior team leader so I can submit entries for competitions') }}
+                                {{ __('I would like to register as a senior or BM team leader so I can submit entries for competitions') }}
                             </div>
                         </div>
                     </jet-label>
