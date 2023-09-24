@@ -146,6 +146,8 @@ class EntryController extends BaseAdminController
 		// create new competitor
 		if($competitor_id == 'other') {
 
+            $this->validateDuplicateCompetitor($request, $request->input('team_id'));
+
 			/** @var Competitor $competitor */
 			$competitor = Competitor::create([
 				'team_id' => $request->input('team_id'),

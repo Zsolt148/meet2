@@ -220,6 +220,7 @@ class MeetController extends BaseAdminController
                 $meet
                     ->addMedia(config('filesystems.disks.tmp.root') . $file['path'])
                     ->usingName($file['name'])
+					->usingFileName($file['name'])
                     ->toMediaCollection('files');
             }
         }

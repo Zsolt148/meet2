@@ -73,6 +73,8 @@ class EntryController extends Controller
         // create new competitor
         if($competitor_id == 'other') {
 
+            $this->validateDuplicateCompetitor($request, $user->team_id);
+
         	/** @var Competitor $competitor */
         	$competitor = Competitor::create([
         		'team_id' => $user->team_id,

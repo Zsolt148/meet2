@@ -119,6 +119,21 @@ trait EntryTrait
         }
     }
 
+    protected function validateDuplicateCompetitor(Request $request, $teamId)
+    {
+        $competitor = Competitor::query()
+            ->where('team_id', $teamId)
+            ->where('name', $request->input('competitor_name'))
+            ->where('birth', $request->input('competitor_birth'))
+            ->exists();
+
+        if ($competitor) {
+            throw ValidationException::withMessages([
+                'competitor_name' => trans('validation.competitor_already_created')
+            ]);
+        }
+    }
+
     /**
      * @param array $array
      * @return array
