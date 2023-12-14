@@ -63,28 +63,31 @@ class MeetController extends Controller
 
                     if (Str::contains($evtindex, 'Szakasz')) {
                         //Végig a szakaszokon
-                        foreach(explode('Szakasz', $evtindex) as $session) {
+                        foreach (explode('Szakasz', $evtindex) as $session) {
                             // Ha abba a szakaszba van amit kiválasztott
                             // es a fajl benne van az adott sessionbe
                             if ($this->getSectionId($session) == $param && Str::contains($session, $value)) {
                                 $sections[] = [
-                                    'name' => $this->getSectionName($session, $value),
+                                    'name' => $name = $this->getSectionName($session, $value),
+                                    'order' => $this->getOrder($name),
                                     'id' => $value
                                 ];
                             }
                         }
-                    }
-                    elseif (Str::contains($evtindex, 'Session')) {
-                        foreach(explode('Session', $evtindex) as $session) {
+                    } elseif (Str::contains($evtindex, 'Session')) {
+                        foreach (explode('Session', $evtindex) as $session) {
                             if ($this->getSectionId($session) == $param && Str::contains($session, $value)) {
                                 $sections[] = [
-                                    'name' => $this->getSectionName($session, $value),
+                                    'name' => $name = $this->getSectionName($session, $value),
+                                    'order' => $this->getOrder($name),
                                     'id' => $value
                                 ];
                             }
                         }
                     }
                 }
+
+                array_multisort(array_column($sections, 'order'), SORT_ASC, $sections);
 
                 return response()->json($sections, 200);
                 break;
@@ -117,9 +120,9 @@ class MeetController extends Controller
                 $startlistSession = array();
 
                 foreach ($files as $key => $value) {
-                    if(Str::contains($value, '.htm') && stripos($value, 'meetprogs') !== false) {
+                    if (Str::contains($value, '.htm') && stripos($value, 'meetprogs') !== false) {
                         $name = stristr($value, 'meetprogs');
-                        if(stripos($name, $param) !==false ) {
+                        if (stripos($name, $param) !== false) {
                             $startlistSession[] = [
                                 'name' => $name,
                                 'id' => $value
@@ -134,8 +137,8 @@ class MeetController extends Controller
             case 'getResults':
                 $results = array();
 
-                foreach($files as $key => $value) {
-                    if(strpos($value, '.htm') !==false && stripos($value, 'results') !== false) {
+                foreach ($files as $key => $value) {
+                    if (strpos($value, '.htm') !== false && stripos($value, 'results') !== false) {
                         $name = stristr($value, 'results');
                         $name = str_replace('.htm', '', $name);
                         $results[] = [
@@ -152,15 +155,15 @@ class MeetController extends Controller
                 $names = array();
                 $return = array();
 
-                foreach($files as $key => $value) {
-                    if(Str::contains($value, '.htm') && (stripos($value, 'idoterv') !==false || stripos($value, 'schedule') !== false))  {
+                foreach ($files as $key => $value) {
+                    if (Str::contains($value, '.htm') && (stripos($value, 'idoterv') !== false || stripos($value, 'schedule') !== false)) {
                         //$sc[] = array('name' => 'Time Schedule', 'id' => $value);
-                        array_push($sc, filemtime($this->dir.'/'.$value));
+                        array_push($sc, filemtime($this->dir . '/' . $value));
                         array_push($names, $value);
                     }
                 }
 
-                if(!empty($names)) {
+                if (!empty($names)) {
                     array_multisort($sc, $names);
                     $fname = array_reverse($names);
                     $return = array('name' => 'Time Schedule', 'id' => $fname[0]);
@@ -171,23 +174,23 @@ class MeetController extends Controller
             case 'getSummary': //Öszsesítés
                 $summary = array();
 
-                foreach($files as $key => $value) {
-                    if(stripos($value, 'csapat_pontverseny') !==false ) {
+                foreach ($files as $key => $value) {
+                    if (stripos($value, 'csapat_pontverseny') !== false) {
                         $summary[] = ['name' => __('Team points race'), 'id' => $value];
                     }
-                    if(stripos($value, 'ferfi_egyeni_pontverseny') !== false) {
+                    if (stripos($value, 'ferfi_egyeni_pontverseny') !== false) {
                         $summary[] = ['name' => 'Férfi egyéni pontverseny', 'id' => $value];
                     }
-                    if(stripos($value, 'noi_egyeni_pontverseny') !== false) {
+                    if (stripos($value, 'noi_egyeni_pontverseny') !== false) {
                         $summary[] = ['name' => 'Női egyéni pontverseny', 'id' => $value];
                     }
-                    if(stripos($value, 'eremtablazat') !== false) {
+                    if (stripos($value, 'eremtablazat') !== false) {
                         $summary[] = ['name' => 'Éremtáblázat', 'id' => $value];
                     }
-                    if(stripos($value, 'ferfi_abszolut') !== false) {
+                    if (stripos($value, 'ferfi_abszolut') !== false) {
                         $summary[] = ['name' => 'Férfi abszolút pontverseny', 'id' => $value];
                     }
-                    if(stripos($value, 'noi_abszolut') !== false) {
+                    if (stripos($value, 'noi_abszolut') !== false) {
                         $summary[] = ['name' => 'Női abszolút pontverseny', 'id' => $value];
                     }
                 }
@@ -199,7 +202,7 @@ class MeetController extends Controller
                 $file = $this->replaceForeignChar(utf8_encode(file_get_contents($this->dir . '/' . $param)));
 
                 //Ha .htm fájl akkor darabol
-                if(Str::contains($param, '.htm')) {
+                if (Str::contains($param, '.htm')) {
 
                     //Első sornyi cím leszedése
                     if (Str::contains($file, '<b>')) {
@@ -211,17 +214,17 @@ class MeetController extends Controller
                     //Div ezés a kereséshez
                     if (strpos($file, "Versenyszám") !== false) {
                         $file = str_replace("Versenyszám", "</div><div>Versenyszám", $file);
-                    }elseif (strpos($file, "Event") !== false) {
+                    } elseif (strpos($file, "Event") !== false) {
                         $file = str_replace("Event", "</div><div>Event", $file);
                     }
 
                     //Ha nincs benne b tag es van benne input & body tag
-                    if(!Str::contains($file, '<b>') && stripos($file, 'input') !== false && stripos($file, '<body>')) {
+                    if (!Str::contains($file, '<b>') && stripos($file, 'input') !== false && stripos($file, '<body>')) {
                         $file = explode('<body>', $file, 2)[1];
                     }
                 }
 
-                if(Str::contains($param, '.html') && Str::contains($file, 'BODY')) {
+                if (Str::contains($param, '.html') && Str::contains($file, 'BODY')) {
                     $file = file_get_contents($this->dir . '/' . $param);
                     //$file = explode('BODY', $file, 2)[1];
                 }
@@ -245,14 +248,14 @@ class MeetController extends Controller
 
         if (Str::contains($evtindex, 'Szakasz')) {
             $sessions = explode('Szakasz', $evtindex);
-        }elseif(Str::contains($evtindex, 'Session')) {
+        } elseif (Str::contains($evtindex, 'Session')) {
             $sessions = explode('Session', $evtindex);
         }
 
-        for($i = 0; $i < $this->meet->phases; $i++){
+        for ($i = 0; $i < $this->meet->phases; $i++) {
             $sections[] = [
                 'id' => $i + 1,
-                'name' => $this->getDay($sessions[$i+1]) . ' - ' . $this->getHour($sessions[$i+1]),
+                'name' => $this->getDay($sessions[$i + 1]) . ' - ' . $this->getHour($sessions[$i + 1]),
             ];
         }
 
@@ -263,9 +266,11 @@ class MeetController extends Controller
      * @param $session
      * @return false|string
      */
-    private function getSectionId($session) {
+    private function getSectionId($session)
+    {
         $firstRow = strtok($session, '\n'); //Szakasz első sora
         $str = str_replace(' ', '', $firstRow); //Space ki
+
         return substr($str, 0, strspn($str, '0123456789')); //Csak a ahanyadik szakasz
     }
 
@@ -274,7 +279,8 @@ class MeetController extends Controller
      * @param $value
      * @return string
      */
-    private function getSectionName($session, $value) {
+    private function getSectionName($session, $value)
+    {
         $loc = strpos($session, $value); //A fájl nevének a poziciója a stringben
         $hash = strpos($session, '#', $loc); //A hashteg poziciója a stringben a fájl nevétől nézve
         $closetag = strpos($session, '</a>', $hash); // A zárótag poziciója a hastől nézve
@@ -283,11 +289,27 @@ class MeetController extends Controller
         return $this->replaceForeignChar($name);
     }
 
+    private function getOrder(string $name)
+    {
+        $hash = strpos($name, '#');
+
+        if ($hash === false) {
+            return 0;
+        }
+
+        // #1 -> 1
+        // #13 -> 13
+        $order = mb_substr($name, $hash + 1, 2);
+
+        return trim($order);
+    }
+
     /**
      * @param $name
      * @return string
      */
-    private function replaceForeignChar($name) {
+    private function replaceForeignChar($name)
+    {
         return str_ireplace('õ', 'ő', str_ireplace('û', 'ű', $name));
     }
 
@@ -295,11 +317,11 @@ class MeetController extends Controller
      * @param $search
      * @return false|string
      */
-    private function getHour($search) {
-
-        if(Str::contains($search, 'AM')) {
+    private function getHour($search)
+    {
+        if (Str::contains($search, 'AM')) {
             $loc = strpos($search, 'AM');
-        }elseif(Str::contains($search, 'PM')) {
+        } elseif (Str::contains($search, 'PM')) {
             $loc = strpos($search, 'PM');
         }
 
@@ -310,37 +332,38 @@ class MeetController extends Controller
      * @param $search
      * @return string
      */
-    private function getDay($search) {
-        if(app()->getLocale() == "hu") {
-            if(stripos($search, "hétfő") !== false) return "Hétfő";
-            if(stripos($search, "kedd") !== false) return "Kedd";
-            if(stripos($search, "szerda") !== false) return "Szerda";
-            if(stripos($search, "csütörtök") !== false) return "Csütörtök";
-            if(stripos($search, "péntek") !== false) return "Péntek";
-            if(stripos($search, "Szombat") !== false) return "Szombat";
-            if(stripos($search, "vasárnap") !== false) return "Vasárnap";
-            if(stripos($search, "monday") !== false) return "Hétfő";
-            if(stripos($search, "tuesday") !== false) return "Kedd";
-            if(stripos($search, "wednesday") !== false) return "Szerda";
-            if(stripos($search, "thursday") !== false) return "Csütörtök";
-            if(stripos($search, "friday") !== false) return "Péntek";
-            if(stripos($search, "saturday") !== false) return "Szombat";
-            if(stripos($search, "sunday") !== false) return "Vasárnap";
+    private function getDay($search)
+    {
+        if (app()->getLocale() == "hu") {
+            if (stripos($search, "hétfő") !== false) return "Hétfő";
+            if (stripos($search, "kedd") !== false) return "Kedd";
+            if (stripos($search, "szerda") !== false) return "Szerda";
+            if (stripos($search, "csütörtök") !== false) return "Csütörtök";
+            if (stripos($search, "péntek") !== false) return "Péntek";
+            if (stripos($search, "Szombat") !== false) return "Szombat";
+            if (stripos($search, "vasárnap") !== false) return "Vasárnap";
+            if (stripos($search, "monday") !== false) return "Hétfő";
+            if (stripos($search, "tuesday") !== false) return "Kedd";
+            if (stripos($search, "wednesday") !== false) return "Szerda";
+            if (stripos($search, "thursday") !== false) return "Csütörtök";
+            if (stripos($search, "friday") !== false) return "Péntek";
+            if (stripos($search, "saturday") !== false) return "Szombat";
+            if (stripos($search, "sunday") !== false) return "Vasárnap";
         } else {
-            if(stripos($search, "hétfő") !== false) return "Monday";
-            if(stripos($search, "kedd") !== false) return "Tuesday";
-            if(stripos($search, "szerda") !== false) return "Wednesday";
-            if(stripos($search, "csütörtök") !== false) return "Thursday";
-            if(stripos($search, "péntek") !== false) return "Friday";
-            if(stripos($search, "Szombat") !== false) return "Saturday";
-            if(stripos($search, "vasárnap") !== false) return "Sunday";
-            if(stripos($search, "monday") !== false) return "Monday";
-            if(stripos($search, "tuesday") !== false) return "Tuesday";
-            if(stripos($search, "wednesday") !== false) return "Wednesday";
-            if(stripos($search, "thursday") !== false) return "Thursday";
-            if(stripos($search, "friday") !== false) return "Friday";
-            if(stripos($search, "saturday") !== false) return "Saturday";
-            if(stripos($search, "sunday") !== false) return "Sunday";
+            if (stripos($search, "hétfő") !== false) return "Monday";
+            if (stripos($search, "kedd") !== false) return "Tuesday";
+            if (stripos($search, "szerda") !== false) return "Wednesday";
+            if (stripos($search, "csütörtök") !== false) return "Thursday";
+            if (stripos($search, "péntek") !== false) return "Friday";
+            if (stripos($search, "Szombat") !== false) return "Saturday";
+            if (stripos($search, "vasárnap") !== false) return "Sunday";
+            if (stripos($search, "monday") !== false) return "Monday";
+            if (stripos($search, "tuesday") !== false) return "Tuesday";
+            if (stripos($search, "wednesday") !== false) return "Wednesday";
+            if (stripos($search, "thursday") !== false) return "Thursday";
+            if (stripos($search, "friday") !== false) return "Friday";
+            if (stripos($search, "saturday") !== false) return "Saturday";
+            if (stripos($search, "sunday") !== false) return "Sunday";
         }
     }
 }
