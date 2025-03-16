@@ -17,13 +17,6 @@ class EntryController extends BaseAdminController
 {
     use EntryTrait;
 
-    /**
-     * Display the listing resource.
-     *
-     * @param  Request $request
-     * @param  Meet $meet
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request, Meet $meet)
     {
         $request->validate([
@@ -98,11 +91,6 @@ class EntryController extends BaseAdminController
         ]);
     }
 
-	/**
-	 * Show the form for creating a new resource.
-	 * @param Meet $meet
-	 * @return \Illuminate\Http\Response
-	 */
 	public function create(Meet $meet)
 	{
 		[$male, $female] = $this->getMeetEventsByGender($meet);
@@ -123,13 +111,6 @@ class EntryController extends BaseAdminController
 		]);
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\EntryRequest  $request
-	 * @param Meet $meet
-	 * @return \Illuminate\Http\Response
-	 */
 	public function store(EntryRequest $request, Meet $meet)
 	{
 		// ensure competitor doesnt have any entry yet
@@ -174,13 +155,6 @@ class EntryController extends BaseAdminController
 		return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezés sikeresen létrehozva');
 	}
 
-    /**
-     * Show the form for eiting the specified resource.
-     *
-     * @param  \App\Models\Meet  $meet
-     * @param  Competitor        $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Meet $meet, Competitor $competitor)
     {
         $entries = $meet
@@ -193,11 +167,11 @@ class EntryController extends BaseAdminController
         }
 
 		$teams = Team::query()
-			->senior()
-			->other()
+//			->senior()
+//			->other()
 			->orderBy('name')
-			->get()
-			->push(Team::individual());
+			->get();
+//			->push(Team::individual());
 
         return Inertia::render('Admin/Entries/EntriesEdit', [
             'meet' => $meet,
@@ -208,14 +182,6 @@ class EntryController extends BaseAdminController
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Meet  $meet
-     * @param  Competitor        $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function update(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
         $competitor_id = $request->input('competitor_id');
@@ -261,14 +227,6 @@ class EntryController extends BaseAdminController
         return redirect()->back()->with('success', 'Nevezés sikeresen frissítve');
     }
 
-    /**
-     * Finalize the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *  @param  \App\Models\Meet     $meet
-     * @param  Competitor           $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function finalize(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
         Gate::authorize('update', $competitor);
@@ -284,13 +242,6 @@ class EntryController extends BaseAdminController
         return redirect()->route('admin:entries.index', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Entry  $entry
-     * @param  \App\Models\Meet  $meet
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Meet $meet, $entryId)
     {
         /** @var Entry $entry */

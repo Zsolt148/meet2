@@ -33,7 +33,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  */
 class Event extends Model
 {
-    use HasFactory, LogsActivity;
+    use LogsActivity;
 
     protected $fillable = [
         'length',

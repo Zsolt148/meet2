@@ -83,7 +83,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  */
 class Meet extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia, LogsActivity;
+    use InteractsWithMedia, LogsActivity;
 
     protected $fillable = [
         'is_visible',
