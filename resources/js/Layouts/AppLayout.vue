@@ -154,7 +154,7 @@
                     </div>
                 </nav>
                 <p class="mt-8 text-base leading-6 text-center text-gray-400">
-                    © 2021 MME Team. {{__('All rights reserved.')}}
+                    © {{ new Date().getFullYear() }} MME Team. {{__('All rights reserved.')}}
                 </p>
             </div>
         </section>

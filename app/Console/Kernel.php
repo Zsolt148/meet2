@@ -28,13 +28,23 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
+            ->runInBackground()
+            ->withoutOverlapping();
+
+        $schedule->command('activitylog:clean')
+            ->daily()
+            ->runInBackground()
             ->withoutOverlapping();
 
         $schedule->command(DeleteTmpFolder::class)
-            ->daily();
+            ->daily()
+            ->runInBackground()
+            ->withoutOverlapping();
 
         $schedule->command(CheckMeetDeadlines::class)
-            ->daily();
+            ->daily()
+            ->runInBackground()
+            ->withoutOverlapping();
 
 		//backups
 		$schedule->command('backup:clean')
