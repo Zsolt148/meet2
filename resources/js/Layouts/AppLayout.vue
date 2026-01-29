@@ -143,7 +143,7 @@
                         </a>
                     </div>
                     <div class="px-5 py-2">
-                        <a href="#" class="text-base leading-6 text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-gray-300">
+                        <a href="/documents/Szolgaltatasi_feltetelek_es_Adatvedelem.pdf" target="_blank" class="text-base leading-6 text-gray-500 dark:text-white hover:text-gray-900 dark:hover:text-gray-300">
                             {{ __('Privacy Policy') }}
                         </a>
                     </div>
