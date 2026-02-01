@@ -37,9 +37,8 @@ if (Jetstream::hasTermsAndPrivacyPolicyFeature()) {
     Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
 }
 
-// Inertia specific auth
 Route::prefix('user')
-    ->middleware(['auth'])
+    ->middleware(['auth:sanctum', 'verified', 'two-factor.enabled'])
     ->group(function () {
         Route::get('/profile', [UserProfileController::class, 'show'])
             ->name('profile.show');

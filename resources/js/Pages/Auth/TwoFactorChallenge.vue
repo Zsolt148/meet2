@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center justify-center p-4">
         <div class="mb-8">
-            <application-logo class="w-20 h-20 fill-current text-indigo-600" />
+            <application-logo class="w-20 h-20 fill-current" />
         </div>
 
         <div class="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">

@@ -21,7 +21,7 @@
 
             <div v-if="!qrCode && !showRecoveryCodes" class="space-y-4">
                 <button @click="enableTwoFactor"
-                        class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-all">
+                        class="w-full py-3 px-4 bg-teal-400 hover:bg-teal-500 text-white rounded-xl font-semibold transition-all">
                     Beállítás megkezdése
                 </button>
             </div>
@@ -47,7 +47,7 @@
 
                 <button @click="confirmTwoFactor"
                         :disabled="confirmationCode.length < 6"
-                        class="w-full py-3 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white rounded-xl font-bold">
+                        class="w-full py-3 bg-teal-400 hover:bg-teal-500 disabled:opacity-50 text-white rounded-xl font-bold">
                     Megerősítés
                 </button>
             </div>
@@ -62,7 +62,7 @@
                     <div v-for="code in recoveryCodes" :key="code">{{ code }}</div>
                 </div>
 
-                <button @click="finishSetup" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold">
+                <button @click="finishSetup" class="w-full py-3 bg-teal-400 hover:bg-teal-500 text-white rounded-xl font-bold">
                     Kódokat elmentettem, belépés
                 </button>
             </div>
@@ -75,6 +75,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
+import Button from "@/Jetstream/Button.vue";
 
 const qrCode = ref(null);
 const otpAuthUrl = ref('');
@@ -84,14 +85,11 @@ const showRecoveryCodes = ref(false);
 
 const enableTwoFactor = async () => {
     try {
-        // A fájlod alapján: Route::post('/user/two-factor-authentication')
-        // VIGYÁZAT: A fájlodban a TwoFactorAuthenticationController::store a gyökéren van!
         await axios.post('/user/two-factor-authentication');
 
-        // Ezek a fájlod alapján NEM a /user alatt vannak:
         const [qr, link] = await Promise.all([
             axios.get('/user/two-factor-qr-code'),
-            axios.get('/user/two-factor-setup-link') // A fájlodban: Route::get('/user/two-factor-setup-link')
+            axios.get('/user/two-factor-setup-link')
         ]);
 
         qrCode.value = qr.data.svg;
@@ -103,16 +101,10 @@ const enableTwoFactor = async () => {
 
 const confirmTwoFactor = async () => {
     try {
-        // Megjegyzés: A Jetstream v2-ben a megerősítés (confirm)
-        // gyakran a '/user/confirmed-two-factor-authentication' címen van,
-        // de a fájlodban ez a route nem szerepel expliciten.
-        // Ha 404-et kapsz, ellenőrizd a 'php artisan route:list | grep two-factor' parancsot!
-
         await axios.post('/user/confirmed-two-factor-authentication', {
             code: confirmationCode.value
         });
 
-        // A fájlod alapján: Route::get('/user/two-factor-recovery-codes')
         const codes = await axios.get('/user/two-factor-recovery-codes');
         recoveryCodes.value = codes.data;
         showRecoveryCodes.value = true;
@@ -122,11 +114,10 @@ const confirmTwoFactor = async () => {
 };
 
 const logout = () => {
-    // A fájlod alapján: Route::post('/logout')
     Inertia.post('/logout');
 };
 
 const finishSetup = () => {
-    Inertia.visit('/dashboard');
+    Inertia.visit('/portal');
 };
 </script>
