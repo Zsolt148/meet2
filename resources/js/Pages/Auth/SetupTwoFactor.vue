@@ -41,8 +41,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-center">Ellenőrző kód:</label>
                     <input v-model="confirmationCode"
+                           @input="errorMessage = null"
                            type="text" inputmode="numeric" placeholder="000000"
-                           class="w-full text-center text-2xl font-mono border-gray-300 dark:bg-gray-700 dark:text-white rounded-xl" />
+                           class="w-full text-center text-2xl font-mono border-gray-300 dark:bg-gray-700 dark:text-white rounded-xl"
+                           :class="{'border-red-500 focus:border-red-500 focus:ring-red-500': errorMessage}" />
+
+                    <p v-if="errorMessage" class="mt-2 text-sm text-red-600 dark:text-red-400 text-center font-medium">
+                        {{ errorMessage }}
+                    </p>
                 </div>
 
                 <button @click="confirmTwoFactor"
@@ -82,6 +88,7 @@ const otpAuthUrl = ref('');
 const confirmationCode = ref('');
 const recoveryCodes = ref([]);
 const showRecoveryCodes = ref(false);
+const errorMessage = ref(null);
 
 const enableTwoFactor = async () => {
     try {
@@ -100,6 +107,7 @@ const enableTwoFactor = async () => {
 };
 
 const confirmTwoFactor = async () => {
+    errorMessage.value = null;
     try {
         await axios.post('/user/confirmed-two-factor-authentication', {
             code: confirmationCode.value
@@ -109,7 +117,8 @@ const confirmTwoFactor = async () => {
         recoveryCodes.value = codes.data;
         showRecoveryCodes.value = true;
     } catch (e) {
-        alert('Érvénytelen kód!');
+        errorMessage.value = 'A megadott kód érvénytelen. Kérjük, próbáld újra!';
+        confirmationCode.value = '';
     }
 };
 
