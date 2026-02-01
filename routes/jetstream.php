@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Portal\TwoFactorSetupController;
 use App\Http\Controllers\Portal\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\ConfirmablePasswordController;
 use Laravel\Fortify\Http\Controllers\ConfirmedPasswordStatusController;
+use Laravel\Fortify\Http\Controllers\ConfirmedTwoFactorAuthenticationController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationPromptController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
@@ -14,7 +16,6 @@ use Laravel\Fortify\Http\Controllers\PasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
 use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
-use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticationController;
 use Laravel\Fortify\Http\Controllers\TwoFactorQrCodeController;
@@ -151,6 +152,7 @@ Route::post('/user/confirm-password', [ConfirmablePasswordController::class, 'st
 
 // Two Factor Authentication...
 if (Features::enabled(Features::twoFactorAuthentication())) {
+
     if ($enableViews) {
         Route::get('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'create'])
             ->middleware(['guest:'.config('fortify.guard')])
@@ -167,8 +169,20 @@ if (Features::enabled(Features::twoFactorAuthentication())) {
         ? ['auth', 'password.confirm']
         : ['auth'];
 
+    Route::get('/setup-2fa', [TwoFactorSetupController::class, 'setup'])
+        ->middleware($twoFactorMiddleware)
+        ->name('two-factor.setup');
+
+    Route::get('/user/two-factor-setup-link', [TwoFactorSetupController::class, 'getSetupLink'])
+        ->middleware($twoFactorMiddleware)
+        ->name('two-factor.setup-link');
+
     Route::post('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'store'])
         ->middleware($twoFactorMiddleware);
+
+    Route::post('/user/confirmed-two-factor-authentication', [ConfirmedTwoFactorAuthenticationController::class, 'store'])
+        ->middleware($twoFactorMiddleware)
+        ->name('two-factor.confirm');
 
     Route::delete('/user/two-factor-authentication', [TwoFactorAuthenticationController::class, 'destroy'])
         ->middleware($twoFactorMiddleware);

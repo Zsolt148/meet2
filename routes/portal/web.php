@@ -2,14 +2,12 @@
 
 // Admin routes
 
-use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Portal\DashboardController;
 use App\Http\Controllers\Portal\EntryController;
 use App\Http\Controllers\Portal\MeetController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::middleware(['auth:sanctum', 'verified'])
+Route::middleware(['auth:sanctum', 'verified', 'two-factor.enabled'])
     ->prefix('portal')
     ->name('portal:')
     ->group(function () {
