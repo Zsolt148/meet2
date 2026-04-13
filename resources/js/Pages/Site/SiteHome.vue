@@ -17,9 +17,16 @@
                     <jet-button :href="route('meets.index')">
                         {{__('Meets')}}
                     </jet-button>
+                </div>
+                <div class="flex flex-col mt-2">
                     <a target="_blank" href="/documents/meet_nevezesi_segedlet2022.pdf"
-                          class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-teal-400 dark:hover:text-teal-500 ml-4">
+                       class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-teal-400 dark:hover:text-teal-500">
                         Nevezési segédlet
+                        <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
+                    </a>
+                    <a target="_blank" href="/documents/MFA_meet.kvsc.info.pdf"
+                       class="inline-flex items-center font-semibold text-gray-900 dark:text-white md:mb-2 lg:mb-0 hover:text-teal-400 dark:hover:text-teal-500">
+                        Kétfaktoros bejelentkezés segédlet
                         <icon name="arrow-right" class="w-4 h-4 ml-2"></icon>
                     </a>
                 </div>
