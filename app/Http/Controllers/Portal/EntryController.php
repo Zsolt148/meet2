@@ -16,11 +16,6 @@ class EntryController extends Controller
 {
     use EntryTrait;
 
-    /**
-     * Show the form for creating a new resource.
-     * @param Meet $meet
-     * @return \Illuminate\Http\Response
-     */
     public function create(Meet $meet)
     {
         Gate::authorize('create', Entry::class);
@@ -32,10 +27,11 @@ class EntryController extends Controller
 
         // get users's competitors
         // where competitor doesnt have any entry
-        if($competitors = auth()->user()->competitors()) {
-            $entriedCompetitors = $meet->entries()->get()->pluck('competitor.id')->unique();
-            $competitors = $competitors->whereNotIn('id', $entriedCompetitors)->values();
-        }
+        $entriedCompetitors = $meet->entries()->pluck('competitor_id')->unique();
+        $competitors = auth()->user()
+            ->competitors()
+            ->whereNotIn('id', $entriedCompetitors)
+            ->get();
 
         return Inertia::render('Portal/Meets/Entries/EntriesCreate', [
             'meet' => $meet,
@@ -45,13 +41,6 @@ class EntryController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\EntryRequest  $request
-     * @param Meet $meet
-     * @return \Illuminate\Http\Response
-     */
     public function store(EntryRequest $request, Meet $meet)
     {
         Gate::authorize('create', Entry::class);
@@ -70,6 +59,14 @@ class EntryController extends Controller
         $user = auth()->user();
         $competitor_id = $request->input('competitor_id');
 
+        // ne lehessen "másik" Egyéni / csapattárs versenyzőjét használni
+        if ($competitor_id !== 'other') {
+            abort_unless(
+                $user->competitors()->whereKey($competitor_id)->exists(),
+                403
+            );
+        }
+
         // create new competitor
         if($competitor_id == 'other') {
 
@@ -78,6 +75,7 @@ class EntryController extends Controller
         	/** @var Competitor $competitor */
         	$competitor = Competitor::create([
         		'team_id' => $user->team_id,
+        		'user_id' => optional($user->team)->type === \App\Models\Team::TYPE_INDIVIDUAL ? $user->id : null,
         		'name' => $request->input('competitor_name'),
         		'birth' => $request->input('competitor_birth'),
         		'sex' => $request->input('competitor_sex'),
@@ -101,13 +99,6 @@ class EntryController extends Controller
         return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezés sikeresen létrehozva');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Meet   $meet
-     * @param  $competitorId
-     * @return \Illuminate\Http\Response
-     */
     public function show(Meet $meet, Competitor $competitor)
     {
         Gate::authorize('view', $competitor);
@@ -125,13 +116,6 @@ class EntryController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Meet   $meet
-     * @param  Competitor $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Meet $meet, Competitor $competitor)
     {
         Gate::authorize('update', $competitor);
@@ -160,14 +144,6 @@ class EntryController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Meet   $meet
-     * @param  Competitor $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function update(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
         Gate::authorize('update', $competitor);
@@ -203,14 +179,6 @@ class EntryController extends Controller
         return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezés sikeresen frissítve');
     }
 
-    /**
-     * Finalize the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-    *  @param  \App\Models\Meet     $meet
-     * @param  Competitor           $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function finalize(EntryRequest $request, Meet $meet, Competitor $competitor)
     {
         Gate::authorize('update', $competitor);
@@ -226,35 +194,17 @@ class EntryController extends Controller
         return redirect()->route('portal:meets.show', $meet->slug)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
-    /**
-     * Finalize all the entries by the user
-     *
-     * @param Meet $meet
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function finalizeAll(Meet $meet)
     {
         Gate::authorize('viewAny', Entry::class);
 
-        /* users's entries
-        auth()
-            ->user()
-            ->entries()
-            ->whereMeetId($meet->id)
-            ->whereIsFinal(false)
-            ->update([
-                'is_final' => true,
-            ])
-        */
+        $user = auth()->user();
+        $competitorIds = $user->competitors()->pluck('id');
 
-        // team's entries
         Entry::query()
             ->whereMeetId($meet->id)
             ->whereIsFinal(false)
-            ->with('competitor', 'meetEvent')
-            ->whereHas('competitor', function ($query) {
-                $query->where('team_id', auth()->user()->team_id);
-            })
+            ->whereIn('competitor_id', $competitorIds)
             ->update([
                 'is_final' => true,
             ]);
@@ -262,12 +212,6 @@ class EntryController extends Controller
         return redirect()->route('portal:meets.show', $meet)->with('success', 'Nevezések sikeresen véglegesítve');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Meet   $meet
-     * @param  Entry $entry
-     */
     public function destroy(Meet $meet, $entryId)
     {
         /** @var Entry $entry */
@@ -282,13 +226,6 @@ class EntryController extends Controller
         $entry->delete();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Meet   $meet
-     * @param  Competitor $competitor
-     * @return \Illuminate\Http\Response
-     */
     public function destroyAll(Meet $meet, Competitor $competitor)
     {
         Gate::authorize('delete', $competitor);

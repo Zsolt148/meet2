@@ -40,6 +40,7 @@ class Competitor extends Model
     protected $fillable = [
         'foreign_id',
         'team_id',
+        'user_id',
         'name',
         'birth',
         'sex',
@@ -61,6 +62,14 @@ class Competitor extends Model
     public function team()
     {
         return $this->belongsTo(Team::class, 'team_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

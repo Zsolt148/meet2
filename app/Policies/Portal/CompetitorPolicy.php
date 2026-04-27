@@ -31,6 +31,14 @@ class CompetitorPolicy
      */
     public function view(User $user, Competitor $competitor)
     {
+        if (!$user->hasTeam() || $user->team_id !== $competitor->team_id) {
+            return false;
+        }
+
+        if ($user->team->type === \App\Models\Team::TYPE_INDIVIDUAL) {
+            return $competitor->user_id === $user->id;
+        }
+
         return true;
     }
 

@@ -73,8 +73,8 @@ class Team extends Model
     CONST TYPES = [
         self::TYPE_SENIOR => 'Szenior',
         self::TYPE_BM => 'BM',
-        self::TYPE_OTHER => 'Egyéb',
-		self::TYPE_INDIVIDUAL => 'Egyéni'
+        self::TYPE_OTHER => 'Egyéb', // id=91
+		self::TYPE_INDIVIDUAL => 'Egyéni' // id=107
     ];
 
 	CONST CREATE_TYPES = [

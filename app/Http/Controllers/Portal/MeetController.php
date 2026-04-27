@@ -13,11 +13,6 @@ use Inertia\Inertia;
 
 class MeetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         Gate::authorize('viewAny', Entry::class);
@@ -51,13 +46,6 @@ class MeetController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Request           $request
-     * @param  \App\Models\Meet  $meet
-     * @return \Illuminate\Http\Response
-     */
     public function show(Request $request, Meet $meet)
     {
         Gate::authorize('viewAny', Entry::class);
@@ -92,9 +80,9 @@ class MeetController extends Controller
 			->groupBy('competitors.name');
 		*/
 
-		// team's entries by competitors
-		$query = Competitor::query()
-			->whereTeamId(auth()->user()->team_id)
+		// team's entries by competitors (Egyéni teamnél csak a saját versenyzők)
+		$user = auth()->user();
+		$query = $user->competitors()
 			->with(['entries' => function ($q) use (&$meet) {
 				$q->where('meet_id', $meet->id);
 			}])

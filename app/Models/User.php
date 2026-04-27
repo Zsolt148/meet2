@@ -147,11 +147,27 @@ class User extends Authenticatable implements HasLocalePreference
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * Az aktuális felhasználó által kezelhető versenyzők.
+     * Egyéni teamnél csak a saját user_id alá tartozó versenyzők jelennek meg,
+     * más teameknél a team összes versenyzője.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function competitors()
     {
-        return $this->team ? $this->team->competitors : [];
+        if (!$this->team) {
+            return Competitor::query()->whereRaw('1 = 0');
+        }
+
+        $query = Competitor::query()
+            ->where('team_id', $this->team_id)
+            ->orderBy('name');
+
+        if ($this->team->type === Team::TYPE_INDIVIDUAL) {
+            $query->where('user_id', $this->id);
+        }
+
+        return $query;
     }
 
     /**
